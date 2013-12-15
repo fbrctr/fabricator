@@ -1,0 +1,38 @@
+/* main */
+html {
+	overflow: hidden;
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	height: inherit;
+}
+
+[role="main"] {
+	@extend %clearfix;
+	@extend %transition;
+	position: relative;
+	z-index: 1;
+	margin-right: 0;
+	height: inherit;
+	background-color: $color--background;
+	transform: translateZ(0);
+	-webkit-overflow-scrolling: touch;
+	@media (max-width: 60em) {
+		&.state--active {
+			transform: translate(-$menu-width, 0);
+		}
+	}
+	@media (min-width: 60em) {
+		margin-right: $menu-width;
+	}
+}
+
+.f-main {
+	@extend %borderBox;
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding: 1em;
+	height: 100%;
+}

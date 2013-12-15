@@ -1,0 +1,13 @@
+{
+  "name": "fabricator",
+  "version": "0.1.0",
+  "dependencies": {
+    "font-awesome": "~4.0.3"
+  },
+  "devDependencies": {
+    "lodash": "~2.2.1",
+    "jquery": "~2.0.3",
+    "prismjs": "*",
+    "requirejs": "~2.1.8"
+  }
+}

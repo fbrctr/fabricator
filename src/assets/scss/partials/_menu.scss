@@ -1,0 +1,29 @@
+/* menu */
+.f-menu {
+	position: fixed;
+	top: 0;
+	right: 0;
+	z-index: 0;
+	width: $menu-width;
+	height: 100%;
+	background-color: $color--primary-contrast;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.f-menu-bar {
+	@extend %clearfix;
+	margin-bottom: 1em;
+}
+
+.f-menu-toggle {
+	float: right;
+	border: none;
+	background-color: $color--background;
+	color: $color--primary;
+	font-size: 2.2em;
+	cursor: pointer;
+	@media (min-width: 60em) {
+		display: none;
+	}
+}

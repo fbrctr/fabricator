@@ -1,0 +1,27 @@
+/* variables */
+$color--primary: rgb(3, 3, 3);
+$color--primary-contrast: rgb(242, 242, 242);
+$color--background: rgb(255, 255, 255);
+
+$menu-width: 16em;
+
+
+/* placeholders */
+%clearfix {
+	&:after {
+		clear: both;
+	}
+	&:before,
+	&:after {
+		display: table;
+		content: "";
+	}
+}
+
+%transition {
+	transition: all 350ms cubic-bezier(0.86, 0, 0.07, 1) 0s;
+}
+
+%borderBox {
+	box-sizing: border-box;
+}

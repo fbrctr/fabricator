@@ -1,0 +1,31 @@
+{
+    "bitwise"       : true,
+    "curly"         : true,
+    "eqeqeq"        : true,
+    "expr"			: true,
+    "forin"         : true,
+    "immed"         : true,
+    "indent"        : 4,
+    "noarg"         : true,
+    "noempty"       : true,
+    "nonew"         : true,
+    "quotmark"      : "double",
+    "undef"         : true,
+    "strict"        : true,
+    "trailing"      : true,
+    "debug"         : true,
+    "browser"       : true,
+    "devel"         : true,
+    "jquery"        : true,
+    "boss" 			: true,
+    "node"          : true,
+    "rhino"         : true,
+    "worker"        : true,
+    "predef"        : [
+        "Modernizr",
+        "define",
+        "_",
+        "Prism",
+        "hpe"
+    ]
+}
