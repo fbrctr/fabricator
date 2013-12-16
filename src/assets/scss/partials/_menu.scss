@@ -4,11 +4,19 @@
 	top: 0;
 	right: 0;
 	z-index: 0;
+	overflow-x: hidden;
+	overflow-y: auto;
 	width: $menu-width;
 	height: 100%;
 	background-color: $color--primary-contrast;
-	overflow-x: hidden;
-	overflow-y: auto;
+	@media (min-width: 60em) {
+		right: auto;
+		left: 0;
+	}
+	.state--menu-active & {
+		visibility: visible;
+		-webkit-overflow-scrolling: touch;
+	}
 }
 
 .f-menu-bar {

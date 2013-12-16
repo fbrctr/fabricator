@@ -43,6 +43,7 @@
     "marked": "~0.2.9",
     "grunt-contrib-sass": "~0.5.0",
     "requirejs": "~2.1.8",
-    "grunt-newer": "~0.6.0"
+    "grunt-newer": "~0.6.0",
+    "lodash": "~2.4.1"
   }
 }

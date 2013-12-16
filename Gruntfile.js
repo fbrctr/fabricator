@@ -31,9 +31,6 @@ module.exports = function (grunt) {
 	grunt.initConfig({
 		fabricator: fabricatorConfig,
 		watch: {
-			gruntfile: {
-				files: ["Gruntfile.js"]
-			},
 			sass: {
 				files: ["<%= fabricator.src %>/{assets,toolkit}/scss/{,*/}*.{scss,sass}"],
 				tasks: ["sass:*", "autoprefixer"]
@@ -314,6 +311,7 @@ module.exports = function (grunt) {
 	// collate data
 	grunt.registerTask("collate", [
 		"collate-components",
+		"collate-structures",
 		"collate-docs",
 		"collate-write-json"
 	]);

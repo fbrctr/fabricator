@@ -6,32 +6,40 @@
 		<li>
 			<a href="components.html">Components</a>
 			<ul>
-				<% _.each(components, function(item) { %>
+				<%
+					_.each(components, function(html, key) {
 
+					var niceName = key.toTitleCase(),
+						id = key.toDashDelimited();
+				%>
 					<li>
-						<a href="components.html#<%- item.name%>"><%- item.niceName %></a>
+						<a href="components.html#<%- id%>"><%- niceName %></a>
 					</li>
-
 				<% }) %>
 			</ul>
 		</li>
 		<li>
-			<a href="#">Structures</a>
+			<a href="structures.html">Structures</a>
 			<ul>
-				<li>
-					<a href="#">Header</a>
-				</li>
+				<%
+					_.each(structures, function(html, key) {
+
+					var niceName = key.toTitleCase(),
+						id = key.toDashDelimited();
+				%>
+					<li>
+						<a href="structures.html#<%- id%>"><%- niceName %></a>
+					</li>
+				<% }) %>
 			</ul>
 		</li>
 		<li>
 			<a href="documentation.html">Documentation</a>
 			<ul>
 				<% _.each(documentation, function(item) { %>
-
 					<li>
-						<a href="documentation.html#<%- item.name%>"><%- item.niceName %></a>
+						<a href="documentation.html#<%- item.id%>"><%- item.niceName %></a>
 					</li>
-
 				<% }) %>
 			</ul>
 		</li>

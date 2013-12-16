@@ -62,13 +62,12 @@ fabricator.getData = function (type, url, callback) {
  */
 fabricator.template = function () {
 
-	// menu
+	// template menu
 	fabricator.getData("html", "inc/_menu.html", function (data) {
 		// template
 		var _tmpl = _.template(data);
-		fabricator.structures.main.insertAdjacentHTML("afterend", _tmpl(fabricator.data));
+		fabricator.structures.main.insertAdjacentHTML("beforebegin", _tmpl(fabricator.data));
 	});
-
 
 	// "main" template...if it exists
 	var mainTemplate = document.querySelector("#f-template"),
@@ -78,7 +77,6 @@ fabricator.template = function () {
 		_tmpl = _.template(mainTemplate.innerHTML);
 		mainTemplate.insertAdjacentHTML("afterend", _tmpl(fabricator.data));
 	}
-
 
 	return this;
 
@@ -96,13 +94,30 @@ fabricator.toggles = {};
  */
 fabricator.toggles.primaryMenu = function () {
 
+	// shortcut menu DOM
 	var toggle = fabricator.structures.menuToggle;
 
-	toggle.addEventListener("click", function () {
-		fabricator.structures.main.classList.toggle("state--active");
+	// toggle classes on certain elements
+	var toggleClasses = function () {
+		document.querySelector("html").classList.toggle("state--menu-active");
 		fabricator.structures.menuToggle.classList.toggle("fa-bars");
 		fabricator.structures.menuToggle.classList.toggle("fa-times");
+	};
+
+	// toggle classes on click
+	toggle.addEventListener("click", function () {
+		toggleClasses();
 	});
+
+	// close menu when clicking on item (for collapsed menu view)
+	var menuItems = document.querySelectorAll(".f-menu li a"),
+		closeMenu = function () {
+			toggleClasses();
+		};
+
+	for (var i = 0; i < menuItems.length; i++) {
+		menuItems[i].addEventListener("click", closeMenu);
+	}
 
 	return this;
 
@@ -165,6 +180,20 @@ fabricator.toggles.items = function () {
 
 };
 
+
+/**
+ * Augment string prototype
+ */
+String.prototype.toTitleCase = function () {
+	var str = this.replace(/\w\S*/g, function (txt) {
+		return txt.charAt(0).toUpperCase() + txt.substr(1);
+	});
+	return str.replace(/([A-Z])/g, " $1");
+};
+
+String.prototype.toDashDelimited = function () {
+	return this.replace(/([A-Z])/g, "-$1").toLowerCase();
+};
 
 
 ////////////////////////////////////////////////////////
