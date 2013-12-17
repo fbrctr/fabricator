@@ -12,7 +12,6 @@
 	<!-- /toolkit styles -->
 
 	<!-- build:css assets/css/fabricator.css -->
-	<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css">
 	<link rel="stylesheet" href="assets/css/fabricator.css">
 	<!-- endbuild -->
 
@@ -22,7 +21,7 @@
 	<div role="main">
 		<div class="f-main">
 			<div class="f-menu-bar">
-				<span class="f-menu-toggle fa fa-bars"></span>
+				<span class="f-menu-toggle f-icon-menu"></span>
 			</div>
 
 			<h1>Structures</h1>
@@ -30,11 +29,11 @@
 			<div class="f-controls">
 				<label for="f-checkbox-preview">
 					<input type="checkbox" id="f-checkbox-preview" data-toggle="preview">
-					<i class="f-toggle fa fa-eye"></i> Preview
+					<i class="f-toggle f-icon-preview"></i> Preview
 				</label>
 				<label for="f-checkbox-code">
 					<input type="checkbox" id="f-checkbox-code" data-toggle="code">
-					<i class="f-toggle fa fa-code"></i> Markup
+					<i class="f-toggle f-icon-code"></i> Markup
 				</label>
 			</div>
 
@@ -53,8 +52,8 @@
 						<div class="f-item-heading-group">
 							<a href="#<%- id %>" class="f-item-heading"><%- niceName %></a>
 							<div class="f-item-toggles">
-								<span class="f-toggle fa fa-eye" data-toggle="preview"></span>
-								<span class="f-toggle fa fa-code" data-toggle="code"></span>
+								<span class="f-toggle f-icon-preview" data-toggle="preview"></span>
+								<span class="f-toggle f-icon-code" data-toggle="code"></span>
 							</div>
 						</div>
 
@@ -78,9 +77,14 @@
 	<!-- build:js assets/js/f.js -->
 	<script src="bower_components/jquery/jquery.js"></script>
 	<script src="bower_components/lodash/dist/lodash.js"></script>
+	<script src="bower_components/requirejs/require.js"></script>
 	<script src="bower_components/prismjs/prism.js"></script>
 	<script src="assets/js/fabricator.js"></script>
 	<!-- endbuild -->
+
+	<!-- toolkit scripts -->
+	<script src="toolkit/js/toolkit.js"></script>
+	<!-- /toolkit scripts -->
 
 </body>
 </html>

@@ -100,8 +100,8 @@ fabricator.toggles.primaryMenu = function () {
 	// toggle classes on certain elements
 	var toggleClasses = function () {
 		document.querySelector("html").classList.toggle("state--menu-active");
-		fabricator.structures.menuToggle.classList.toggle("fa-bars");
-		fabricator.structures.menuToggle.classList.toggle("fa-times");
+		fabricator.structures.menuToggle.classList.toggle("f-icon-menu");
+		fabricator.structures.menuToggle.classList.toggle("f-icon-close");
 	};
 
 	// toggle classes on click

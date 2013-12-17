@@ -13,9 +13,9 @@ module.exports = function(grunt) {
 	// requirejs config
 	var config = {
 		baseUrl: "src/toolkit/js",
-		mainConfigFile: "src/toolkit/js/experience.js",
-		out: "dist/toolkit/js/experience.js",
-		name: "experience",
+		mainConfigFile: "src/toolkit/js/toolkit.js",
+		out: "dist/toolkit/js/toolkit.js",
+		name: "toolkit",
 		optimize: "uglify2",
 		wrap: {
 			startFile: "src/toolkit/js/build/intro.js",
@@ -51,9 +51,9 @@ module.exports = function(grunt) {
 		contents = contents
 			.replace(/define\([^{]*?{}\);/, "");
 
-		// remove "experience" return statements
+		// remove "toolkit" return statements
 		contents = contents
-			.replace( /\s*return\s+(experience)+;/, "" );
+			.replace( /\s*return\s+(toolkit)+;/, "" );
 
 		return contents;
 

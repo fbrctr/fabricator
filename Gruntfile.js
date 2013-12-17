@@ -1,5 +1,5 @@
 /**
- * Experience Toolkit Grunt tasks
+ * Fabricator Grunt tasks
  */
 
 "use strict";
@@ -285,8 +285,10 @@ module.exports = function (grunt) {
 					src: [
 						"*.{ico,png,txt,html,php}",
 						"components/**",
+						"structures/**",
 						"documentation/**",
-						"toolkit/js/vendor/**",
+						"inc/**",
+						"assets/json/**"
 					]
 				}]
 			}
@@ -331,7 +333,6 @@ module.exports = function (grunt) {
 	grunt.registerTask("test", [
 		"clean:serve",
 		"jshint",
-		"autoprefixer",
 		"connect:test",
 		"mocha"
 	]);
@@ -354,7 +355,7 @@ module.exports = function (grunt) {
 	// default `grunt`
 	grunt.registerTask("default", [
 		"jshint",
-		"test",
+		// "test",
 		"build"
 	]);
 };
