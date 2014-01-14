@@ -7,18 +7,18 @@
 
 	<title>{namespace} Toolkit</title>
 
+	<!-- build:css assets/css/f.css -->
+	<link rel="stylesheet" href="assets/css/fabricator.css">
+	<!-- endbuild -->
+
 	<!-- toolkit styles -->
 	<link rel="stylesheet" href="toolkit/css/toolkit.css">
 	<!-- /toolkit styles -->
 
-	<!-- build:css assets/css/fabricator.css -->
-	<link rel="stylesheet" href="assets/css/fabricator.css">
-	<!-- endbuild -->
-
 </head>
 <body>
 
-	<div role="main">
+	<div class="f-container">
 		<div class="f-main">
 			<div class="f-menu-bar">
 				<span class="f-menu-toggle f-icon-menu"></span>
@@ -37,20 +37,15 @@
 				</label>
 			</div>
 
-			<script type="text/template" id="f-template">
 
-				<%
-					_.each(components, function(html, key) {
+			<script type="text/x-handlebars-template" id="f-template--standard">
 
-					var niceName = key.toTitleCase(),
-						id = key.toDashDelimited();
+				{{#each components}}
 
-				%>
-
-					<div class="f-item-group" id="<%- id %>">
+					<div class="f-item-group" id="{{id}}">
 
 						<div class="f-item-heading-group">
-							<a href="#<%- id %>" class="f-item-heading"><%- niceName %></a>
+							<a href="#{{id}}" class="f-item-heading">{{name}}</a>
 							<div class="f-item-toggles">
 								<span class="f-toggle f-icon-preview" data-toggle="preview"></span>
 								<span class="f-toggle f-icon-code" data-toggle="code"></span>
@@ -58,25 +53,23 @@
 						</div>
 
 						<div class="f-item-preview">
-							<%= html %>
+							{{{content}}}
 						</div>
 						<div class="f-item-code">
-							<pre><code class="language-markup"><%- html %></code></pre>
+							<pre><code class="language-markup">{{content}}</code></pre>
 						</div>
 					</div>
 
-				<% }); %>
+				{{/each}}
 
 			</script>
-
 
 		</div>
 	</div>
 
 
 	<!-- build:js assets/js/f.js -->
-	<script src="bower_components/jquery/jquery.js"></script>
-	<script src="bower_components/lodash/dist/lodash.js"></script>
+	<script src="bower_components/handlebars/handlebars.js"></script>
 	<script src="bower_components/requirejs/require.js"></script>
 	<script src="bower_components/prismjs/prism.js"></script>
 	<script src="assets/js/fabricator.js"></script>

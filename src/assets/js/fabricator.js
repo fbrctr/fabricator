@@ -18,11 +18,15 @@ fabricator.data = {};
  * Cache DOM
  * @type {Object}
  */
-fabricator.structures = {
+fabricator.dom = {
 	primaryMenu: document.querySelector(".f-menu"),
 	menuBar: document.querySelector(".f-menu-bar"),
 	menuToggle: document.querySelector(".f-menu-toggle"),
-	main: document.querySelector("[role=main]")
+	container: document.querySelector(".f-container"),
+	templates: {
+		standard: document.querySelector("#f-template--standard"),
+		prototype: document.querySelector("#f-template--prototype")
+	}
 };
 
 
@@ -62,20 +66,51 @@ fabricator.getData = function (type, url, callback) {
  */
 fabricator.template = function () {
 
-	// template menu
-	fabricator.getData("html", "inc/_menu.html", function (data) {
-		// template
-		var _tmpl = _.template(data);
-		fabricator.structures.main.insertAdjacentHTML("beforebegin", _tmpl(fabricator.data));
-	});
+	var template, source,
+		prototypeName, content;
 
-	// "main" template...if it exists
-	var mainTemplate = document.querySelector("#f-template"),
-		_tmpl;
+	// template prototype pages
+	if (fabricator.dom.templates.prototype && location.hash) {
 
-	if (mainTemplate) {
-		_tmpl = _.template(mainTemplate.innerHTML);
-		mainTemplate.insertAdjacentHTML("afterend", _tmpl(fabricator.data));
+		source = fabricator.dom.templates.prototype;
+
+		if (source) {
+
+			// remove container
+			fabricator.dom.container.parentNode.removeChild(fabricator.dom.container);
+
+			// get template data
+			template = Handlebars.compile(source.innerHTML);
+			prototypeName = location.hash.replace(/#/, "");
+
+			// find the corresponding template
+			for (var i = fabricator.data.prototypes.length - 1; i >= 0; i--) {
+				if (fabricator.data.prototypes[i].id === prototypeName) {
+					content = fabricator.data.prototypes[i].content;
+				}
+			}
+
+			// add content to page
+			source.insertAdjacentHTML("afterend", template({ prototype: content }));
+
+		}
+
+	} else {
+
+		// template the menu
+		fabricator.getData("html", "inc/menu.html", function (data) {
+			var template = Handlebars.compile(data);
+			fabricator.dom.container.insertAdjacentHTML("beforebegin", template(fabricator.data));
+		});
+
+		// template the page
+		source = fabricator.dom.templates.standard;
+
+		if (source) {
+			template = Handlebars.compile(source.innerHTML);
+			source.insertAdjacentHTML("afterend", template(fabricator.data));
+		}
+
 	}
 
 	return this;
@@ -95,13 +130,13 @@ fabricator.toggles = {};
 fabricator.toggles.primaryMenu = function () {
 
 	// shortcut menu DOM
-	var toggle = fabricator.structures.menuToggle;
+	var toggle = fabricator.dom.menuToggle;
 
 	// toggle classes on certain elements
 	var toggleClasses = function () {
 		document.querySelector("html").classList.toggle("state--menu-active");
-		fabricator.structures.menuToggle.classList.toggle("f-icon-menu");
-		fabricator.structures.menuToggle.classList.toggle("f-icon-close");
+		fabricator.dom.menuToggle.classList.toggle("f-icon-menu");
+		fabricator.dom.menuToggle.classList.toggle("f-icon-close");
 	};
 
 	// toggle classes on click
@@ -203,7 +238,7 @@ fabricator.getData("json", "assets/json/data.json", function (data) {
 
 	fabricator.data = data;
 
-	// call functions
+	// template
 	fabricator.template();
 
 	fabricator.toggles
@@ -212,4 +247,5 @@ fabricator.getData("json", "assets/json/data.json", function (data) {
 
 	// init syntax highlighting
 	Prism.highlightAll();
+
 });

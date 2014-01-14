@@ -20,7 +20,7 @@ body {
 	}
 }
 
-[role="main"] {
+.f-container {
 	@extend %clearfix;
 	@extend %transition;
 	position: relative;

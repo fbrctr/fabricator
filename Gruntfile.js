@@ -12,6 +12,8 @@ var lrSnippet = require("connect-livereload")({
 var mountFolder = function (connect, dir) {
 	return connect.static(require("path").resolve(dir));
 };
+var hostname = "localhost";
+
 
 
 module.exports = function (grunt) {
@@ -60,7 +62,7 @@ module.exports = function (grunt) {
 		connect: {
 			options: {
 				port: 9000,
-				hostname: "localhost"
+				hostname: hostname
 			},
 			livereload: {
 				options: {
@@ -68,17 +70,6 @@ module.exports = function (grunt) {
 						return [
 							lrSnippet,
 							mountFolder(connect, ".tmp"),
-							mountFolder(connect, fabricatorConfig.src)
-						];
-					}
-				}
-			},
-			test: {
-				options: {
-					middleware: function (connect) {
-						return [
-							mountFolder(connect, ".tmp"),
-							mountFolder(connect, "test"),
 							mountFolder(connect, fabricatorConfig.src)
 						];
 					}
@@ -96,7 +87,7 @@ module.exports = function (grunt) {
 		},
 		open: {
 			serve: {
-				path: "http://localhost:<%= connect.options.port %>"
+				path: "http://" + hostname + ":<%= connect.options.port %>"
 			}
 		},
 		clean: {
@@ -120,17 +111,8 @@ module.exports = function (grunt) {
 				"Gruntfile.js",
 				"<%= fabricator.src %>/{assets,toolkit}/js/{,*/}*.js",
 				"!<%= fabricator.src %>/{assets,toolkit}/js/vendor/*",
-				"!<%= fabricator.src %>/{assets,toolkit}/js/build/*",
-				"test/spec/{,*/}*.js"
+				"!<%= fabricator.src %>/{assets,toolkit}/js/build/*"
 			]
-		},
-		mocha: {
-			all: {
-				options: {
-					run: true,
-					urls: ["http://localhost:<%= connect.options.port %>/index.html"]
-				}
-			}
 		},
 		sass: {
 			options: {
@@ -314,6 +296,7 @@ module.exports = function (grunt) {
 	grunt.registerTask("collate", [
 		"collate-components",
 		"collate-structures",
+		"collate-prototypes",
 		"collate-docs",
 		"collate-write-json"
 	]);
@@ -327,14 +310,6 @@ module.exports = function (grunt) {
 		"collate",
 		"open",
 		"watch"
-	]);
-
-	// tests via mocha
-	grunt.registerTask("test", [
-		"clean:serve",
-		"jshint",
-		"connect:test",
-		"mocha"
 	]);
 
 	// build
@@ -355,7 +330,6 @@ module.exports = function (grunt) {
 	// default `grunt`
 	grunt.registerTask("default", [
 		"jshint",
-		// "test",
 		"build"
 	]);
 };

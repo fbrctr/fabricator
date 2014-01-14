@@ -22,10 +22,9 @@
     "rhino"         : true,
     "worker"        : true,
     "predef"        : [
-        "Modernizr",
+        "Handlebars",
         "define",
         "_",
-        "Prism",
-        "hpe"
+        "Prism"
     ]
 }
