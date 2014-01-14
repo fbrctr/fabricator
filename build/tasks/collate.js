@@ -10,7 +10,8 @@ module.exports = function (grunt) {
 	// get node modules
 	var fs = require("fs");
 	var markdown = require("marked");
-	var _ = require("lodash");
+	var cheerio = require("cheerio");
+	var Handlebars = require("handlebars");
 	var changeCase = require("change-case");
 	var beautifyHtml = require("js-beautify").html;
 
@@ -29,6 +30,30 @@ module.exports = function (grunt) {
 	// create json object to store data
 	var jsonContent = {};
 
+	/**
+	 * Register each component as a helper in Handlebars
+	 * This turns each "component" into a helper so that we can
+	 * pass additional data to them when building structures
+	 */
+	var registerHelper = function (item) {
+
+		Handlebars.registerHelper(item.id, function () {
+
+			// get helper classes if passed in
+			var helperClasses = (typeof arguments[0] === "string") ? arguments[0] : "";
+
+			// init cheerio
+			var $ = cheerio.load(item.content);
+
+			// add helper classes to first element
+			$("*").first().addClass(helperClasses);
+
+			return new Handlebars.SafeString($.html());
+
+		});
+
+	};
+
 
 	/**
 	 * Get files in src/components directory and use to generate component page
@@ -39,18 +64,21 @@ module.exports = function (grunt) {
 		var componentArray = fs.readdirSync("src/components/");
 
 		// scaffold json object
-		jsonContent.components = {};
+		jsonContent.components = [];
 
 		// iterate over items in component dir
 		for (var i = 0; i < componentArray.length; i++) {
 
-			var componentObj = {};
+			var component = {};
 
-			var id = componentArray[i].replace(".html", ""),
-				name = changeCase.camelCase(id);
+			component.id = componentArray[i].replace(".html", "");
+			component.name = changeCase.titleCase(component.id.replace(/-/ig, " "));
+			component.content = fs.readFileSync("src/components/" + componentArray[i], "utf-8");
 
-			// add component to components object
-			jsonContent.components[name] = fs.readFileSync("src/components/" + componentArray[i], "utf-8");
+			// add component to components array
+			jsonContent.components.push(component);
+
+			registerHelper(component);
 
 		}
 
@@ -66,21 +94,57 @@ module.exports = function (grunt) {
 		var structureArray = fs.readdirSync("src/structures/");
 
 		// scaffold json object
-		jsonContent.structures = {};
+		jsonContent.structures = [];
 
 		// iterate over items in component dir
 		for (var i = 0; i < structureArray.length; i++) {
 
-			var structureObj = {};
+			var structure = {};
 
-			var id = structureArray[i].replace(".html", ""),
-				name = changeCase.camelCase(id),
-				template = fs.readFileSync("src/structures/" + structureArray[i], "utf-8"),
-				content = _.template(template, jsonContent);
+			var source = fs.readFileSync("src/structures/" + structureArray[i], "utf-8");
+			var template = Handlebars.compile(source);
+
+			structure.id = structureArray[i].replace(".html", "");
+			structure.name = changeCase.titleCase(structure.id.replace(/-/ig, " "));
+			structure.content = beautifyHtml(template(), beautifyOptions);
+
+			// add component to structures array
+			jsonContent.structures.push(structure);
+
+			registerHelper(structure);
+
+		}
+
+	});
 
 
-			// add component to structures object
-			jsonContent.structures[name] = beautifyHtml(content, beautifyOptions);
+	/**
+	 * Get files in src/prototypes directory and use to generate component page
+	 */
+	grunt.registerTask("collate-prototypes", function () {
+
+		// read dir
+		var prototypeArray = fs.readdirSync("src/prototypes/");
+
+		// scaffold json object
+		jsonContent.prototypes = [];
+
+		// iterate over items in component dir
+		for (var i = 0; i < prototypeArray.length; i++) {
+
+			var prototype = {};
+
+			var source = fs.readFileSync("src/prototypes/" + prototypeArray[i], "utf-8");
+			var template = Handlebars.compile(source);
+
+			prototype.id = prototypeArray[i].replace(".html", "");
+			prototype.name = changeCase.titleCase(prototype.id.replace(/-/ig, " "));
+			prototype.content = beautifyHtml(template(), beautifyOptions);
+
+			// add component to structures array
+			jsonContent.prototypes.push(prototype);
+
+			registerHelper(prototype);
 
 		}
 
@@ -111,10 +175,10 @@ module.exports = function (grunt) {
 			var documentationObj = {};
 
 			// plain name
-			documentationObj.name = docArray[i].replace(".md", "");
+			documentationObj.id = docArray[i].replace(".md", "");
 
 			// formated name
-			documentationObj.niceName = toTitleCase(documentationObj.name.replace(/-/ig, " "));
+			documentationObj.name = toTitleCase(documentationObj.id.replace(/-/ig, " "));
 
 			// get contents of file
 			documentationObj.content = {};

@@ -7,18 +7,18 @@
 
 	<title>{namespace} Toolkit</title>
 
+	<!-- build:css assets/css/f.css -->
+	<link rel="stylesheet" href="assets/css/fabricator.css">
+	<!-- endbuild -->
+
 	<!-- toolkit styles -->
 	<link rel="stylesheet" href="toolkit/css/toolkit.css">
 	<!-- /toolkit styles -->
 
-	<!-- build:css assets/css/fabricator.css -->
-	<link rel="stylesheet" href="assets/css/fabricator.css">
-	<!-- endbuild -->
-
 </head>
 <body>
 
-	<div role="main">
+	<div class="f-container">
 		<div class="f-main">
 			<div class="f-menu-bar">
 				<span class="f-menu-toggle f-icon-menu"></span>
@@ -26,31 +26,31 @@
 
 			<h1>Documentation</h1>
 
+			<script type="text/x-handlebars-template" id="f-template--standard">
 
-			<script type="text/template" id="f-template">
-
-				<% _.each(documentation, function(item) { %>
-
+				{{#each documentation}}
 					<div class="f-item-group">
-						<h2 id="<%- item.name %>"><a href="#<%- item.name %>"><%- item.niceName %></a></h2>
-						<%= item.content.html %>
+						<h2 id="{{id}}"><a href="#{{id}}">{{name}}</a></h2>
+						{{{content.html}}}
 					</div>
-
-				<% }); %>
+				{{/each}}
 
 			</script>
-
 
 		</div>
 	</div>
 
 
 	<!-- build:js assets/js/f.js -->
-	<script src="bower_components/jquery/jquery.js"></script>
-	<script src="bower_components/lodash/dist/lodash.js"></script>
+	<script src="bower_components/handlebars/handlebars.js"></script>
+	<script src="bower_components/requirejs/require.js"></script>
 	<script src="bower_components/prismjs/prism.js"></script>
 	<script src="assets/js/fabricator.js"></script>
 	<!-- endbuild -->
+
+	<!-- toolkit scripts -->
+	<script src="toolkit/js/toolkit.js"></script>
+	<!-- /toolkit scripts -->
 
 </body>
 </html>

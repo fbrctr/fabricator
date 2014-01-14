@@ -3,9 +3,8 @@
   "version": "0.1.0",
   "dependencies": {},
   "devDependencies": {
-    "lodash": "~2.2.1",
-    "jquery": "~2.0.3",
     "prismjs": "*",
-    "requirejs": "~2.1.8"
+    "requirejs": "~2.1.8",
+    "handlebars": "~1.3.0"
   }
 }
