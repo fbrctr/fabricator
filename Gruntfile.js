@@ -95,9 +95,7 @@ module.exports = function (grunt) {
 				files: [{
 					dot: true,
 					src: [
-						".tmp",
-						"<%= fabricator.dist %>/*",
-						"!<%= fabricator.dist %>/.git*"
+						"<%= fabricator.dist %>/*"
 					]
 				}]
 			},
@@ -270,7 +268,8 @@ module.exports = function (grunt) {
 						"structures/**",
 						"documentation/**",
 						"inc/**",
-						"assets/json/**"
+						"assets/json/**",
+						"toolkit/css/**"
 					]
 				}]
 			}
@@ -320,10 +319,10 @@ module.exports = function (grunt) {
 		"autoprefixer:*",
 		"collate",
 		"concat",
-		"cssmin:*",
+		"cssmin:toolkit",
 		"copy:dist",
 		"compile-toolkit-js",
-		"uglify:*",
+		"uglify:toolkit",
 		"usemin"
 	]);
 
