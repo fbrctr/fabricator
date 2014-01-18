@@ -211,13 +211,13 @@ module.exports = function (grunt) {
 		cssmin: {
 			assets: {
 				expand: true,
-				cwd: "<%= fabricator.src %>/assets/css",
+				cwd: "<%= fabricator.dist %>/assets/css",
 				src: ["{,*/}*.css"],
 				dest: "<%= fabricator.dist %>/assets/css"
 			},
 			toolkit: {
 				expand: true,
-				cwd: "<%= fabricator.src %>/toolkit/css",
+				cwd: "<%= fabricator.dist %>/toolkit/css",
 				src: ["{,*/}*.css"],
 				dest: "<%= fabricator.dist %>/toolkit/css"
 			}
@@ -231,7 +231,7 @@ module.exports = function (grunt) {
 				},
 				files: [{
 					expand: true,
-					cwd: "<%= fabricator.src %>/assets/js",
+					cwd: "<%= fabricator.dist %>/assets/js",
 					src: [
 						"**/*.js"
 					],
@@ -319,10 +319,10 @@ module.exports = function (grunt) {
 		"autoprefixer:*",
 		"collate",
 		"concat",
-		"cssmin:toolkit",
+		"cssmin:*",
 		"copy:dist",
 		"compile-toolkit-js",
-		"uglify:toolkit",
+		"uglify:*",
 		"usemin"
 	]);
 
