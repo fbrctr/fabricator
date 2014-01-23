@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	{{> head}}
+
+</head>
+<body>
+
+	{{> menu}}
+
+	<div class="f-container">
+		<div class="f-main">
+			<div class="f-menu-bar">
+				<span class="f-menu-toggle f-icon-menu"></span>
+			</div>
+
+			<h1>Prototypes</h1>
+
+			<script type="text/template" id="f-template--standard">
+
+				<ul>
+					{{#each prototypes}}
+						<li>
+							<a href="prototypes.html#{{id}}" target="_blank">{{name}}</a>
+						</li>
+					{{/each}}
+				</ul>
+
+			</script>
+
+		</div>
+	</div>
+
+
+	<script type="text/x-handlebars-template" id="f-template--prototype">
+
+		{{{prototype}}}
+
+	</script>
+
+
+	{{> scripts}}
+
+</body>
+</html>

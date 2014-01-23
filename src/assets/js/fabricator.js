@@ -91,7 +91,9 @@ fabricator.template = function () {
 			}
 
 			// add content to page
-			source.insertAdjacentHTML("afterend", template({ prototype: content }));
+			source.insertAdjacentHTML("afterend", template({
+				prototype: content
+			}));
 
 		}
 
@@ -239,7 +241,7 @@ fabricator.getData("json", "assets/json/data.json", function (data) {
 	fabricator.data = data;
 
 	// template
-	fabricator.template();
+	// fabricator.template();
 
 	fabricator.toggles
 		.primaryMenu()

@@ -22,7 +22,6 @@
     "rhino"         : true,
     "worker"        : true,
     "predef"        : [
-        "Handlebars",
         "define",
         "_",
         "Prism"

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	{{> head}}
+
+</head>
+<body>
+
+	{{> menu}}
+
+	<div class="f-container">
+		<div class="f-main">
+			<div class="f-menu-bar">
+				<span class="f-menu-toggle f-icon-menu"></span>
+			</div>
+
+			<h1>Documentation</h1>
+
+			{{#each documentation}}
+				<div class="f-item-group">
+					<h2 id="{{id}}"><a href="#{{id}}">{{name}}</a></h2>
+					{{{content.html}}}
+				</div>
+			{{/each}}
+
+		</div>
+	</div>
+
+	{{> scripts}}
+
+</body>
+</html>

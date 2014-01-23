@@ -47,6 +47,9 @@
     "handlebars": "~1.3.0",
     "cheerio": "~0.13.1",
     "change-case": "~1.0.4",
-    "js-beautify": "~1.4.2"
+    "js-beautify": "~1.4.2",
+    "mkpath": "~0.1.0",
+    "express": "~3.4.8",
+    "grunt-express-server": "~0.4.11"
   }
 }

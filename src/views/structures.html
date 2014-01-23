@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	{{> head}}
+
+</head>
+<body>
+
+	{{> menu}}
+
+	<div class="f-container">
+		<div class="f-main">
+			<div class="f-menu-bar">
+				<span class="f-menu-toggle f-icon-menu"></span>
+			</div>
+
+			<h1>Structures</h1>
+
+			<div class="f-controls">
+				<label for="f-checkbox-preview">
+					<input type="checkbox" id="f-checkbox-preview" data-toggle="preview">
+					<i class="f-toggle f-icon-preview"></i> Preview
+				</label>
+				<label for="f-checkbox-code">
+					<input type="checkbox" id="f-checkbox-code" data-toggle="code">
+					<i class="f-toggle f-icon-code"></i> Markup
+				</label>
+			</div>
+
+			{{#each structures}}
+				<div class="f-item-group" id="{{id}}">
+
+					<div class="f-item-heading-group">
+						<a href="#{{id}}" class="f-item-heading">{{name}}</a>
+						<div class="f-item-toggles">
+							<span class="f-toggle f-icon-preview" data-toggle="preview"></span>
+							<span class="f-toggle f-icon-code" data-toggle="code"></span>
+						</div>
+					</div>
+
+					<div class="f-item-preview">
+						{{{content}}}
+					</div>
+					<div class="f-item-code">
+						<pre><code class="language-markup">{{content}}</code></pre>
+					</div>
+				</div>
+			{{/each}}
+
+		</div>
+	</div>
+
+	{{> scripts}}
+
+</body>
+</html>

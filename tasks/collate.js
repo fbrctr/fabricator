@@ -14,6 +14,7 @@ module.exports = function (grunt) {
 	var Handlebars = require("handlebars");
 	var changeCase = require("change-case");
 	var beautifyHtml = require("js-beautify").html;
+	var mkpath = require("mkpath");
 
 	// configure marked
 	markdown.setOptions({
@@ -194,7 +195,10 @@ module.exports = function (grunt) {
 
 	grunt.registerTask("collate-write-json", function () {
 		// write file
+		mkpath.sync("src/assets/json");
 		fs.writeFileSync("src/assets/json/data.json", JSON.stringify(jsonContent));
+
+
 	});
 
 

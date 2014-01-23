@@ -1,19 +1,14 @@
-/**
- * Fabricator Grunt tasks
- */
-
 "use strict";
 
-// live reload settings
+// settings
 var LIVERELOAD_PORT = 35729;
-var lrSnippet = require("connect-livereload")({
-	port: LIVERELOAD_PORT
-});
-var mountFolder = function (connect, dir) {
-	return connect.static(require("path").resolve(dir));
-};
-var hostname = "localhost";
 
+var HOSTNAME = "localhost";
+
+var FABRICATOR = {
+	src: "src",
+	dist: "dist"
+};
 
 
 module.exports = function (grunt) {
@@ -24,14 +19,9 @@ module.exports = function (grunt) {
 	// load all grunt tasks
 	require("load-grunt-tasks")(grunt);
 
-	// configurable paths
-	var fabricatorConfig = {
-		src: "src",
-		dist: "dist"
-	};
 
 	grunt.initConfig({
-		fabricator: fabricatorConfig,
+		fabricator: FABRICATOR,
 		watch: {
 			sass: {
 				files: ["<%= fabricator.src %>/{assets,toolkit}/scss/{,*/}*.{scss,sass}"],
@@ -39,55 +29,47 @@ module.exports = function (grunt) {
 			},
 			data: {
 				files: [
-					"<%= fabricator.src %>/**/*.md",
-					"<%= fabricator.src %>/**/*.html"
+					"<%= fabricator.src %>/{components,structures,documentation}/*.md",
+					"<%= fabricator.src %>/{components,structures,documentation}/*.html"
 				],
 				tasks: ["collate"],
 				options: {
-					livereload: true
+					livereload: LIVERELOAD_PORT
 				}
 			},
-			livereload: {
+			express: {
+				files: [
+					"<%= fabricator.src %>/views/partials/*.html"
+				],
+				tasks: ["express:serve"],
 				options: {
-					livereload: LIVERELOAD_PORT
-				},
+					livereload: LIVERELOAD_PORT,
+					spawn: false
+				}
+			},
+			serve: {
 				files: [
 					"<%= fabricator.src %>/**/*.html",
 					"<%= fabricator.src %>/{assets,toolkit}/css/{,*/}*.css",
 					"<%= fabricator.src %>/{assets,toolkit}/js/{,*/}*.js",
 					"<%= fabricator.src %>/{assets,toolkit}/img/{,*/}*.{png,jpg,jpeg,gif,webp,svg}"
-				]
+				],
+				options: {
+					livereload: LIVERELOAD_PORT
+				}
 			}
 		},
-		connect: {
-			options: {
-				port: 9000,
-				hostname: hostname
-			},
-			livereload: {
+		express: {
+			serve: {
 				options: {
-					middleware: function (connect) {
-						return [
-							lrSnippet,
-							mountFolder(connect, ".tmp"),
-							mountFolder(connect, fabricatorConfig.src)
-						];
-					}
-				}
-			},
-			dist: {
-				options: {
-					middleware: function (connect) {
-						return [
-							mountFolder(connect, fabricatorConfig.dist)
-						];
-					}
+					script: "<%= fabricator.src %>/app.js",
+					port: 9000
 				}
 			}
 		},
 		open: {
 			serve: {
-				path: "http://" + hostname + ":<%= connect.options.port %>"
+				path: "http://" + HOSTNAME + ":9000"
 			}
 		},
 		clean: {
@@ -288,7 +270,7 @@ module.exports = function (grunt) {
 
 
 	// load additional tasks
-	grunt.loadTasks("build/tasks");
+	grunt.loadTasks("tasks");
 
 
 	// collate data
@@ -305,8 +287,8 @@ module.exports = function (grunt) {
 		"clean:serve",
 		"concurrent:serve",
 		"autoprefixer",
-		"connect:livereload",
 		"collate",
+		"express:serve",
 		"open",
 		"watch"
 	]);
@@ -331,4 +313,5 @@ module.exports = function (grunt) {
 		"jshint",
 		"build"
 	]);
+
 };
