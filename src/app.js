@@ -8,11 +8,16 @@ var express = require("express"),
 	Handlebars = require("handlebars");
 
 
+// location of data file
+var dataLocation = "src/assets/json/data.json";
 
-/**
- * Register each partial with Handlebars
- * @param  {Array} partials  Array of partial keys (filename)
- */
+// get data
+var getData = function () {
+	return JSON.parse(fs.readFileSync(dataLocation));
+};
+
+
+// register each partial with Handlebars
 var partials = ["menu", "head", "scripts"];
 
 var registerPartials = function (partials) {
@@ -26,7 +31,6 @@ var registerPartials = function (partials) {
 
 };
 
-// register partials
 registerPartials(partials);
 
 
@@ -49,13 +53,13 @@ app.configure(function () {
 
 	// index
 	app.get("/", function (req, res) {
-		res.render("index", data);
+		res.render("index", getData());
 	});
 
 	// views
 	app.get("/:view", function (req, res) {
 
-		res.render(req.params.view, data, function (err, html) {
+		res.render(req.params.view, getData(), function (err, html) {
 			if (err) {
 				res.end(500);
 			} else {
@@ -64,18 +68,20 @@ app.configure(function () {
 		});
 	});
 
-	// TODO create service that gets data.json
-	app.get("/data/get", function () {
+	// API: return data
+	app.get("/data/get", function (req, res) {
 
-		// get and parse menu partial
-		var data = JSON.parse(fs.readFileSync("src/assets/json/data.json"));
+		fs.readFile(dataLocation, function (err, data) {
+			res.end(data);
+		});
 
 	});
 
 });
 
-
 // start server
 app.listen(app.get("port"), function () {
 	console.log("Listening on " + app.get("port"));
 });
+
+module.exports = app;

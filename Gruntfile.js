@@ -37,16 +37,6 @@ module.exports = function (grunt) {
 					livereload: LIVERELOAD_PORT
 				}
 			},
-			express: {
-				files: [
-					"<%= fabricator.src %>/views/partials/*.html"
-				],
-				tasks: ["express:serve"],
-				options: {
-					livereload: LIVERELOAD_PORT,
-					spawn: false
-				}
-			},
 			serve: {
 				files: [
 					"<%= fabricator.src %>/**/*.html",
@@ -62,8 +52,10 @@ module.exports = function (grunt) {
 		express: {
 			serve: {
 				options: {
-					script: "<%= fabricator.src %>/app.js",
-					port: 9000
+					bases: ["<%= fabricator.src %>"],
+					server: "<%= fabricator.src %>/app.js",
+					port: 9000,
+					livereload: true
 				}
 			}
 		},
