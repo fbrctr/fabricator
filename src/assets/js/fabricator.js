@@ -23,6 +23,7 @@ fabricator.dom = {
 /**
  * AJAX call for JSON
  * @param  {Function} callback
+ * @return {Object} fabricator
  */
 fabricator.getData = function (callback) {
 
@@ -46,6 +47,11 @@ fabricator.getData = function (callback) {
 };
 
 
+/**
+ * Inject prototype content into page
+ * @param  {String} id prototype identifier
+ * @return {Object} fabricator
+ */
 fabricator.templatePrototype = function (id) {
 
 	var content;
@@ -61,6 +67,8 @@ fabricator.templatePrototype = function (id) {
 
 	});
 
+	return this;
+
 };
 
 
@@ -72,6 +80,7 @@ fabricator.toggles = {};
 
 /**
  * Click handler to primary menu toggle
+ * @return {Object} fabricator
  */
 fabricator.toggles.primaryMenu = function () {
 
@@ -106,6 +115,7 @@ fabricator.toggles.primaryMenu = function () {
 
 /**
  * Handler for preview and code toggles
+ * @return {Object} fabricator
  */
 fabricator.toggles.items = function () {
 
@@ -166,14 +176,18 @@ fabricator.toggles.items = function () {
 // Init
 ////////////////////////////////////////////////////////
 (function () {
+
+	// attach toggle handlers
 	fabricator.toggles
 		.primaryMenu()
 		.items();
 
+	// if prototype page, template
 	if (fabricator.dom.prototype && location.hash) {
 		fabricator.templatePrototype(location.hash.replace(/#/, ""));
 	}
 
-	// init syntax highlighting
+	// syntax highlighting
 	Prism.highlightAll();
+
 }());
