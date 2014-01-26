@@ -18,7 +18,7 @@ var getData = function () {
 
 
 // register each partial with Handlebars
-var partials = ["menu", "head", "scripts"];
+var partials = ["intro", "outro", "menu"];
 
 var registerPartials = function (partials) {
 
@@ -69,11 +69,9 @@ app.configure(function () {
 
 	// API: return data
 	app.get("/data/get", function (req, res) {
-
 		fs.readFile(dataLocation, function (err, data) {
 			res.end(data);
 		});
-
 	});
 
 });
@@ -83,4 +81,5 @@ app.listen(app.get("port"), function () {
 	console.log("Listening on " + app.get("port"));
 });
 
+// expose
 module.exports = app;
