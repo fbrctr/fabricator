@@ -58,7 +58,6 @@ app.configure(function () {
 
 	// views
 	app.get("/:view", function (req, res) {
-
 		res.render(req.params.view, getData(), function (err, html) {
 			if (err) {
 				res.end(500);

@@ -4,7 +4,7 @@
 
 "use strict";
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
 	// get node modules
 	var fs = require("fs"),
@@ -30,7 +30,7 @@ module.exports = function(grunt) {
 	 * @param {String} path
 	 * @param {String} contents The contents to be written (including their AMD wrappers)
 	 */
-	config.onBuildWrite = function(name, path, contents) {
+	config.onBuildWrite = function (name, path, contents) {
 
 		var rdefineEnd = /\}\);[^}\w]*$/;
 
@@ -54,7 +54,7 @@ module.exports = function(grunt) {
 
 		// remove "toolkit" return statements
 		contents = contents
-			.replace( /\s*return\s+(toolkit)+;/, "" );
+			.replace(/\s*return\s+(toolkit)+;/, "");
 
 		return contents;
 
@@ -66,14 +66,14 @@ module.exports = function(grunt) {
 	};
 
 
-	grunt.registerTask("compile-toolkit-js", "Build", function() {
+	grunt.registerTask("compile-toolkit-js", "Build", function () {
 
 		var done = this.async();
 
-		requirejs.optimize(config, function(response) {
+		requirejs.optimize(config, function (response) {
 			grunt.log.writelns(response);
 			done();
-		}, function(err) {
+		}, function (err) {
 			done(err);
 		});
 
