@@ -8,13 +8,6 @@ var fabricator = window.fabricator = {};
 
 
 /**
- * JSON data for page
- * @type {Object}
- */
-fabricator.data = {};
-
-
-/**
  * Cache DOM
  * @type {Object}
  */
@@ -23,10 +16,7 @@ fabricator.dom = {
 	menuBar: document.querySelector(".f-menu-bar"),
 	menuToggle: document.querySelector(".f-menu-toggle"),
 	container: document.querySelector(".f-container"),
-	templates: {
-		standard: document.querySelector("#f-template--standard"),
-		prototype: document.querySelector("#f-template--prototype")
-	}
+	prototype: document.getElementById("prototype")
 };
 
 
@@ -34,22 +24,17 @@ fabricator.dom = {
  * AJAX call for JSON
  * @param  {Function} callback
  */
-fabricator.getData = function (type, url, callback) {
+fabricator.getData = function (callback) {
 
-	var data;
+	var url = "assets/json/data.json",
+		data;
 
 	// get data
 	var getData = new XMLHttpRequest();
 	getData.open("GET", url, false);
 	getData.send();
 
-	if (type.toUpperCase() === "JSON") {
-		data = JSON.parse(getData.responseText);
-	}
-
-	if (type.toUpperCase() === "HTML") {
-		data = getData.responseText;
-	}
+	data = JSON.parse(getData.responseText);
 
 	// send data to callback
 	if (typeof callback === "function") {
@@ -61,61 +46,20 @@ fabricator.getData = function (type, url, callback) {
 };
 
 
-/**
- * Template the page
- */
-fabricator.template = function () {
+fabricator.templatePrototype = function (id) {
 
-	var template, source,
-		prototypeName, content;
+	var content;
 
-	// template prototype pages
-	if (fabricator.dom.templates.prototype && location.hash) {
-
-		source = fabricator.dom.templates.prototype;
-
-		if (source) {
-
-			// remove container
-			fabricator.dom.container.parentNode.removeChild(fabricator.dom.container);
-
-			// get template data
-			template = Handlebars.compile(source.innerHTML);
-			prototypeName = location.hash.replace(/#/, "");
-
-			// find the corresponding template
-			for (var i = fabricator.data.prototypes.length - 1; i >= 0; i--) {
-				if (fabricator.data.prototypes[i].id === prototypeName) {
-					content = fabricator.data.prototypes[i].content;
-				}
+	// get data
+	this.getData(function (data) {
+		for (var i = data.prototypes.length - 1; i >= 0; i--) {
+			if (data.prototypes[i].id === id) {
+				content = data.prototypes[i].content;
+				fabricator.dom.prototype.innerHTML = content;
 			}
-
-			// add content to page
-			source.insertAdjacentHTML("afterend", template({
-				prototype: content
-			}));
-
 		}
 
-	} else {
-
-		// template the menu
-		fabricator.getData("html", "inc/menu.html", function (data) {
-			var template = Handlebars.compile(data);
-			fabricator.dom.container.insertAdjacentHTML("beforebegin", template(fabricator.data));
-		});
-
-		// template the page
-		source = fabricator.dom.templates.standard;
-
-		if (source) {
-			template = Handlebars.compile(source.innerHTML);
-			source.insertAdjacentHTML("afterend", template(fabricator.data));
-		}
-
-	}
-
-	return this;
+	});
 
 };
 
@@ -218,36 +162,18 @@ fabricator.toggles.items = function () {
 };
 
 
-/**
- * Augment string prototype
- */
-String.prototype.toTitleCase = function () {
-	var str = this.replace(/\w\S*/g, function (txt) {
-		return txt.charAt(0).toUpperCase() + txt.substr(1);
-	});
-	return str.replace(/([A-Z])/g, " $1");
-};
-
-String.prototype.toDashDelimited = function () {
-	return this.replace(/([A-Z])/g, "-$1").toLowerCase();
-};
-
-
 ////////////////////////////////////////////////////////
 // Init
 ////////////////////////////////////////////////////////
-fabricator.getData("json", "assets/json/data.json", function (data) {
-
-	fabricator.data = data;
-
-	// template
-	// fabricator.template();
-
+(function () {
 	fabricator.toggles
 		.primaryMenu()
 		.items();
 
+	if (fabricator.dom.prototype && location.hash) {
+		fabricator.templatePrototype(location.hash.replace(/#/, ""));
+	}
+
 	// init syntax highlighting
 	Prism.highlightAll();
-
-});
+}());
