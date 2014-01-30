@@ -182,7 +182,7 @@ fabricator.toggles.items = function () {
 		.primaryMenu()
 		.items();
 
-	// if prototype page, template
+	// if prototype page, template accordingly
 	if (fabricator.dom.prototype && location.hash) {
 		fabricator.templatePrototype(location.hash.replace(/#/, ""));
 	}

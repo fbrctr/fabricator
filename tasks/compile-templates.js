@@ -2,10 +2,7 @@
 
 module.exports = function (grunt) {
 
-	// TODO handlebars *.html files in /views using the data.json
-	// save to .tmp
-	// register partials first.
-
+	// modules
 	var fs = require("fs"),
 		Handlebars = require("handlebars"),
 		mkpath = require("mkpath");
@@ -24,12 +21,11 @@ module.exports = function (grunt) {
 			Handlebars.registerPartial(partials[i].replace(/.html/, ""), html);
 		}
 
-
 	};
 
 
 	/**
-	 * Pass views through Handlebars; save to destination
+	 * Pass views through Handlebars; save to .tmp
 	 */
 	var templateViews = function () {
 
@@ -49,8 +45,7 @@ module.exports = function (grunt) {
 
 	};
 
-
-
+	// register grunt task
 	grunt.registerTask("compile-templates", "Compile views to html", function () {
 		mkpath.sync(".tmp");
 		registerPartials();

@@ -94,9 +94,10 @@ module.exports = function (grunt) {
 		},
 		sass: {
 			options: {
-				style: "expanded"
+				style: "expanded",
+				debugInfo: true
 			},
-			assets: {
+			fabricator: {
 				files: [{
 					expand: true,
 					cwd: "<%= fabricator.src %>/assets/scss",
@@ -119,7 +120,7 @@ module.exports = function (grunt) {
 			options: {
 				browsers: ["last 1 version"]
 			},
-			assets: {
+			fabricator: {
 				files: [{
 					expand: true,
 					cwd: "<%= fabricator.tmp %>/assets/css/",
@@ -151,7 +152,7 @@ module.exports = function (grunt) {
 			html: ["<%= fabricator.dist %>/{,*/}*.html"]
 		},
 		imagemin: {
-			assets: {
+			fabricator: {
 				files: [{
 					expand: true,
 					cwd: "<%= fabricator.src %>/assets/img",
@@ -169,7 +170,7 @@ module.exports = function (grunt) {
 			}
 		},
 		svgmin: {
-			assets: {
+			fabricator: {
 				files: [{
 					expand: true,
 					cwd: "<%= fabricator.src %>/assets/img",
@@ -187,7 +188,7 @@ module.exports = function (grunt) {
 			}
 		},
 		cssmin: {
-			assets: {
+			fabricator: {
 				expand: true,
 				cwd: "<%= fabricator.dist %>/assets/css",
 				src: ["{,*/}*.css"],
@@ -218,7 +219,7 @@ module.exports = function (grunt) {
 			}
 		},
 		copy: {
-			// Put files not handled in other tasks here
+			// put files not handled in other tasks here
 			templates: {
 				files: [{
 					expand: true,

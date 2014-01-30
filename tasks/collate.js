@@ -1,22 +1,20 @@
 /**
- * Compile page content
- * Get contents of files, parse, and create JSON
+ * Collate the components, structures, and prototypes.
+ * Gets contents of files, parses, and creates JSON
  */
 
 "use strict";
 
-// TODO clean up
-
 module.exports = function (grunt) {
 
-	// get node modules
-	var fs = require("fs");
-	var markdown = require("marked");
-	var cheerio = require("cheerio");
-	var Handlebars = require("handlebars");
-	var changeCase = require("change-case");
-	var beautifyHtml = require("js-beautify").html;
-	var mkpath = require("mkpath");
+	// modules
+	var fs = require("fs"),
+		markdown = require("marked"),
+		cheerio = require("cheerio"),
+		Handlebars = require("handlebars"),
+		changeCase = require("change-case"),
+		beautifyHtml = require("js-beautify").html,
+		mkpath = require("mkpath");
 
 	// configure marked
 	markdown.setOptions({
@@ -30,13 +28,13 @@ module.exports = function (grunt) {
 		"indent_with_tabs": true
 	};
 
-	// create json object to store data
+	// json object to store data
 	var jsonContent = {};
 
 	/**
-	 * Register each component as a helper in Handlebars
-	 * This turns each "component" into a helper so that we can
-	 * pass additional data to them when building structures
+	 * Register each component and structure as a helper in Handlebars
+	 * This turns each item into a helper so that we can
+	 * include them in other files.
 	 */
 	var registerHelper = function (item) {
 
@@ -195,11 +193,12 @@ module.exports = function (grunt) {
 
 	});
 
+
+	// register grunt task
 	grunt.registerTask("collate-write-json", function () {
 		// write file
 		mkpath.sync("src/assets/json");
 		fs.writeFileSync("src/assets/json/data.json", JSON.stringify(jsonContent));
 	});
-
 
 };

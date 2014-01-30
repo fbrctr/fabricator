@@ -6,7 +6,7 @@
 
 module.exports = function (grunt) {
 
-	// get node modules
+	// modules
 	var fs = require("fs"),
 		requirejs = require("requirejs"),
 		mkpath = require("mkpath");
@@ -15,7 +15,6 @@ module.exports = function (grunt) {
 	var config = {
 		baseUrl: "src/toolkit/js",
 		mainConfigFile: "src/toolkit/js/toolkit.js",
-		// out:
 		name: "toolkit",
 		optimize: "none",
 		wrap: {
@@ -61,6 +60,7 @@ module.exports = function (grunt) {
 
 	};
 
+	// remove last define on save out
 	config.out = function (text) {
 		var contents = text.replace(/define\([^{]*?{}\);/, "");
 		mkpath.sync("dist/toolkit/js/");
@@ -68,6 +68,7 @@ module.exports = function (grunt) {
 	};
 
 
+	// register grunt task
 	grunt.registerTask("compile-toolkit-js", "Build", function () {
 
 		var done = this.async();
