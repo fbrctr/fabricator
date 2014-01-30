@@ -8,7 +8,8 @@ module.exports = function (grunt) {
 
 	// get node modules
 	var fs = require("fs"),
-		requirejs = require("requirejs");
+		requirejs = require("requirejs"),
+		mkpath = require("mkpath");
 
 	// requirejs config
 	var config = {
@@ -62,6 +63,7 @@ module.exports = function (grunt) {
 
 	config.out = function (text) {
 		var contents = text.replace(/define\([^{]*?{}\);/, "");
+		mkpath.sync("dist/toolkit/js/");
 		fs.writeFileSync("dist/toolkit/js/toolkit.js", contents);
 	};
 

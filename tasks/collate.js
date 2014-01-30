@@ -5,6 +5,8 @@
 
 "use strict";
 
+// TODO clean up
+
 module.exports = function (grunt) {
 
 	// get node modules
@@ -197,8 +199,6 @@ module.exports = function (grunt) {
 		// write file
 		mkpath.sync("src/assets/json");
 		fs.writeFileSync("src/assets/json/data.json", JSON.stringify(jsonContent));
-
-
 	});
 
 

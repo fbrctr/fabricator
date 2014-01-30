@@ -1,13 +1,8 @@
 "use strict";
 
 // settings
-var LIVERELOAD_PORT = 35729;
-
-var HOSTNAME = "localhost";
-
-var FABRICATOR = {
-	src: "src",
-	dist: "dist"
+var options = {
+	hostname: "localhost"
 };
 
 
@@ -21,47 +16,57 @@ module.exports = function (grunt) {
 
 
 	grunt.initConfig({
-		fabricator: FABRICATOR,
+		fabricator: {
+			src: "src",
+			tmp: ".tmp",
+			dist: "dist"
+		},
 		watch: {
+			options: {
+				livereload: "<%= connect.options.livereload %>"
+			},
 			sass: {
 				files: ["<%= fabricator.src %>/{assets,toolkit}/scss/{,*/}*.{scss,sass}"],
-				tasks: ["sass:*", "autoprefixer"]
+				tasks: ["sass:*", "autoprefixer"],
+				options: {
+					livereload: false
+				}
 			},
 			data: {
 				files: [
 					"<%= fabricator.src %>/{components,structures,documentation}/*.md",
 					"<%= fabricator.src %>/{components,structures,documentation}/*.html"
 				],
-				tasks: ["collate"],
-				options: {
-					livereload: LIVERELOAD_PORT
-				}
+				tasks: ["collate"]
 			},
-			serve: {
+			templates: {
 				files: [
-					"<%= fabricator.src %>/**/*.html",
-					"<%= fabricator.src %>/{assets,toolkit}/css/{,*/}*.css",
+					"<%= fabricator.src %>/views/**/*.html"
+				],
+				tasks: ["compileTemplates"]
+			},
+			assets: {
+				files: [
+					"<%= fabricator.tmp %>/{assets,toolkit}/css/{,*/}*.css",
 					"<%= fabricator.src %>/{assets,toolkit}/js/{,*/}*.js",
 					"<%= fabricator.src %>/{assets,toolkit}/img/{,*/}*.{png,jpg,jpeg,gif,webp,svg}"
-				],
-				options: {
-					livereload: LIVERELOAD_PORT
-				}
+				]
 			}
 		},
-		express: {
-			serve: {
+		connect: {
+			options: {
+				port: 9000,
+				livereload: 35729,
+				hostname: options.hostname
+			},
+			livereload: {
 				options: {
-					bases: ["<%= fabricator.src %>"],
-					server: "<%= fabricator.src %>/app.js",
-					port: 9000,
-					livereload: true
+					open: true,
+					base: [
+						".tmp",
+						"<%= fabricator.src %>"
+					]
 				}
-			}
-		},
-		open: {
-			serve: {
-				path: "http://" + HOSTNAME + ":9000"
 			}
 		},
 		clean: {
@@ -69,7 +74,8 @@ module.exports = function (grunt) {
 				files: [{
 					dot: true,
 					src: [
-						"<%= fabricator.dist %>/*"
+						"<%= fabricator.dist %>/*",
+						".tmp"
 					]
 				}]
 			},
@@ -95,7 +101,7 @@ module.exports = function (grunt) {
 					expand: true,
 					cwd: "<%= fabricator.src %>/assets/scss",
 					src: "*.scss",
-					dest: "<%= fabricator.src %>/assets/css",
+					dest: "<%= fabricator.tmp %>/assets/css",
 					ext: ".css"
 				}]
 			},
@@ -104,7 +110,7 @@ module.exports = function (grunt) {
 					expand: true,
 					cwd: "<%= fabricator.src %>/toolkit/scss",
 					src: "*.scss",
-					dest: "<%= fabricator.src %>/toolkit/css",
+					dest: "<%= fabricator.tmp %>/toolkit/css",
 					ext: ".css"
 				}]
 			}
@@ -116,17 +122,17 @@ module.exports = function (grunt) {
 			assets: {
 				files: [{
 					expand: true,
-					cwd: "<%= fabricator.src %>/assets/css/",
+					cwd: "<%= fabricator.tmp %>/assets/css/",
 					src: "{,*/}*.css",
-					dest: "<%= fabricator.src %>/assets/css/"
+					dest: "<%= fabricator.tmp %>/assets/css/"
 				}]
 			},
 			toolkit: {
 				files: [{
 					expand: true,
-					cwd: "<%= fabricator.src %>/toolkit/css/",
+					cwd: "<%= fabricator.tmp %>/toolkit/css/",
 					src: "{,*/}*.css",
-					dest: "<%= fabricator.src %>/toolkit/css/"
+					dest: "<%= fabricator.tmp %>/toolkit/css/"
 				}]
 			}
 		},
@@ -135,16 +141,14 @@ module.exports = function (grunt) {
 				dest: "<%= fabricator.dist %>"
 			},
 			html: [
-				"<%= fabricator.src %>/*.html",
+				".tmp/index.html",
 			]
 		},
 		usemin: {
 			options: {
-				dirs: ["<%= fabricator.dist %>"]
+				assetsDirs: ["<%= fabricator.dist %>"]
 			},
-			html: [
-				"<%= fabricator.dist %>/{,*/}*.html"
-			]
+			html: ["<%= fabricator.dist %>/{,*/}*.html"]
 		},
 		imagemin: {
 			assets: {
@@ -197,21 +201,6 @@ module.exports = function (grunt) {
 			}
 		},
 		uglify: {
-			assets: {
-				options: {
-					preserveComments: "some",
-					mangle: true,
-					compress: true
-				},
-				files: [{
-					expand: true,
-					cwd: "<%= fabricator.dist %>/assets/js",
-					src: [
-						"**/*.js"
-					],
-					dest: "<%= fabricator.dist %>/assets/js"
-				}]
-			},
 			toolkit: {
 				options: {
 					preserveComments: "some",
@@ -230,6 +219,17 @@ module.exports = function (grunt) {
 		},
 		copy: {
 			// Put files not handled in other tasks here
+			templates: {
+				files: [{
+					expand: true,
+					dot: true,
+					cwd: ".tmp",
+					dest: "<%= fabricator.dist %>",
+					src: [
+						"*.html"
+					]
+				}]
+			},
 			dist: {
 				files: [{
 					expand: true,
@@ -237,11 +237,10 @@ module.exports = function (grunt) {
 					cwd: "<%= fabricator.src %>",
 					dest: "<%= fabricator.dist %>",
 					src: [
-						"*.{ico,png,txt,html,php}",
+						"*.{ico,png}",
 						"components/**",
 						"structures/**",
 						"documentation/**",
-						"inc/**",
 						"assets/json/**",
 						"toolkit/css/**"
 					]
@@ -280,24 +279,25 @@ module.exports = function (grunt) {
 		"concurrent:serve",
 		"autoprefixer",
 		"collate",
-		"express:serve",
-		"open",
+		"compile-templates",
+		"connect:livereload",
 		"watch"
 	]);
 
 	// build
 	grunt.registerTask("build", [
 		"clean:dist",
+		"collate",
+		"compile-templates",
 		"useminPrepare",
 		"concurrent:dist",
 		"autoprefixer:*",
-		"collate",
 		"concat",
-		"cssmin:*",
-		"copy:dist",
+		"cssmin",
+		"copy",
 		"compile-toolkit-js",
-		"uglify:*",
-		"usemin"
+		"usemin",
+		"uglify"
 	]);
 
 	// default `grunt`
