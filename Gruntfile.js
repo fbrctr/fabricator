@@ -43,7 +43,7 @@ module.exports = function (grunt) {
 				files: [
 					"<%= fabricator.src %>/views/**/*.html"
 				],
-				tasks: ["compileTemplates"]
+				tasks: ["compile-templates"]
 			},
 			assets: {
 				files: [
