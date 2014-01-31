@@ -48,6 +48,22 @@ fabricator.getData = function (callback) {
 
 
 /**
+ * Build color chips
+ */
+fabricator.buildColorChips = function () {
+
+	var chips = document.querySelectorAll(".f-color-chip"),
+		color;
+
+	for (var i = chips.length - 1; i >= 0; i--) {
+		color = chips[i].getAttribute("data-color");
+		chips[i].style.borderTopColor = color;
+	}
+
+};
+
+
+/**
  * Inject prototype content into page
  * @param  {String} id prototype identifier
  * @return {Object} fabricator
@@ -181,6 +197,8 @@ fabricator.toggles.items = function () {
 	fabricator.toggles
 		.primaryMenu()
 		.items();
+
+	fabricator.buildColorChips();
 
 	// if prototype page, template accordingly
 	if (fabricator.dom.prototype && location.hash) {
