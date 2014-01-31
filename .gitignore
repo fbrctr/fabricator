@@ -4,4 +4,5 @@ dist
 .tmp
 .sass-cache
 src/assets/css
+src/assets/json/data.json
 src/toolkit/css
