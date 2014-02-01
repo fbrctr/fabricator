@@ -35,16 +35,11 @@ module.exports = function (grunt) {
 			data: {
 				files: [
 					"<%= fabricator.src %>/{components,structures,documentation}/*.md",
-					"<%= fabricator.src %>/{components,structures,documentation}/*.html"
-				],
-				tasks: ["collate", "compile-templates"]
-			},
-			templates: {
-				files: [
+					"<%= fabricator.src %>/{components,structures,documentation}/*.html",
 					"<%= fabricator.src %>/views/**/*.html",
 					"<%= fabricator.src %>/prototypes/*.html"
 				],
-				tasks: ["compile-templates"]
+				tasks: ["collate", "compile-templates"]
 			},
 			assets: {
 				files: [
