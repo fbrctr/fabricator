@@ -20,7 +20,7 @@
 }
 
 .f-menu-bar {
-	@extend %clearfix;
+	@include clearfix;
 	margin-bottom: 1em;
 }
 

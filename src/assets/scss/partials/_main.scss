@@ -21,8 +21,8 @@ body {
 }
 
 .f-container {
-	@extend %clearfix;
-	@extend %transition;
+	@include clearfix;
+	@include transition;
 	position: relative;
 	z-index: 1;
 	margin-left: 0;
@@ -40,7 +40,7 @@ body {
 }
 
 .f-main {
-	@extend %borderBox;
+	@include borderBox;
 	padding: 1em;
 	min-height: 100%;
 }

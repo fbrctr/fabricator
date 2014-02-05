@@ -4,12 +4,14 @@
 
 "use strict";
 
-module.exports = function (grunt) {
+var gutil = require("gulp-util");
+var through = require("through2"),
+	fs = require("fs"),
+	requirejs = require("requirejs");
 
-	// modules
-	var fs = require("fs"),
-		requirejs = require("requirejs"),
-		mkpath = require("mkpath");
+module.exports = function (data, options) {
+
+	var contents;
 
 	// requirejs config
 	var config = {
@@ -62,24 +64,25 @@ module.exports = function (grunt) {
 
 	// remove last define on save out
 	config.out = function (text) {
-		var contents = text.replace(/define\([^{]*?{}\);/, "");
-		mkpath.sync("dist/toolkit/js/");
-		fs.writeFileSync("dist/toolkit/js/toolkit.js", contents);
+		contents = text.replace(/define\([^{]*?{}\);/, "");
 	};
 
+	requirejs.optimize(config);
 
-	// register grunt task
-	grunt.registerTask("compile-toolkit-js", "Build", function () {
+	return through.obj(function (file, enc, cb) {
+		if (file.isNull()) {
+			this.push(file);
+			return cb();
+		}
 
-		var done = this.async();
+		try {
+			file.contents = new Buffer(contents);
+		} catch (err) {
+			this.emit("error", new gutil.PluginError("compile toolkit js", err));
+		}
 
-		requirejs.optimize(config, function (response) {
-			grunt.log.writelns(response);
-			done();
-		}, function (err) {
-			done(err);
-		});
-
+		this.push(file);
+		cb();
 	});
 
 };
