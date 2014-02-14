@@ -26,7 +26,6 @@ body {
 	position: relative;
 	z-index: 1;
 	margin-left: 0;
-	min-height: 100vh;
 	background-color: $color--background;
 	transform: translateZ(0);
 	@media (max-width: 60em) {
@@ -36,6 +35,8 @@ body {
 	}
 	@media (min-width: 60em) {
 		margin-left: $menu-width;
+		position: absolute;
+		height: 100%;
 	}
 }
 
