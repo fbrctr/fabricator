@@ -1,8 +1,6 @@
 node_modules
-src/bower_components
+bower_components
 dist
-.tmp
 .sass-cache
-src/assets/css
-src/assets/json/data.json
-src/toolkit/css
+src/fabricator/css
+src/toolkit/assets/css

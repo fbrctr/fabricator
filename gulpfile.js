@@ -1,25 +1,31 @@
 "use strict";
 
-/**
- * Plugins
- */
+// plugins
 var gulp = require("gulp");
-var gutil = require("gulp-util");
+var util = require("gulp-util");
+var plumber = require("gulp-plumber");
+var gulpif = require("gulp-if");
 var es = require("event-stream");
+var concat = require("gulp-concat");
 var serve = require("gulp-serve");
 var watch = require("gulp-watch");
 var clean = require("gulp-clean");
 var sass = require("gulp-sass");
 var csso = require("gulp-csso");
 var prefix = require("gulp-autoprefixer");
+var browserify = require("gulp-browserify");
 var uglify = require("gulp-uglify");
 var browserify = require("gulp-browserify");
-var compileToolkitJs = require("./tasks/compile-toolkit.js");
+var collate = require("./tasks/collate");
+var template = require("./tasks/compile-templates");
+var connect = require("gulp-connect");
+var watch = require("gulp-watch");
+var rename = require("gulp-rename");
 
 
-/**
- * Tasks
- */
+// env vars
+util.env.production  = util.env.production || false;
+
 
 // clean
 gulp.task("clean", function () {
@@ -27,49 +33,91 @@ gulp.task("clean", function () {
 		.pipe(clean());
 });
 
+
 // styles
-gulp.task("styles", function () {
-	return es.merge(
-		gulp.src("src/assets/scss/fabricator.scss")
-			.pipe(sass())
-			.pipe(prefix("last 1 version"))
-			.pipe(csso())
-			.pipe(gulp.dest("dist/assets/css")),
-		gulp.src("src/toolkit/scss/toolkit.scss")
-			.pipe(sass())
-			.pipe(prefix("last 1 version"))
-			.pipe(csso())
-			.pipe(gulp.dest("dist/toolkit/css"))
-	);
+gulp.task("styles:fabricator", function () {
+	return gulp.src("src/fabricator/scss/fabricator.scss")
+		.pipe(plumber())
+		.pipe(sass())
+		.pipe(prefix("last 1 version"))
+		.pipe(gulpif(util.env.production, csso()))
+		.pipe(rename("f.css"))
+		.pipe(gulp.dest("dist/assets/css"));
 });
 
-// scripts
-gulp.task("scripts", function () {
-	return es.merge(
-		gulp.src("src/assets/js/fabricator.js")
-			.pipe(uglify())
-			.pipe(gulp.dest("dist/assets/js")),
-		gulp.src("src/toolkit/js/toolkit.js")
-			.pipe(compileToolkitJs())
-			.pipe(uglify())
-			.pipe(gulp.dest("dist/toolkit/js"))
-	);
+gulp.task("styles:toolkit", function () {
+	return gulp.src("src/toolkit/assets/scss/toolkit.scss")
+		.pipe(plumber())
+		.pipe(sass())
+		.pipe(prefix("last 1 version"))
+		.pipe(gulpif(util.env.production, csso()))
+		.pipe(gulpif(!util.env.production, connect.reload()))
+		.pipe(gulp.dest("dist/toolkit/css"));
 });
+
+gulp.task("styles", function () {
+	gulp.start("styles:fabricator", "styles:toolkit");
+});
+
+
+// scripts
+gulp.task("scripts:fabricator", function () {
+	return gulp.src("src/fabricator/js/{prism,fabricator}.js")
+		.pipe(plumber())
+		.pipe(concat("f.js"))
+		.pipe(gulpif(util.env.production, uglify()))
+		.pipe(gulp.dest("dist/assets/js"));
+});
+
+gulp.task("scripts:toolkit", function () {
+	return gulp.src("src/toolkit/assets/js/toolkit.js")
+		.pipe(plumber())
+		.pipe(browserify())
+		.pipe(gulpif(util.env.production, uglify()))
+		.pipe(gulpif(!util.env.production, connect.reload()))
+		.pipe(gulp.dest("dist/toolkit/js"));
+});
+
+gulp.task("scripts", function () {
+	gulp.start("scripts:fabricator", "scripts:toolkit");
+});
+
 
 // images
 gulp.task("images", function () {
 
 });
 
+
 // data
 gulp.task("data", function () {
-
+	return gulp.src("src/toolkit/{components,structures,prototypes,documentation}/*.{md,html}")
+		.pipe(collate("dist/assets/json")); // TODO make this output a json file to gulp.dest
 });
 
 // templates
 gulp.task("templates", ["data"], function () {
-
+	return gulp.src("src/toolkit/views/**/*")
+		.pipe(template())
+		.pipe(gulpif(!util.env.production, connect.reload()))
+		.pipe(gulp.dest("dist"));
 });
+
+
+// server
+gulp.task("serve", connect.server({
+	root: ["dist"],
+	port: 9000,
+	livereload: true
+}));
+
+// watch
+gulp.task("watch", ["serve"], function () {
+	gulp.watch("src/toolkit/{components,structures,prototypes,documentation,views}/**/*", ["templates"]);
+	gulp.watch("src/toolkit/assets/scss/**/*.scss", ["styles:toolkit"]);
+	gulp.watch("src/toolkit/assets/js/**/*.js", ["scripts:toolkit"]);
+});
+
 
 // build
 gulp.task("build", ["clean"], function () {
@@ -77,21 +125,10 @@ gulp.task("build", ["clean"], function () {
 });
 
 
-// serve
-gulp.task("serve", serve({
-	root: ["dist"],
-	port: 9000
-}));
-
-
 // dev
-// build, connect, serve, watch
-// css and html files compile to dist
-// env varible to determine whether or not to pipe uglification/minification
-// css/js only minified during default task
-// https://github.com/gulpjs/gulp/blob/master/docs/recipes/pass-params-from-cli.md
-gulp.task("dev", [], function () {
-
+gulp.task("dev", ["build"], function () {
+	// serve
+	gulp.start("watch");
 });
 
 
