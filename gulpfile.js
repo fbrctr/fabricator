@@ -39,7 +39,7 @@ gulp.task("clean", function () {
 gulp.task("styles:fabricator", function () {
 	return gulp.src("src/fabricator/scss/**/*.scss")
 		.pipe(plumber())
-		.pipe(sass())
+		.pipe(sass({errLogToConsole: true}))
 		.pipe(prefix("last 1 version"))
 		.pipe(gulpif(gutil.env.production, csso()))
 		.pipe(rename("f.css"))
@@ -50,7 +50,7 @@ gulp.task("styles:fabricator", function () {
 gulp.task("styles:toolkit", function () {
 	return gulp.src("src/toolkit/assets/scss/**/*.scss")
 		.pipe(plumber())
-		.pipe(sass())
+		.pipe(sass({errLogToConsole: true}))
 		.pipe(prefix("last 1 version"))
 		.pipe(gulpif(gutil.env.production, csso()))
 		.pipe(gulpif(!gutil.env.production, connect.reload()))
