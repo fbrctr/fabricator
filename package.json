@@ -4,7 +4,6 @@
   "description": "A toolkit for creating UI toolkits",
   "main": "README.md",
   "scripts": {
-    "postinstall": "bower install",
     "dev": "npm install && gulp dev",
     "prod": "npm install && gulp --production"
   },
