@@ -13,7 +13,6 @@ var changeCase = require("change-case");
 var beautifyHtml = require("js-beautify").html;
 var mkpath = require("mkpath");
 var through = require("through2");
-var util = require("gulp-util");
 
 
 /**

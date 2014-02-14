@@ -2,7 +2,7 @@
 
 // plugins
 var gulp = require("gulp");
-var util = require("gulp-util");
+var gutil = require("gulp-util");
 var plumber = require("gulp-plumber");
 var gulpif = require("gulp-if");
 var es = require("event-stream");
@@ -24,7 +24,7 @@ var rename = require("gulp-rename");
 
 
 // env vars
-util.env.production = util.env.production || false;
+gutil.env.production = gutil.env.production || false;
 
 
 // clean
@@ -41,9 +41,9 @@ gulp.task("styles:fabricator", function () {
 		.pipe(plumber())
 		.pipe(sass())
 		.pipe(prefix("last 1 version"))
-		.pipe(gulpif(util.env.production, csso()))
+		.pipe(gulpif(gutil.env.production, csso()))
 		.pipe(rename("f.css"))
-		.pipe(gulpif(!util.env.production, connect.reload()))
+		.pipe(gulpif(!gutil.env.production, connect.reload()))
 		.pipe(gulp.dest("dist/assets/css"));
 });
 
@@ -52,8 +52,8 @@ gulp.task("styles:toolkit", function () {
 		.pipe(plumber())
 		.pipe(sass())
 		.pipe(prefix("last 1 version"))
-		.pipe(gulpif(util.env.production, csso()))
-		.pipe(gulpif(!util.env.production, connect.reload()))
+		.pipe(gulpif(gutil.env.production, csso()))
+		.pipe(gulpif(!gutil.env.production, connect.reload()))
 		.pipe(gulp.dest("dist/toolkit/css"));
 });
 
@@ -67,8 +67,8 @@ gulp.task("scripts:fabricator", function () {
 	return gulp.src("src/fabricator/js/{prism,fabricator}.js")
 		.pipe(plumber())
 		.pipe(concat("f.js"))
-		.pipe(gulpif(util.env.production, uglify()))
-		.pipe(gulpif(!util.env.production, connect.reload()))
+		.pipe(gulpif(gutil.env.production, uglify()))
+		.pipe(gulpif(!gutil.env.production, connect.reload()))
 		.pipe(gulp.dest("dist/assets/js"));
 });
 
@@ -76,8 +76,8 @@ gulp.task("scripts:toolkit", function () {
 	return gulp.src("src/toolkit/assets/js/toolkit.js")
 		.pipe(plumber())
 		.pipe(browserify())
-		.pipe(gulpif(util.env.production, uglify()))
-		.pipe(gulpif(!util.env.production, connect.reload()))
+		.pipe(gulpif(gutil.env.production, uglify()))
+		.pipe(gulpif(!gutil.env.production, connect.reload()))
 		.pipe(gulp.dest("dist/toolkit/js"));
 });
 
@@ -102,7 +102,7 @@ gulp.task("data", function () {
 gulp.task("templates", ["data"], function () {
 	return gulp.src("src/toolkit/views/**/*")
 		.pipe(template())
-		.pipe(gulpif(!util.env.production, connect.reload()))
+		.pipe(gulpif(!gutil.env.production, connect.reload()))
 		.pipe(gulp.dest("dist")); // TODO prevent partials dir from outputing
 });
 
