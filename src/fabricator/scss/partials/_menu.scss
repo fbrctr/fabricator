@@ -9,7 +9,7 @@
 	width: $menu-width;
 	height: 100%;
 	background-color: $color--menu-background;
-	padding-top: 2em;
+
 	@media (min-width: 60em) {
 		right: auto;
 		left: 0;
@@ -20,18 +20,10 @@
 	}
 	ul {
 		padding-left: 0;
-	}
-	> ul {
-		> li {
-			border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-			> a {
-				color: $color--heading;
-				text-transform: uppercase;
-				font-weight: 700;
-				padding: 0.3em 2em;
-				&:hover {
-					color: #fff;
-				}
+		&:first-child {
+			margin-top: 2em;
+			> li {
+				border-bottom: 1px solid rgba(255, 255, 255, 0.4);
 			}
 		}
 	}
@@ -49,6 +41,15 @@
 		}
 		&:active {
 			background-color: $color--heading;
+		}
+	}
+	.f-menu__heading {
+		color: $color--heading;
+		text-transform: uppercase;
+		font-weight: 700;
+		padding: 0.3em 2em;
+		&:hover {
+			color: #fff;
 		}
 	}
 }
