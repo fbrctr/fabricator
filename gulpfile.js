@@ -24,29 +24,31 @@ var rename = require("gulp-rename");
 
 
 // env vars
-util.env.production  = util.env.production || false;
+util.env.production = util.env.production || false;
 
 
 // clean
 gulp.task("clean", function () {
-	return gulp.src(["dist"], {read: false})
-		.pipe(clean());
+	return gulp.src(["dist"], {
+		read: false
+	}).pipe(clean());
 });
 
 
 // styles
 gulp.task("styles:fabricator", function () {
-	return gulp.src("src/fabricator/scss/fabricator.scss")
+	return gulp.src("src/fabricator/scss/**/*.scss")
 		.pipe(plumber())
 		.pipe(sass())
 		.pipe(prefix("last 1 version"))
 		.pipe(gulpif(util.env.production, csso()))
 		.pipe(rename("f.css"))
+		.pipe(gulpif(!util.env.production, connect.reload()))
 		.pipe(gulp.dest("dist/assets/css"));
 });
 
 gulp.task("styles:toolkit", function () {
-	return gulp.src("src/toolkit/assets/scss/toolkit.scss")
+	return gulp.src("src/toolkit/assets/scss/**/*.scss")
 		.pipe(plumber())
 		.pipe(sass())
 		.pipe(prefix("last 1 version"))
@@ -66,6 +68,7 @@ gulp.task("scripts:fabricator", function () {
 		.pipe(plumber())
 		.pipe(concat("f.js"))
 		.pipe(gulpif(util.env.production, uglify()))
+		.pipe(gulpif(!util.env.production, connect.reload()))
 		.pipe(gulp.dest("dist/assets/js"));
 });
 
@@ -85,7 +88,7 @@ gulp.task("scripts", function () {
 
 // images
 gulp.task("images", function () {
-
+	// TODO add image task
 });
 
 
@@ -100,7 +103,7 @@ gulp.task("templates", ["data"], function () {
 	return gulp.src("src/toolkit/views/**/*")
 		.pipe(template())
 		.pipe(gulpif(!util.env.production, connect.reload()))
-		.pipe(gulp.dest("dist"));
+		.pipe(gulp.dest("dist")); // TODO prevent partials dir from outputing
 });
 
 
@@ -114,7 +117,9 @@ gulp.task("serve", connect.server({
 // watch
 gulp.task("watch", ["serve"], function () {
 	gulp.watch("src/toolkit/{components,structures,prototypes,documentation,views}/**/*", ["templates"]);
+	gulp.watch("src/fabricator/scss/**/*.scss", ["styles:fabricator"]);
 	gulp.watch("src/toolkit/assets/scss/**/*.scss", ["styles:toolkit"]);
+	gulp.watch("src/fabricator/js/**/*.js", ["scripts:fabricator"]);
 	gulp.watch("src/toolkit/assets/js/**/*.js", ["scripts:toolkit"]);
 });
 
