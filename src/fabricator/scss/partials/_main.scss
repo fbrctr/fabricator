@@ -26,7 +26,7 @@ body {
 	position: relative;
 	z-index: 1;
 	margin-left: 0;
-	background-color: $color--background;
+	background-color: #fff;
 	transform: translateZ(0);
 	@media (max-width: 60em) {
 		.state--menu-active & {
