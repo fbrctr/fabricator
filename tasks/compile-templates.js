@@ -1,12 +1,10 @@
 "use strict";
 
 // modules
-var fs = require("fs"),
-	Handlebars = require("handlebars"),
-	mkpath = require("mkpath");
-
+var fs = require("fs");
+var Handlebars = require("handlebars");
+var mkpath = require("mkpath");
 var gutil = require("gulp-util");
-
 var es = require("event-stream");
 var map = require("vinyl-map");
 
