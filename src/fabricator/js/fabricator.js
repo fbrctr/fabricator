@@ -57,7 +57,7 @@ fabricator.buildColorChips = function () {
 		color;
 
 	for (var i = chips.length - 1; i >= 0; i--) {
-		color = chips[i].getAttribute("data-color");
+		color = chips[i].querySelector(".f-color-chip__color").innerHTML;
 		chips[i].style.borderTopColor = color;
 	}
 

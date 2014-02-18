@@ -10,7 +10,7 @@
 	display: inline-block;
 	margin-right: 0.5em;
 	margin-bottom: 0.5em;
-	&:after {
+	.f-color-chip__color {
 		background-color: #fff;
 		content: attr(data-color);
 		font-weight: 400;
