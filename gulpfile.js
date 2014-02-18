@@ -113,7 +113,7 @@ gulp.task("templates", ["data"], function () {
 
 // server
 gulp.task("serve", connect.server({
-	root: "dist",
+	root: ["dist"],
 	port: 9000,
 	livereload: !gutil.env.production
 }));
