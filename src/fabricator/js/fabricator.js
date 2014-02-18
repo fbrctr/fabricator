@@ -7,6 +7,16 @@
 var fabricator = window.fabricator = {};
 
 
+fabricator.options = {
+	toggles: {
+		preview: true,
+		code: false
+	}
+};
+
+localStorage.fabricator = localStorage.fabricator || JSON.stringify(fabricator.options);
+
+
 /**
  * Cache DOM
  * @type {Object}
@@ -219,7 +229,8 @@ fabricator.toggles.itemData = function () {
 	var items = document.querySelectorAll(".f-item-group"),
 		itemToggleSingle = document.querySelectorAll(".f-toggle"),
 		controls = document.querySelector(".f-controls"),
-		itemToggleAll = controls.querySelectorAll("[data-toggle]");
+		itemToggleAll = controls.querySelectorAll("[data-toggle]"),
+		options = JSON.parse(localStorage.fabricator);
 
 
 	// toggle single
@@ -238,6 +249,8 @@ fabricator.toggles.itemData = function () {
 	// toggle all
 	var toggleAllItems = function (type, value) {
 
+		var button = document.querySelector(".f-controls [data-toggle=" + type + "]");
+
 		for (var i = 0; i < items.length; i++) {
 			if (value) {
 				items[i].classList.add("f-item-" + type + "-active");
@@ -247,7 +260,15 @@ fabricator.toggles.itemData = function () {
 		}
 
 		// toggle styles
-		document.querySelector(".f-controls [data-toggle=" + type + "]").classList.toggle("f-active");
+		if (value) {
+			button.classList.add("f-active");
+		} else {
+			button.classList.remove("f-active");
+		}
+
+		// update options
+		options.toggles[type] = value;
+		localStorage.setItem("fabricator", JSON.stringify(options));
 
 	};
 
@@ -266,9 +287,12 @@ fabricator.toggles.itemData = function () {
 
 	}
 
-	// set "preview" as active by default
-	toggleAllItems("preview", true);
-
+	// persist toggle options from page to page
+	for (var toggle in options.toggles) {
+		if (options.toggles.hasOwnProperty(toggle)) {
+			toggleAllItems(toggle, options.toggles[toggle]);
+		}
+	}
 
 	return this;
 
