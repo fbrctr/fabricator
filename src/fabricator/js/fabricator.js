@@ -218,11 +218,12 @@ fabricator.toggles.itemData = function () {
 
 	var items = document.querySelectorAll(".f-item-group"),
 		itemToggleSingle = document.querySelectorAll(".f-toggle"),
-		itemToggleAll = document.querySelectorAll(".f-controls [data-toggle]");
+		controls = document.querySelector(".f-controls"),
+		itemToggleAll = controls.querySelectorAll("[data-toggle]");
 
 
 	// toggle single
-	var toggleItem = function () {
+	var toggleSingleItem = function () {
 		var group = this.parentNode.parentNode.parentNode,
 			toggle = this.attributes["data-toggle"].value;
 
@@ -230,36 +231,44 @@ fabricator.toggles.itemData = function () {
 	};
 
 	for (var i = 0; i < itemToggleSingle.length; i++) {
-		itemToggleSingle[i].addEventListener("click", toggleItem);
+		itemToggleSingle[i].addEventListener("click", toggleSingleItem);
 	}
 
 
 	// toggle all
-	var toggleAll = function (target) {
-
-		var toggle = target.getAttribute("data-toggle");
-
-		target.classList.toggle("f-active");
+	var toggleAllItems = function (type, value) {
 
 		for (var i = 0; i < items.length; i++) {
-			if (target.className.indexOf("f-active") > -1) {
-				items[i].classList.add("f-item-" + toggle + "-active");
+			if (value) {
+				items[i].classList.add("f-item-" + type + "-active");
 			} else {
-				items[i].classList.remove("f-item-" + toggle + "-active");
+				items[i].classList.remove("f-item-" + type + "-active");
 			}
 		}
+
+		// toggle styles
+		document.querySelector(".f-controls [data-toggle=" + type + "]").classList.toggle("f-active");
 
 	};
 
 	for (var ii = 0; ii < itemToggleAll.length; ii++) {
+
 		itemToggleAll[ii].addEventListener("click", function (e) {
-			toggleAll(e.target);
+
+			// extract info from target node
+			var type = e.target.getAttribute("data-toggle"),
+				value = e.target.className.indexOf("f-active") < 0;
+
+			// toggle the items
+			toggleAllItems(type, value);
+
 		});
+
 	}
 
 	// set "preview" as active by default
-	var previewAll = document.querySelector(".f-controls [data-toggle='preview']");
-	toggleAll(previewAll);
+	toggleAllItems("preview", true);
+
 
 	return this;
 
