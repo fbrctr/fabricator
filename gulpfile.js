@@ -39,7 +39,9 @@ gulp.task("clean", function () {
 gulp.task("styles:fabricator", function () {
 	return gulp.src("src/fabricator/scss/**/*.scss")
 		.pipe(plumber())
-		.pipe(sass({errLogToConsole: true}))
+		.pipe(sass({
+			errLogToConsole: true
+		}))
 		.pipe(prefix("last 1 version"))
 		.pipe(gulpif(gutil.env.production, csso()))
 		.pipe(rename("f.css"))
@@ -50,7 +52,9 @@ gulp.task("styles:fabricator", function () {
 gulp.task("styles:toolkit", function () {
 	return gulp.src("src/toolkit/assets/scss/**/*.scss")
 		.pipe(plumber())
-		.pipe(sass({errLogToConsole: true}))
+		.pipe(sass({
+			errLogToConsole: true
+		}))
 		.pipe(prefix("last 1 version"))
 		.pipe(gulpif(gutil.env.production, csso()))
 		.pipe(gulpif(!gutil.env.production, connect.reload()))
@@ -100,7 +104,7 @@ gulp.task("data", function () {
 
 // templates
 gulp.task("templates", ["data"], function () {
-	return gulp.src("src/toolkit/views/**/*")
+	return gulp.src("src/toolkit/views/*.html")
 		.pipe(template())
 		.pipe(gulpif(!gutil.env.production, connect.reload()))
 		.pipe(gulp.dest("dist")); // TODO prevent partials dir from outputing
@@ -109,9 +113,9 @@ gulp.task("templates", ["data"], function () {
 
 // server
 gulp.task("serve", connect.server({
-	root: ["dist"],
+	root: "dist",
 	port: 9000,
-	livereload: true
+	livereload: !gutil.env.production
 }));
 
 // watch
@@ -132,7 +136,6 @@ gulp.task("build", ["clean"], function () {
 
 // dev
 gulp.task("dev", ["build"], function () {
-	// serve
 	gulp.start("watch");
 });
 
