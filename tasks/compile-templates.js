@@ -3,7 +3,6 @@
 // modules
 var fs = require("fs");
 var Handlebars = require("handlebars");
-var mkpath = require("mkpath");
 var gutil = require("gulp-util");
 var es = require("event-stream");
 var map = require("vinyl-map");
@@ -12,7 +11,7 @@ var map = require("vinyl-map");
 var data;
 
 /**
- * Register each partial with Handlebars
+ * Register partials with Handlebars
  */
 var registerPartials = function () {
 
@@ -28,28 +27,8 @@ var registerPartials = function () {
 
 
 /**
- * Pass views through Handlebars; save to .tmp
+ * Pass views through Handlebars
  */
-var templateViews = function (file, enc, callback) {
-
-	var views = fs.readdirSync("src/toolkit/views").filter(function (file) {
-		return file.substr(-5) === ".html";
-	});
-
-	var source, template, output;
-
-	for (var i = views.length - 1; i >= 0; i--) {
-		source = file.contents.toString();
-		template = Handlebars.compile(source);
-		output = template(data);
-		// fs.writeFileSync(".tmp/" + views[i], output);
-		this.push(file);
-	}
-
-	return callback();
-
-};
-
 var template = function (contents, path) {
 
 	var source = contents.toString(),
