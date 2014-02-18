@@ -1,10 +1,12 @@
 // colors
-$color--dark: rgb(3, 3, 3);
-$color--light: rgb(242, 242, 242);
+$color--menu-background: rgb(42, 42, 42);
+$color--heading: rgba(255, 255, 255, 0.4);
 
-$color--menu-background: #c0c8c8;
-$color--heading: #5a7777;
-$color--rule: #cedcdc;
+$color--dark: darken($color--menu-background, 3%);
+$color--light: rgb(242, 242, 242);
+$color--accent: #51c1ab;
+
+
 
 
 // menu

@@ -19,35 +19,31 @@
 		-webkit-overflow-scrolling: touch;
 	}
 	ul {
+		margin-top: 0;
 		padding-left: 0;
-		&:first-child {
-			margin-top: 2em;
-			> li {
-				border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-			}
-		}
 	}
 	li {
 		list-style-type: none;
 	}
 	a {
+		display: block;
+		padding: 0.875em 2.6em;
 		color: #fff;
 		text-decoration: none;
-		display: block;
-		transition: (background-color 250ms);
-		padding: 0.3em 3em;
+		font-size: 0.875em;
+		transition: (background-color 200ms);
+		line-height: 1;
 		&:hover {
-			background-color: #51c1ab;
+			background-color: darken($color--menu-background, 2%);
 		}
-		&:active {
-			background-color: $color--heading;
+		&.f-active {
+			box-shadow: inset 3px 0 0 $color--accent;
+			background-color: darken($color--menu-background, 2%);
 		}
 	}
 	.f-menu__heading {
+		padding-left: 2em;
 		color: $color--heading;
-		text-transform: uppercase;
-		font-weight: 700;
-		padding: 0.3em 2em;
 		&:hover {
 			color: #fff;
 		}

@@ -1,7 +1,18 @@
 .f-controls {
-	padding: 1em 0;
-	label {
-		margin-right: 0.5em;
+	@include clearfix;
+	div {
+		width: 50%;
+		padding: 1em 0;
+		text-align: center;
+		float: left;
 		cursor: pointer;
+		color: $color--heading;
+		&:hover:not(.f-active) {
+			color: #fff;
+		}
+	}
+	.f-active {
+		color: $color--accent;
+		background-color: $color--dark;
 	}
 }

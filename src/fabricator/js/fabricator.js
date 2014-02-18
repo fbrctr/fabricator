@@ -13,6 +13,7 @@ var fabricator = window.fabricator = {};
  */
 fabricator.dom = {
 	primaryMenu: document.querySelector(".f-menu"),
+	menuItems: document.querySelectorAll(".f-menu li a"),
 	menuBar: document.querySelector(".f-menu-bar"),
 	menuToggle: document.querySelector(".f-menu-toggle"),
 	container: document.querySelector(".f-container"),
@@ -59,6 +60,87 @@ fabricator.buildColorChips = function () {
 		color = chips[i].getAttribute("data-color");
 		chips[i].style.borderTopColor = color;
 	}
+
+	return this;
+
+};
+
+
+/**
+ * Add `f-active` class to active menu item
+ */
+fabricator.setActiveItem = function () {
+	// TODO
+
+	// create a hash table for menu items
+
+	// create array of "ids"
+	// get the "id" in the url
+	// get the index of the url id in teh array if ids
+	// set that menuItem active
+
+
+	/**
+	 * @return {Array} Sorted array of menu item "ids"
+	 */
+	var parsedItems = function () {
+
+		var items = [],
+			id, href;
+
+		for (var i = fabricator.dom.menuItems.length - 1; i >= 0; i--) {
+
+			// remove active class from items
+			fabricator.dom.menuItems[i].classList.remove("f-active");
+
+			// get item href
+			href = fabricator.dom.menuItems[i].getAttribute("href");
+
+			// get id
+			if (href.indexOf("#") > -1) {
+				id = href.split("#").pop();
+			} else {
+				id = href.split("/").pop().replace(/\.[^/.]+$/, "");
+			}
+
+			items.push(id);
+
+		}
+
+		return items.reverse();
+
+	};
+
+
+	/**
+	 * Match the "id" in the window location with the menu item, set menu item as active
+	 */
+	var setActive = function () {
+
+		var href = window.location.href,
+			items = parsedItems(),
+			id, index;
+
+		// get window "id"
+		if (href.indexOf("#") > -1) {
+			id = window.location.hash.replace("#", "");
+		} else {
+			id = window.location.pathname.split("/").pop().replace(/\.[^/.]+$/, "");
+		}
+
+		// find the window id in the items array
+		index = items.indexOf(id);
+
+		// set the matched item as active
+		fabricator.dom.menuItems[index].classList.add("f-active");
+
+	};
+
+	window.addEventListener("hashchange", setActive);
+
+	setActive();
+
+	return this;
 
 };
 
@@ -116,13 +198,12 @@ fabricator.toggles.primaryMenu = function () {
 	});
 
 	// close menu when clicking on item (for collapsed menu view)
-	var menuItems = document.querySelectorAll(".f-menu li a"),
-		closeMenu = function () {
+	var closeMenu = function () {
 			toggleClasses();
 		};
 
-	for (var i = 0; i < menuItems.length; i++) {
-		menuItems[i].addEventListener("click", closeMenu);
+	for (var i = 0; i < fabricator.dom.menuItems.length; i++) {
+		fabricator.dom.menuItems[i].addEventListener("click", closeMenu);
 	}
 
 	return this;
@@ -133,11 +214,11 @@ fabricator.toggles.primaryMenu = function () {
  * Handler for preview and code toggles
  * @return {Object} fabricator
  */
-fabricator.toggles.items = function () {
+fabricator.toggles.itemData = function () {
 
 	var items = document.querySelectorAll(".f-item-group"),
 		itemToggleSingle = document.querySelectorAll(".f-toggle"),
-		itemToggleAll = document.querySelectorAll(".f-controls input");
+		itemToggleAll = document.querySelectorAll(".f-controls [data-toggle]");
 
 
 	// toggle single
@@ -154,11 +235,14 @@ fabricator.toggles.items = function () {
 
 
 	// toggle all
-	var toggleAll = function () {
-		var toggle = this.attributes["data-toggle"].value;
+	var toggleAll = function (target) {
+
+		var toggle = target.getAttribute("data-toggle");
+
+		target.classList.toggle("f-active");
 
 		for (var i = 0; i < items.length; i++) {
-			if (this.checked) {
+			if (target.className.indexOf("f-active") > -1) {
 				items[i].classList.add("f-item-" + toggle + "-active");
 			} else {
 				items[i].classList.remove("f-item-" + toggle + "-active");
@@ -168,20 +252,14 @@ fabricator.toggles.items = function () {
 	};
 
 	for (var ii = 0; ii < itemToggleAll.length; ii++) {
-		itemToggleAll[ii].addEventListener("change", toggleAll);
+		itemToggleAll[ii].addEventListener("click", function (e) {
+			toggleAll(e.target);
+		});
 	}
 
-
-	// open by default
-	var changeEvent = document.createEvent("HTMLEvents");
-	changeEvent.initEvent("change", true, true);
-
-	var previewAll = document.querySelector(".f-controls input[data-toggle='preview']");
-
-	if (previewAll) {
-		previewAll.setAttribute("checked", true);
-		previewAll.dispatchEvent(changeEvent);
-	}
+	// set "preview" as active by default
+	var previewAll = document.querySelector(".f-controls [data-toggle='preview']");
+	toggleAll(previewAll);
 
 	return this;
 
@@ -196,9 +274,10 @@ fabricator.toggles.items = function () {
 	// attach toggle handlers
 	fabricator.toggles
 		.primaryMenu()
-		.items();
+		.itemData();
 
-	fabricator.buildColorChips();
+	fabricator.buildColorChips()
+		.setActiveItem();
 
 	// if prototype page, template accordingly
 	if (fabricator.dom.prototype && location.hash) {
