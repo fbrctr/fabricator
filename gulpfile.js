@@ -21,6 +21,7 @@ var template = require("./tasks/compile-templates");
 var connect = require("gulp-connect");
 var watch = require("gulp-watch");
 var rename = require("gulp-rename");
+var imagemin = require("gulp-imagemin");
 
 
 // env vars
@@ -92,7 +93,9 @@ gulp.task("scripts", function () {
 
 // images
 gulp.task("images", function () {
-	// TODO add image task
+	return gulp.src("src/toolkit/assets/img/**/*")
+		.pipe(imagemin())
+		.pipe(gulp.dest("dist/toolkit/img"));
 });
 
 
@@ -107,7 +110,7 @@ gulp.task("templates", ["data"], function () {
 	return gulp.src("src/toolkit/views/*.html")
 		.pipe(template())
 		.pipe(gulpif(!gutil.env.production, connect.reload()))
-		.pipe(gulp.dest("dist")); // TODO prevent partials dir from outputing
+		.pipe(gulp.dest("dist"));
 });
 
 
