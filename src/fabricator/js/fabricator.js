@@ -7,6 +7,10 @@
 var fabricator = window.fabricator = {};
 
 
+/**
+ * Default options
+ * @type {Object}
+ */
 fabricator.options = {
 	toggles: {
 		preview: true,
@@ -14,6 +18,8 @@ fabricator.options = {
 	}
 };
 
+
+// create storage object if it doesn't exist; store options
 localStorage.fabricator = localStorage.fabricator || JSON.stringify(fabricator.options);
 
 
@@ -24,9 +30,7 @@ localStorage.fabricator = localStorage.fabricator || JSON.stringify(fabricator.o
 fabricator.dom = {
 	primaryMenu: document.querySelector(".f-menu"),
 	menuItems: document.querySelectorAll(".f-menu li a"),
-	menuBar: document.querySelector(".f-menu-bar"),
 	menuToggle: document.querySelector(".f-menu-toggle"),
-	container: document.querySelector(".f-container"),
 	prototype: document.getElementById("prototype")
 };
 
@@ -80,15 +84,6 @@ fabricator.buildColorChips = function () {
  * Add `f-active` class to active menu item
  */
 fabricator.setActiveItem = function () {
-	// TODO
-
-	// create a hash table for menu items
-
-	// create array of "ids"
-	// get the "id" in the url
-	// get the index of the url id in teh array if ids
-	// set that menuItem active
-
 
 	/**
 	 * @return {Array} Sorted array of menu item "ids"
