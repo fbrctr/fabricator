@@ -4,9 +4,9 @@
 
 Fabricator is a tool for creating toolkits.
 
-## Getting started
+## Documentation
 
-(Read the docs)[https://github.com/resource/fabricator/wiki]
+[Check out the wiki](https://github.com/resource/fabricator/wiki).
 
 ## Credits
 
