@@ -3,7 +3,3 @@
  */
 
 "use strict";
-
-
-// modules
-var foo = require("./modules/foo")();
