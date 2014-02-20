@@ -69,7 +69,7 @@ gulp.task("styles", function () {
 
 // scripts
 gulp.task("scripts:fabricator", function () {
-	return gulp.src("src/fabricator/js/{prism,fabricator}.js")
+	return gulp.src(["src/fabricator/js/prism.js", "src/fabricator/js/fabricator.js"])
 		.pipe(plumber())
 		.pipe(concat("f.js"))
 		.pipe(gulpif(gutil.env.production, uglify()))
