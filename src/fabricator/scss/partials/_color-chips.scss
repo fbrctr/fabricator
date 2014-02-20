@@ -1,0 +1,23 @@
+.f-color-chip {
+	padding: 1em;
+	width: 9em;
+	border-top-width: 9em;
+	border-top-style: solid;
+	background-color: #fff;
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 0.75em;
+	display: inline-block;
+	margin-right: 0.5em;
+	margin-bottom: 0.5em;
+	.f-color-chip__color {
+		background-color: #fff;
+		content: attr(data-color);
+		font-weight: 400;
+	}
+}
+
+.f-color-chip--primary {
+	width: 12em;
+	border-top-width: 13em;
+}

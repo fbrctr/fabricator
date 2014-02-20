@@ -1,0 +1,46 @@
+/* main */
+html {
+	height: 100%;
+	@media (max-width: 60em) {
+		&.state--menu-active {
+			overflow: hidden;
+		}
+	}
+
+}
+
+body {
+	margin: 0;
+	min-height: 100%;
+	@media (max-width: 60em) {
+		.state--menu-active & {
+			width: 100%;
+			height: 100%;
+		}
+	}
+}
+
+.f-container {
+	@include clearfix;
+	@include transition;
+	position: relative;
+	z-index: 1;
+	margin-left: 0;
+	background-color: #fff;
+	transform: translateZ(0);
+	@media (max-width: 60em) {
+		min-height: 100vh;
+		.state--menu-active & {
+			transform: translate(-$menu-width, 0);
+		}
+	}
+	@media (min-width: 60em) {
+		margin-left: $menu-width;
+	}
+}
+
+.f-main {
+	@include borderBox;
+	padding: 1em;
+	min-height: 100%;
+}

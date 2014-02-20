@@ -1,0 +1,54 @@
+<nav class="f-menu" role="navigation">
+
+	<div class="f-controls">
+		<div class="f-checkbox-preview f-icon-preview" data-toggle="preview">
+		</div>
+		<div class="f-checkbox-code f-icon-code" data-toggle="code"></div>
+	</div>
+
+	<ul>
+		<li>
+			<a href="/" class="f-menu__heading">Overview</a>
+		</li>
+		<li>
+			<a href="components.html" class="f-menu__heading">Components</a>
+			<ul>
+				{{#each components}}
+					<li>
+						<a href="components.html#{{id}}">{{name}}</a>
+					</li>
+				{{/each}}
+			</ul>
+		</li>
+		<li>
+			<a href="structures.html" class="f-menu__heading">Structures</a>
+			<ul>
+				{{#each structures}}
+					<li>
+						<a href="structures.html#{{id}}">{{name}}</a>
+					</li>
+				{{/each}}
+			</ul>
+		</li>
+		<li>
+			<a href="prototypes.html" class="f-menu__heading">Prototypes</a>
+			<ul>
+				{{#each prototypes}}
+					<li>
+						<a href="prototypes.html#{{id}}" target="_blank">{{name}}</a>
+					</li>
+				{{/each}}
+			</ul>
+		</li>
+		<li>
+			<a href="documentation.html" class="f-menu__heading">Documentation</a>
+			<ul>
+				{{#each documentation}}
+					<li>
+						<a href="documentation.html#{{id}}">{{name}}</a>
+					</li>
+				{{/each}}
+			</ul>
+		</li>
+	</ul>
+</nav>

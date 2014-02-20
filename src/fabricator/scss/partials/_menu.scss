@@ -1,0 +1,66 @@
+/* menu */
+.f-menu {
+	position: fixed;
+	top: 0;
+	right: 0;
+	z-index: 0;
+	overflow-x: hidden;
+	overflow-y: auto;
+	width: $menu-width;
+	height: 100%;
+	background-color: $color--menu-background;
+
+	@media (min-width: 60em) {
+		right: auto;
+		left: 0;
+	}
+	.state--menu-active & {
+		visibility: visible;
+		-webkit-overflow-scrolling: touch;
+	}
+	ul {
+		margin-top: 0;
+		padding-left: 0;
+	}
+	li {
+		list-style-type: none;
+	}
+	a {
+		display: block;
+		padding: 0.875em 2.6em;
+		color: #fff;
+		text-decoration: none;
+		font-size: 0.875em;
+		transition: (background-color 200ms);
+		line-height: 1;
+		&:hover {
+			background-color: darken($color--menu-background, 2%);
+		}
+		&.f-active {
+			box-shadow: inset 3px 0 0 $color--accent;
+			background-color: darken($color--menu-background, 2%);
+		}
+	}
+	.f-menu__heading {
+		padding-left: 2em;
+		color: $color--heading;
+		&:hover {
+			color: #fff;
+		}
+	}
+}
+
+.f-menu-bar {
+	@include clearfix;
+	margin-bottom: 1em;
+}
+
+.f-menu-toggle {
+	float: right;
+	border: none;
+	font-size: 2em;
+	cursor: pointer;
+	@media (min-width: 60em) {
+		display: none;
+	}
+}

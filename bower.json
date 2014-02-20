@@ -1,9 +1,0 @@
-{
-  "name": "fabricator",
-  "version": "0.1.0",
-  "dependencies": {},
-  "devDependencies": {
-    "prismjs": "*",
-    "requirejs": "~2.1.8"
-  }
-}
