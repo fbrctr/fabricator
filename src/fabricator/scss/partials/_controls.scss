@@ -9,10 +9,11 @@
 		color: $color--heading;
 		&:hover:not(.f-active) {
 			color: #fff;
+			background-color: $color--dark;
 		}
 	}
 	.f-active {
-		color: $color--accent;
-		background-color: $color--dark;
+		color: $color--dark;
+		background-color: $color--accent;
 	}
 }
