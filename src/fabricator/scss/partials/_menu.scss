@@ -9,7 +9,7 @@
 	width: $menu-width;
 	height: 100%;
 	background-color: $color--menu-background;
-
+	font-size: 16px !important;
 	@media (min-width: 60em) {
 		right: auto;
 		left: 0;
@@ -28,7 +28,7 @@
 	a {
 		display: block;
 		padding: 0.875em 2.6em;
-		color: #fff;
+		color: #fff !important;
 		text-decoration: none;
 		font-size: 0.875em;
 		transition: (background-color 200ms);
@@ -43,7 +43,7 @@
 	}
 	.f-menu__heading {
 		padding-left: 2em;
-		color: $color--heading;
+		color: $color--heading !important;
 		&:hover {
 			color: #fff;
 		}
