@@ -1,6 +1,7 @@
 .f-controls {
 	@include clearfix;
 	div {
+		box-sizing: border-box;
 		width: 50%;
 		padding: 1em 0;
 		text-align: center;
@@ -9,6 +10,9 @@
 		color: $color--heading;
 		&:hover:not(.f-active) {
 			color: #fff;
+		}
+		&:first-child {
+			border-right: #1f1f1f 1px solid;
 		}
 	}
 	.f-active {
