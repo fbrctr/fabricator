@@ -22,12 +22,13 @@
 		margin-top: 0;
 		padding-left: 0;
 	}
+
 	li {
 		list-style-type: none;
 	}
 	a {
 		display: block;
-		padding: 0.875em 2.6em;
+		padding: 0.875em 3em;
 		color: #fff;
 		text-decoration: none;
 		font-size: 0.875em;
@@ -44,9 +45,16 @@
 	.f-menu__heading {
 		padding-left: 2em;
 		color: $color--heading;
+		border-top: #1f1f1f 1px solid;
 		&:hover {
 			color: #fff;
 		}
+	}
+	.f-menu__tag {
+		height: 50px;
+		border-top: #1f1f1f 1px solid;
+		background: #323232 url('/assets/images/fabricator_menu_tag.png') no-repeat left top;
+		margin-top: 10px;
 	}
 }
 
