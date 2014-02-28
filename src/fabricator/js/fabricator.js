@@ -134,7 +134,7 @@ fabricator.setActiveItem = function () {
 		}
 
 		// find the window id in the items array
-		index = items.indexOf(id);
+		index = (items.indexOf(id) > -1) ? items.indexOf(id) : 0;
 
 		// set the matched item as active
 		fabricator.dom.menuItems[index].classList.add("f-active");
