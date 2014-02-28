@@ -9,7 +9,7 @@
 	width: $menu-width;
 	height: 100%;
 	background-color: $color--menu-background;
-
+	font-size: 16px !important;
 	@media (min-width: 60em) {
 		right: auto;
 		left: 0;
@@ -28,8 +28,13 @@
 	}
 	a {
 		display: block;
+<<<<<<< HEAD
 		padding: 0.875em 3em;
 		color: #fff;
+=======
+		padding: 0.875em 2.6em;
+		color: #fff !important;
+>>>>>>> 373ac9e3f8ff4c5327fa57cda068786ad63edf5b
 		text-decoration: none;
 		font-size: 0.875em;
 		transition: (background-color 200ms);
@@ -44,8 +49,12 @@
 	}
 	.f-menu__heading {
 		padding-left: 2em;
+<<<<<<< HEAD
 		color: $color--heading;
 		border-top: #1f1f1f 1px solid;
+=======
+		color: $color--heading !important;
+>>>>>>> 373ac9e3f8ff4c5327fa57cda068786ad63edf5b
 		&:hover {
 			color: #fff;
 		}
