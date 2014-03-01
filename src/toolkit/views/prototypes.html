@@ -10,15 +10,22 @@
 				<span class="f-menu-toggle f-icon-menu"></span>
 			</div>
 
-			<h1>Prototypes</h1>
+			<h1 data-toggle="details">Prototypes</h1>
 
-			<ul>
-				{{#each prototypes}}
-					<li>
-						<a href="prototypes.html#{{id}}" target="_blank">{{name}}</a>
-					</li>
-				{{/each}}
-			</ul>
+			{{#each prototypes}}
+
+				<div class="f-item-heading-group">
+					<a href="#{{id}}" target="_blank" class="f-item-heading">{{name}}</a>
+					<div class="f-item-toggles">
+						<span class="f-toggle f-icon-code" data-toggle-control="code"></span>
+					</div>
+				</div>
+
+				<div class="f-item-code" data-toggle="code">
+					<pre><code class="language-markup">{{content}}</code></pre>
+				</div>
+
+			{{/each}}
 
 		</div>
 	</div>
