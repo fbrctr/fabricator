@@ -13,7 +13,7 @@ var fabricator = window.fabricator = {};
  */
 fabricator.options = {
 	toggles: {
-		preview: true,
+		details: true,
 		code: false
 	}
 };
@@ -176,16 +176,10 @@ fabricator.templatePrototype = function (id) {
 
 
 /**
- * Toggle handlers
- * @type {Object}
- */
-fabricator.toggles = {};
-
-/**
  * Click handler to primary menu toggle
  * @return {Object} fabricator
  */
-fabricator.toggles.primaryMenu = function () {
+fabricator.primaryMenuControls = function () {
 
 	// shortcut menu DOM
 	var toggle = fabricator.dom.menuToggle;
@@ -204,8 +198,8 @@ fabricator.toggles.primaryMenu = function () {
 
 	// close menu when clicking on item (for collapsed menu view)
 	var closeMenu = function () {
-			toggleClasses();
-		};
+		toggleClasses();
+	};
 
 	for (var i = 0; i < fabricator.dom.menuItems.length; i++) {
 		fabricator.dom.menuItems[i].addEventListener("click", closeMenu);
@@ -219,38 +213,27 @@ fabricator.toggles.primaryMenu = function () {
  * Handler for preview and code toggles
  * @return {Object} fabricator
  */
-fabricator.toggles.itemData = function () {
+fabricator.allItemsToggles = function () {
 
-	var items = document.querySelectorAll(".f-item-group"),
-		itemToggleSingle = document.querySelectorAll(".f-toggle"),
-		controls = document.querySelector(".f-controls"),
-		itemToggleAll = controls.querySelectorAll("[data-toggle]"),
+	var items = {
+		details: document.querySelectorAll("[data-toggle=\"details\"]"),
+		code: document.querySelectorAll("[data-toggle=\"code\"]")
+	},
+		toggleAllControls = document.querySelectorAll(".f-controls [data-toggle-control]"),
 		options = JSON.parse(localStorage.fabricator);
-
-
-	// toggle single
-	var toggleSingleItem = function () {
-		var group = this.parentNode.parentNode.parentNode,
-			toggle = this.attributes["data-toggle"].value;
-
-		group.classList.toggle("f-item-" + toggle + "-active");
-	};
-
-	for (var i = 0; i < itemToggleSingle.length; i++) {
-		itemToggleSingle[i].addEventListener("click", toggleSingleItem);
-	}
 
 
 	// toggle all
 	var toggleAllItems = function (type, value) {
 
-		var button = document.querySelector(".f-controls [data-toggle=" + type + "]");
+		var button = document.querySelector(".f-controls [data-toggle-control=" + type + "]"),
+			_items = items[type];
 
-		for (var i = 0; i < items.length; i++) {
+		for (var i = 0; i < _items.length; i++) {
 			if (value) {
-				items[i].classList.add("f-item-" + type + "-active");
+				_items[i].classList.remove("f-item-hidden");
 			} else {
-				items[i].classList.remove("f-item-" + type + "-active");
+				_items[i].classList.add("f-item-hidden");
 			}
 		}
 
@@ -267,12 +250,12 @@ fabricator.toggles.itemData = function () {
 
 	};
 
-	for (var ii = 0; ii < itemToggleAll.length; ii++) {
+	for (var ii = 0; ii < toggleAllControls.length; ii++) {
 
-		itemToggleAll[ii].addEventListener("click", function (e) {
+		toggleAllControls[ii].addEventListener("click", function (e) {
 
 			// extract info from target node
-			var type = e.target.getAttribute("data-toggle"),
+			var type = e.target.getAttribute("data-toggle-control"),
 				value = e.target.className.indexOf("f-active") < 0;
 
 			// toggle the items
@@ -293,18 +276,41 @@ fabricator.toggles.itemData = function () {
 
 };
 
+/**
+ * Handler for single item code toggling
+ */
+fabricator.singleItemCodeToggle = function () {
+
+	var itemToggleSingle = document.querySelectorAll(".f-toggle");
+
+	// toggle single
+	var toggleSingleItemCode = function () {
+		var group = this.parentNode.parentNode.parentNode,
+			toggle = this.attributes["data-toggle-control"].value;
+
+		group.querySelector("[data-toggle=\"code\"]").classList.toggle("f-item-hidden");
+	};
+
+	for (var i = 0; i < itemToggleSingle.length; i++) {
+		itemToggleSingle[i].addEventListener("click", toggleSingleItemCode);
+	}
+
+	return this;
+
+};
+
 
 ////////////////////////////////////////////////////////
 // Init
 ////////////////////////////////////////////////////////
 (function () {
 
-	// attach toggle handlers
-	fabricator.toggles
-		.primaryMenu()
-		.itemData();
-
-	fabricator.buildColorChips()
+	// invoke
+	fabricator
+		.primaryMenuControls()
+		.allItemsToggles()
+		.singleItemCodeToggle()
+		.buildColorChips()
 		.setActiveItem();
 
 	// if prototype page, template accordingly
