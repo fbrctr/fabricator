@@ -2,14 +2,12 @@
     "bitwise"       : true,
     "curly"         : true,
     "eqeqeq"        : true,
-    "expr"			: true,
+    "expr"          : true,
     "forin"         : true,
     "immed"         : true,
-    "indent"        : 4,
     "noarg"         : true,
     "noempty"       : true,
     "nonew"         : true,
-    "quotmark"      : "double",
     "undef"         : true,
     "strict"        : true,
     "trailing"      : true,
@@ -17,13 +15,11 @@
     "browser"       : true,
     "devel"         : true,
     "jquery"        : true,
-    "boss" 			: true,
+    "boss"          : true,
     "node"          : true,
     "rhino"         : true,
     "worker"        : true,
     "predef"        : [
-        "define",
-        "_",
         "Prism"
     ]
 }
