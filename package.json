@@ -1,6 +1,6 @@
 {
   "name": "fabricator",
-  "version": "0.2.0",
+  "version": "0.1.0",
   "description": "A toolkit for creating UI toolkits",
   "main": "README.md",
   "scripts": {
