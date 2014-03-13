@@ -5,22 +5,17 @@ var gulp = require("gulp");
 var gutil = require("gulp-util");
 var plumber = require("gulp-plumber");
 var gulpif = require("gulp-if");
-var es = require("event-stream");
+var rename = require("gulp-rename");
 var concat = require("gulp-concat");
-var serve = require("gulp-serve");
-var watch = require("gulp-watch");
 var clean = require("gulp-clean");
 var sass = require("gulp-sass");
 var csso = require("gulp-csso");
 var prefix = require("gulp-autoprefixer");
-var browserify = require("gulp-browserify");
 var uglify = require("gulp-uglify");
 var browserify = require("gulp-browserify");
 var collate = require("./tasks/collate");
 var template = require("./tasks/compile-templates");
 var connect = require("gulp-connect");
-var watch = require("gulp-watch");
-var rename = require("gulp-rename");
 var imagemin = require("gulp-imagemin");
 
 
@@ -32,7 +27,8 @@ gutil.env.production = gutil.env.production || false;
 gulp.task("clean", function () {
 	return gulp.src(["dist"], {
 		read: false
-	}).pipe(clean());
+	})
+	.pipe(clean());
 });
 
 
@@ -46,7 +42,6 @@ gulp.task("styles:fabricator", function () {
 		.pipe(prefix("last 1 version"))
 		.pipe(gulpif(gutil.env.production, csso()))
 		.pipe(rename("f.css"))
-		.pipe(gulpif(!gutil.env.production, connect.reload()))
 		.pipe(gulp.dest("dist/assets/css"));
 });
 
@@ -58,7 +53,6 @@ gulp.task("styles:toolkit", function () {
 		}))
 		.pipe(prefix("last 1 version"))
 		.pipe(gulpif(gutil.env.production, csso()))
-		.pipe(gulpif(!gutil.env.production, connect.reload()))
 		.pipe(gulp.dest("dist/toolkit/css"));
 });
 
@@ -73,7 +67,6 @@ gulp.task("scripts:fabricator", function () {
 		.pipe(plumber())
 		.pipe(concat("f.js"))
 		.pipe(gulpif(gutil.env.production, uglify()))
-		.pipe(gulpif(!gutil.env.production, connect.reload()))
 		.pipe(gulp.dest("dist/assets/js"));
 });
 
@@ -82,7 +75,6 @@ gulp.task("scripts:toolkit", function () {
 		.pipe(plumber())
 		.pipe(browserify())
 		.pipe(gulpif(gutil.env.production, uglify()))
-		.pipe(gulpif(!gutil.env.production, connect.reload()))
 		.pipe(gulp.dest("dist/toolkit/js"));
 });
 
@@ -99,31 +91,41 @@ gulp.task("images", function () {
 });
 
 
-// data
-gulp.task("data", function () {
-	return gulp.src("src/toolkit/{components,structures,prototypes,documentation}/*.{md,html}")
+// collate
+gulp.task("collate", function () {
+	return gulp.src(["src/toolkit/{components,structures,prototypes,documentation}/*.html", "src/toolkit/{components,structures,prototypes,documentation}/*.md"])
 		.pipe(collate("dist/assets/json")); // TODO make this output a json file to gulp.dest
 });
 
 // templates
-gulp.task("templates", ["data"], function () {
+gulp.task("templates", ["collate"], function () {
 	return gulp.src("src/toolkit/views/*.html")
 		.pipe(template())
-		.pipe(gulpif(!gutil.env.production, connect.reload()))
 		.pipe(gulp.dest("dist"));
 });
 
 
 // server
-gulp.task("serve", connect.server({
+gulp.task("connect", connect.server({
 	root: ["dist"],
 	port: 9000,
-	livereload: !gutil.env.production
+	livereload: true
 }));
 
 // watch
-gulp.task("watch", ["serve"], function () {
-	gulp.watch("src/toolkit/{components,structures,prototypes,documentation,views}/**/*", ["templates"]);
+gulp.task("watch", ["connect"], function () {
+
+	gulp.watch([
+		"src/toolkit/**/*.{html,md}",
+		"src/{fabricator,toolkit}/**/*.js",
+		"src/{fabricator,toolkit}/**/*.scss",
+		"src/toolkit/assets/img/**/*"
+	], function(event) {
+		return gulp.src(event.path)
+			.pipe(connect.reload());
+	});
+
+	gulp.watch("src/toolkit/{components,structures,prototypes,documentation,views}/*.{html,md}", ["templates"]);
 	gulp.watch("src/fabricator/scss/**/*.scss", ["styles:fabricator"]);
 	gulp.watch("src/toolkit/assets/scss/**/*.scss", ["styles:toolkit"]);
 	gulp.watch("src/fabricator/js/**/*.js", ["scripts:fabricator"]);
