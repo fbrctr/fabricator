@@ -105,7 +105,10 @@ gulp.task("templates", ["collate"], function () {
 gulp.task("connect", connect.server({
 	root: ["dist"],
 	port: 9000,
-	livereload: true
+	livereload: true,
+	open: {
+		file: ""
+	}
 }));
 
 // watch
