@@ -56,9 +56,7 @@ gulp.task("styles:toolkit", function () {
 		.pipe(gulp.dest("dist/toolkit/css"));
 });
 
-gulp.task("styles", function () {
-	gulp.start("styles:fabricator", "styles:toolkit");
-});
+gulp.task("styles", ["styles:fabricator", "styles:toolkit"]);
 
 
 // scripts
@@ -78,9 +76,7 @@ gulp.task("scripts:toolkit", function () {
 		.pipe(gulp.dest("dist/toolkit/js"));
 });
 
-gulp.task("scripts", function () {
-	gulp.start("scripts:fabricator", "scripts:toolkit");
-});
+gulp.task("scripts", ["scripts:fabricator", "scripts:toolkit"]);
 
 
 // images
@@ -130,6 +126,7 @@ gulp.task("watch", ["connect"], function () {
 	gulp.watch("src/toolkit/assets/scss/**/*.scss", ["styles:toolkit"]);
 	gulp.watch("src/fabricator/js/**/*.js", ["scripts:fabricator"]);
 	gulp.watch("src/toolkit/assets/js/**/*.js", ["scripts:toolkit"]);
+
 });
 
 
