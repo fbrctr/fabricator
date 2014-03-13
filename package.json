@@ -1,7 +1,8 @@
 {
   "name": "fabricator",
-  "version": "0.1.0",
-  "description": "A toolkit for creating UI toolkits",
+  "version": "0.2.0",
+  "description": "A tool for creating modular websites",
+  "private": true,
   "main": "README.md",
   "scripts": {
     "dev": "npm install && gulp dev",
