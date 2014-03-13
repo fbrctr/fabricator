@@ -5,10 +5,15 @@
 
 .f-item-heading-group {
 	margin-bottom: 0.5em;
-	padding: 0.3em;
+	padding: 0.5em 0;
 	border-bottom: 1px solid $color--light;
+	.f-item-heading {
+		font-size: 0.75em;
+		color: $color--medium;
+	}
 	.f-item-toggles {
 		float: right;
+		color: $color--medium;
 	}
 	.f-toggle {
 		margin-left: 0.2em;
