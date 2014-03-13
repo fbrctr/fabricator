@@ -29,7 +29,7 @@ $color--accent: #51c1ab;
 $menu-width: 16rem;
 
 
-/* placeholders */
+// mixins
 @mixin clearfix {
 	&:after {
 		clear: both;
