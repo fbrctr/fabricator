@@ -7,16 +7,16 @@
 		text-align: center;
 		float: left;
 		cursor: pointer;
-		color: $color--heading;
+		color: $color--menu-heading-text;
 		&:hover:not(.f-active) {
-			color: #fff;
+			color: $color--menu-item-text;
 		}
 		&:first-child {
-			border-right: #1f1f1f 1px solid;
+			border-right: $color--menu-heading-border 1px solid;
 		}
 	}
 	.f-active {
 		color: $color--accent;
-		background-color: $color--dark;
+		background-color: $color--menu-item-hover;
 	}
 }
