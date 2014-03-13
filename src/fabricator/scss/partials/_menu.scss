@@ -25,7 +25,7 @@
 	}
 	> ul {
 		margin-bottom: 0;
-		border-bottom: #1f1f1f 1px solid;
+		border-bottom: $color--dark 1px solid;
 	}
 	li {
 		list-style-type: none;
@@ -36,6 +36,7 @@
 		color: #fff !important;
 		text-decoration: none;
 		font-size: 0.875em;
+		font-weight: 200;
 		line-height: 1;
 		transition: (background-color 200ms);
 		&:hover {
@@ -48,7 +49,7 @@
 	}
 	.f-menu__heading {
 		padding-left: 2em;
-		border-top: #1f1f1f 1px solid;
+		border-top: $color--dark 1px solid;
 		color: $color--heading !important;
 		&:hover {
 			color: #fff;
@@ -57,7 +58,7 @@
 	.f-menu__tag {
 		display: block;
 		padding: 0;
-		border-bottom: #1f1f1f 1px solid;
+		border-bottom: $color--dark 1px solid;
 		> img {
 			display: block;
 			width: 100%;
