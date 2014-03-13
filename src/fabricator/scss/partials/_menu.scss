@@ -25,7 +25,7 @@
 	}
 	> ul {
 		margin-bottom: 0;
-		border-bottom: #1f1f1f 1px solid;
+		border-bottom: $color--menu-heading-border 1px solid;
 	}
 	li {
 		list-style-type: none;
@@ -33,31 +33,32 @@
 	a {
 		display: block;
 		padding: 0.875em 3em;
-		color: #fff !important;
+		color: $color--menu-item-text !important;
 		text-decoration: none;
 		font-size: 0.875em;
+		font-weight: 200;
 		line-height: 1;
 		transition: (background-color 200ms);
 		&:hover {
-			background-color: darken($color--menu-background, 2%);
+			background-color: $color--menu-item-hover;
 		}
 		&.f-active {
-			background-color: darken($color--menu-background, 2%);
+			background-color: $color--menu-item-hover;
 			box-shadow: inset 3px 0 0 $color--accent;
 		}
 	}
 	.f-menu__heading {
 		padding-left: 2em;
-		border-top: #1f1f1f 1px solid;
-		color: $color--heading !important;
+		border-top: $color--menu-heading-border 1px solid;
+		color: $color--menu-heading-text !important;
 		&:hover {
-			color: #fff;
+			color: $color--menu-item-text;
 		}
 	}
 	.f-menu__tag {
 		display: block;
 		padding: 0;
-		border-bottom: #1f1f1f 1px solid;
+		border-bottom: $color--dark 1px solid;
 		> img {
 			display: block;
 			width: 100%;
