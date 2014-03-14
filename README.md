@@ -1,8 +1,12 @@
-# Fabricator
+# Fabricator with Sass 3.3 support
 
 > _fabricate_ - to make by assembling parts or sections.
 
 Fabricator is a tool for creating modular websites.
+
+This version contains full support of Sass 3.3.x, replaces [libsas](https://github.com/hcatlin/libsass) with [gulp-ruby-sass](https://github.com/sindresorhus/gulp-ruby-sass).
+
+* Requires Sass 3.3.x: [Install](http://sass-lang.com/install)
 
 ## Documentation
 
