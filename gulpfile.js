@@ -8,7 +8,7 @@ var gulpif = require("gulp-if");
 var rename = require("gulp-rename");
 var concat = require("gulp-concat");
 var clean = require("gulp-clean");
-var sass = require("gulp-sass");
+var sass = require("gulp-ruby-sass");
 var csso = require("gulp-csso");
 var prefix = require("gulp-autoprefixer");
 var uglify = require("gulp-uglify");
@@ -37,7 +37,7 @@ gulp.task("styles:fabricator", function () {
 	return gulp.src("src/fabricator/scss/**/*.scss")
 		.pipe(plumber())
 		.pipe(sass({
-			errLogToConsole: true
+			trace: true
 		}))
 		.pipe(prefix("last 1 version"))
 		.pipe(gulpif(gutil.env.production, csso()))
@@ -49,7 +49,7 @@ gulp.task("styles:toolkit", function () {
 	return gulp.src("src/toolkit/assets/scss/**/*.scss")
 		.pipe(plumber())
 		.pipe(sass({
-			errLogToConsole: true
+			trace: true
 		}))
 		.pipe(prefix("last 1 version"))
 		.pipe(gulpif(gutil.env.production, csso()))

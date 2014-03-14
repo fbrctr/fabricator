@@ -1,28 +1,19 @@
 // colors
 
 // theme: "dark" or "light"
-$theme: "dark";
+$theme: "light";
 
 $color--dark: rgb(30, 30, 30);
 $color--medium: rgb(150, 150, 150);
 $color--light: rgb(242, 242, 242);
 $color--accent: #51c1ab;
 
-@if $theme == "dark" {
-	$color--menu-background: lighten($color--dark, 4%);
-	$color--menu-heading-text: $color--medium;
-	$color--menu-heading-border: $color--dark;
-	$color--menu-item-hover: $color--dark;
-	$color--menu-item-text: $color--light;
-}
 
-@if $theme == "light" {
-	$color--menu-background: lighten($color--light, 4%);
-	$color--menu-heading-text: $color--medium;
-	$color--menu-heading-border: darken($color--light, 4%);
-	$color--menu-item-hover: $color--light;
-	$color--menu-item-text: $color--dark;
-}
+$color--menu-background: if($theme == "dark", lighten($color--dark, 4%), lighten($color--light, 4%));
+$color--menu-heading-text: $color--medium;
+$color--menu-heading-border: if($theme == "dark", $color--dark, darken($color--light, 4%));
+$color--menu-item-hover: if($theme == "dark", $color--dark, $color--light);
+$color--menu-item-text: if($theme == "dark", $color--light, $color--dark);
 
 
 // menu
