@@ -1,7 +1,7 @@
 // colors
 
 // theme: "dark" or "light"
-$theme: "light";
+$theme: "dark";
 
 $color--dark: rgb(30, 30, 30);
 $color--medium: rgb(150, 150, 150);
@@ -20,7 +20,7 @@ $color--menu-item-text: if($theme == "dark", $color--light, $color--dark);
 $menu-width: 16rem;
 
 
-/* placeholders */
+// mixins
 @mixin clearfix {
 	&:after {
 		clear: both;

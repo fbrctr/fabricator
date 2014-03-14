@@ -18,9 +18,28 @@ fabricator.options = {
 	}
 };
 
+/**
+ * Feature detection
+ * @type {Object}
+ */
+fabricator.test = {};
+
+// test for localstorage
+fabricator.test.localStorage = (function () {
+	var mod = "fabricator";
+	try {
+		localStorage.setItem(mod, mod);
+		localStorage.removeItem(mod);
+		return true;
+	} catch(e) {
+		return false;
+	}
+}());
 
 // create storage object if it doesn't exist; store options
-localStorage.fabricator = localStorage.fabricator || JSON.stringify(fabricator.options);
+if (fabricator.test.localStorage) {
+	localStorage.fabricator = localStorage.fabricator || JSON.stringify(fabricator.options);
+}
 
 
 /**
@@ -218,9 +237,12 @@ fabricator.allItemsToggles = function () {
 	var items = {
 		details: document.querySelectorAll("[data-toggle=\"details\"]"),
 		code: document.querySelectorAll("[data-toggle=\"code\"]")
-	},
-		toggleAllControls = document.querySelectorAll(".f-controls [data-toggle-control]"),
-		options = JSON.parse(localStorage.fabricator);
+	};
+
+	var toggleAllControls = document.querySelectorAll(".f-controls [data-toggle-control]");
+
+
+	var options = (fabricator.test.localStorage) ? JSON.parse(localStorage.fabricator) : fabricator.options;
 
 
 	// toggle all
@@ -246,7 +268,10 @@ fabricator.allItemsToggles = function () {
 
 		// update options
 		options.toggles[type] = value;
-		localStorage.setItem("fabricator", JSON.stringify(options));
+
+		if (fabricator.test.localStorage) {
+			localStorage.setItem("fabricator", JSON.stringify(options));
+		}
 
 	};
 
