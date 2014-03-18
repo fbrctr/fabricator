@@ -14,7 +14,7 @@ var prefix = require("gulp-autoprefixer");
 var uglify = require("gulp-uglify");
 var browserify = require("gulp-browserify");
 var collate = require("./tasks/collate");
-var template = require("./tasks/compile-templates");
+var template = require("./tasks/template");
 var connect = require("gulp-connect");
 var imagemin = require("gulp-imagemin");
 

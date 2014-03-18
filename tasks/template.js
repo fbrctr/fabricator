@@ -29,7 +29,7 @@ var registerPartials = function () {
 /**
  * Pass views through Handlebars
  */
-var template = function (contents, path) {
+var template = function (contents, data) {
 
 	var source = contents.toString(),
 		template = Handlebars.compile(source);
@@ -38,8 +38,9 @@ var template = function (contents, path) {
 
 };
 
-module.exports = function () {
-	data = JSON.parse(fs.readFileSync("dist/assets/json/data.json"));
+module.exports = function (file, data) {
+	// data = JSON.parse(fs.readFileSync("dist/assets/json/data.json"));
 	registerPartials();
-	return es.pipeline(map(template));
+	// console.log("file", file.toString())
+	return template(file.toString(), data);
 };
