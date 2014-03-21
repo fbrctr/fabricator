@@ -12,7 +12,7 @@
    * Uses [Libsass](https://github.com/hcatlin/libsass) - C/C++ port of the Sass CSS precompiler
    * Lighter than full Sass gem but does not include all latest functionality of Sass
  */
-var sassGem = false;
+var sassGem = true;
 
 
 // plugins
@@ -36,7 +36,6 @@ var imagemin = require("gulp-imagemin");
 
 // env vars
 gutil.env.production = gutil.env.production || false;
-
 
 // clean
 gulp.task("clean", function() {

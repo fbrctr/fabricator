@@ -12,10 +12,10 @@ var fabricator = window.fabricator = {};
  * @type {Object}
  */
 fabricator.options = {
-	toggles: {
-		details: true,
-		code: false
-	}
+    toggles: {
+        details: true,
+        code: false
+    }
 };
 
 /**
@@ -25,20 +25,20 @@ fabricator.options = {
 fabricator.test = {};
 
 // test for localstorage
-fabricator.test.localStorage = (function () {
-	var mod = "fabricator";
-	try {
-		localStorage.setItem(mod, mod);
-		localStorage.removeItem(mod);
-		return true;
-	} catch(e) {
-		return false;
-	}
+fabricator.test.localStorage = (function() {
+    var mod = "fabricator";
+    try {
+        localStorage.setItem(mod, mod);
+        localStorage.removeItem(mod);
+        return true;
+    } catch (e) {
+        return false;
+    }
 }());
 
 // create storage object if it doesn't exist; store options
 if (fabricator.test.localStorage) {
-	localStorage.fabricator = localStorage.fabricator || JSON.stringify(fabricator.options);
+    localStorage.fabricator = localStorage.fabricator || JSON.stringify(fabricator.options);
 }
 
 
@@ -47,10 +47,10 @@ if (fabricator.test.localStorage) {
  * @type {Object}
  */
 fabricator.dom = {
-	primaryMenu: document.querySelector(".f-menu"),
-	menuItems: document.querySelectorAll(".f-menu li a"),
-	menuToggle: document.querySelector(".f-menu-toggle"),
-	prototype: document.getElementById("prototype")
+    primaryMenu: document.querySelector(".f-menu"),
+    menuItems: document.querySelectorAll(".f-menu li a"),
+    menuToggle: document.querySelector(".f-menu-toggle"),
+    prototype: document.getElementById("prototype")
 };
 
 
@@ -59,24 +59,24 @@ fabricator.dom = {
  * @param  {Function} callback
  * @return {Object} fabricator
  */
-fabricator.getData = function (callback) {
+fabricator.getData = function(callback) {
 
-	var url = "assets/json/data.json",
-		data;
+    var url = "assets/json/data.json",
+        data;
 
-	// get data
-	var getData = new XMLHttpRequest();
-	getData.open("GET", url, false);
-	getData.send();
+    // get data
+    var getData = new XMLHttpRequest();
+    getData.open("GET", url, false);
+    getData.send();
 
-	data = JSON.parse(getData.responseText);
+    data = JSON.parse(getData.responseText);
 
-	// send data to callback
-	if (typeof callback === "function") {
-		callback(data);
-	}
+    // send data to callback
+    if (typeof callback === "function") {
+        callback(data);
+    }
 
-	return this;
+    return this;
 
 };
 
@@ -84,17 +84,17 @@ fabricator.getData = function (callback) {
 /**
  * Build color chips
  */
-fabricator.buildColorChips = function () {
+fabricator.buildColorChips = function() {
 
-	var chips = document.querySelectorAll(".f-color-chip"),
-		color;
+    var chips = document.querySelectorAll(".f-color-chip"),
+        color;
 
-	for (var i = chips.length - 1; i >= 0; i--) {
-		color = chips[i].querySelector(".f-color-chip__color").innerHTML;
-		chips[i].style.borderTopColor = color;
-	}
+    for (var i = chips.length - 1; i >= 0; i--) {
+        color = chips[i].querySelector(".f-color-chip__color").innerHTML;
+        chips[i].style.borderTopColor = color;
+    }
 
-	return this;
+    return this;
 
 };
 
@@ -102,69 +102,69 @@ fabricator.buildColorChips = function () {
 /**
  * Add `f-active` class to active menu item
  */
-fabricator.setActiveItem = function () {
+fabricator.setActiveItem = function() {
 
-	/**
-	 * @return {Array} Sorted array of menu item "ids"
-	 */
-	var parsedItems = function () {
+    /**
+     * @return {Array} Sorted array of menu item "ids"
+     */
+    var parsedItems = function() {
 
-		var items = [],
-			id, href;
+        var items = [],
+            id, href;
 
-		for (var i = fabricator.dom.menuItems.length - 1; i >= 0; i--) {
+        for (var i = fabricator.dom.menuItems.length - 1; i >= 0; i--) {
 
-			// remove active class from items
-			fabricator.dom.menuItems[i].classList.remove("f-active");
+            // remove active class from items
+            fabricator.dom.menuItems[i].classList.remove("f-active");
 
-			// get item href
-			href = fabricator.dom.menuItems[i].getAttribute("href");
+            // get item href
+            href = fabricator.dom.menuItems[i].getAttribute("href");
 
-			// get id
-			if (href.indexOf("#") > -1) {
-				id = href.split("#").pop();
-			} else {
-				id = href.split("/").pop().replace(/\.[^/.]+$/, "");
-			}
+            // get id
+            if (href.indexOf("#") > -1) {
+                id = href.split("#").pop();
+            } else {
+                id = href.split("/").pop().replace(/\.[^/.]+$/, "");
+            }
 
-			items.push(id);
+            items.push(id);
 
-		}
+        }
 
-		return items.reverse();
+        return items.reverse();
 
-	};
+    };
 
 
-	/**
-	 * Match the "id" in the window location with the menu item, set menu item as active
-	 */
-	var setActive = function () {
+    /**
+     * Match the "id" in the window location with the menu item, set menu item as active
+     */
+    var setActive = function() {
 
-		var href = window.location.href,
-			items = parsedItems(),
-			id, index;
+        var href = window.location.href,
+            items = parsedItems(),
+            id, index;
 
-		// get window "id"
-		if (href.indexOf("#") > -1) {
-			id = window.location.hash.replace("#", "");
-		} else {
-			id = window.location.pathname.split("/").pop().replace(/\.[^/.]+$/, "");
-		}
+        // get window "id"
+        if (href.indexOf("#") > -1) {
+            id = window.location.hash.replace("#", "");
+        } else {
+            id = window.location.pathname.split("/").pop().replace(/\.[^/.]+$/, "");
+        }
 
-		// find the window id in the items array
-		index = (items.indexOf(id) > -1) ? items.indexOf(id) : 0;
+        // find the window id in the items array
+        index = (items.indexOf(id) > -1) ? items.indexOf(id) : 0;
 
-		// set the matched item as active
-		fabricator.dom.menuItems[index].classList.add("f-active");
+        // set the matched item as active
+        fabricator.dom.menuItems[index].classList.add("f-active");
 
-	};
+    };
 
-	window.addEventListener("hashchange", setActive);
+    window.addEventListener("hashchange", setActive);
 
-	setActive();
+    setActive();
 
-	return this;
+    return this;
 
 };
 
@@ -174,22 +174,22 @@ fabricator.setActiveItem = function () {
  * @param  {String} id prototype identifier
  * @return {Object} fabricator
  */
-fabricator.templatePrototype = function (id) {
+fabricator.templatePrototype = function(id) {
 
-	var content;
+    var content;
 
-	// get data
-	this.getData(function (data) {
-		for (var i = data.prototypes.length - 1; i >= 0; i--) {
-			if (data.prototypes[i].id === id) {
-				content = data.prototypes[i].content;
-				fabricator.dom.prototype.innerHTML = content;
-			}
-		}
+    // get data
+    this.getData(function(data) {
+        for (var i = data.prototypes.length - 1; i >= 0; i--) {
+            if (data.prototypes[i].id === id) {
+                content = data.prototypes[i].content;
+                fabricator.dom.prototype.innerHTML = content;
+            }
+        }
 
-	});
+    });
 
-	return this;
+    return this;
 
 };
 
@@ -198,33 +198,33 @@ fabricator.templatePrototype = function (id) {
  * Click handler to primary menu toggle
  * @return {Object} fabricator
  */
-fabricator.primaryMenuControls = function () {
+fabricator.primaryMenuControls = function() {
 
-	// shortcut menu DOM
-	var toggle = fabricator.dom.menuToggle;
+    // shortcut menu DOM
+    var toggle = fabricator.dom.menuToggle;
 
-	// toggle classes on certain elements
-	var toggleClasses = function () {
-		document.querySelector("html").classList.toggle("state--menu-active");
-		fabricator.dom.menuToggle.classList.toggle("f-icon-menu");
-		fabricator.dom.menuToggle.classList.toggle("f-icon-close");
-	};
+    // toggle classes on certain elements
+    var toggleClasses = function() {
+        document.querySelector("html").classList.toggle("state--menu-active");
+        fabricator.dom.menuToggle.classList.toggle("f-icon-menu");
+        fabricator.dom.menuToggle.classList.toggle("f-icon-close");
+    };
 
-	// toggle classes on click
-	toggle.addEventListener("click", function () {
-		toggleClasses();
-	});
+    // toggle classes on click
+    toggle.addEventListener("click", function() {
+        toggleClasses();
+    });
 
-	// close menu when clicking on item (for collapsed menu view)
-	var closeMenu = function () {
-		toggleClasses();
-	};
+    // close menu when clicking on item (for collapsed menu view)
+    var closeMenu = function() {
+        toggleClasses();
+    };
 
-	for (var i = 0; i < fabricator.dom.menuItems.length; i++) {
-		fabricator.dom.menuItems[i].addEventListener("click", closeMenu);
-	}
+    for (var i = 0; i < fabricator.dom.menuItems.length; i++) {
+        fabricator.dom.menuItems[i].addEventListener("click", closeMenu);
+    }
 
-	return this;
+    return this;
 
 };
 
@@ -232,95 +232,95 @@ fabricator.primaryMenuControls = function () {
  * Handler for preview and code toggles
  * @return {Object} fabricator
  */
-fabricator.allItemsToggles = function () {
+fabricator.allItemsToggles = function() {
 
-	var items = {
-		details: document.querySelectorAll("[data-toggle=\"details\"]"),
-		code: document.querySelectorAll("[data-toggle=\"code\"]")
-	};
+    var items = {
+        details: document.querySelectorAll("[data-toggle=\"details\"]"),
+        code: document.querySelectorAll("[data-toggle=\"code\"]")
+    };
 
-	var toggleAllControls = document.querySelectorAll(".f-controls [data-toggle-control]");
-
-
-	var options = (fabricator.test.localStorage) ? JSON.parse(localStorage.fabricator) : fabricator.options;
+    var toggleAllControls = document.querySelectorAll(".f-controls [data-toggle-control]");
 
 
-	// toggle all
-	var toggleAllItems = function (type, value) {
+    var options = (fabricator.test.localStorage) ? JSON.parse(localStorage.fabricator) : fabricator.options;
 
-		var button = document.querySelector(".f-controls [data-toggle-control=" + type + "]"),
-			_items = items[type];
 
-		for (var i = 0; i < _items.length; i++) {
-			if (value) {
-				_items[i].classList.remove("f-item-hidden");
-			} else {
-				_items[i].classList.add("f-item-hidden");
-			}
-		}
+    // toggle all
+    var toggleAllItems = function(type, value) {
 
-		// toggle styles
-		if (value) {
-			button.classList.add("f-active");
-		} else {
-			button.classList.remove("f-active");
-		}
+        var button = document.querySelector(".f-controls [data-toggle-control=" + type + "]"),
+            _items = items[type];
 
-		// update options
-		options.toggles[type] = value;
+        for (var i = 0; i < _items.length; i++) {
+            if (value) {
+                _items[i].classList.remove("f-item-hidden");
+            } else {
+                _items[i].classList.add("f-item-hidden");
+            }
+        }
 
-		if (fabricator.test.localStorage) {
-			localStorage.setItem("fabricator", JSON.stringify(options));
-		}
+        // toggle styles
+        if (value) {
+            button.classList.add("f-active");
+        } else {
+            button.classList.remove("f-active");
+        }
 
-	};
+        // update options
+        options.toggles[type] = value;
 
-	for (var ii = 0; ii < toggleAllControls.length; ii++) {
+        if (fabricator.test.localStorage) {
+            localStorage.setItem("fabricator", JSON.stringify(options));
+        }
 
-		toggleAllControls[ii].addEventListener("click", function (e) {
+    };
 
-			// extract info from target node
-			var type = e.target.getAttribute("data-toggle-control"),
-				value = e.target.className.indexOf("f-active") < 0;
+    for (var ii = 0; ii < toggleAllControls.length; ii++) {
 
-			// toggle the items
-			toggleAllItems(type, value);
+        toggleAllControls[ii].addEventListener("click", function(e) {
 
-		});
+            // extract info from target node
+            var type = e.target.getAttribute("data-toggle-control"),
+                value = e.target.className.indexOf("f-active") < 0;
 
-	}
+            // toggle the items
+            toggleAllItems(type, value);
 
-	// persist toggle options from page to page
-	for (var toggle in options.toggles) {
-		if (options.toggles.hasOwnProperty(toggle)) {
-			toggleAllItems(toggle, options.toggles[toggle]);
-		}
-	}
+        });
 
-	return this;
+    }
+
+    // persist toggle options from page to page
+    for (var toggle in options.toggles) {
+        if (options.toggles.hasOwnProperty(toggle)) {
+            toggleAllItems(toggle, options.toggles[toggle]);
+        }
+    }
+
+    return this;
 
 };
 
 /**
  * Handler for single item code toggling
  */
-fabricator.singleItemCodeToggle = function () {
+fabricator.singleItemCodeToggle = function() {
 
-	var itemToggleSingle = document.querySelectorAll(".f-toggle");
+    var itemToggleSingle = document.querySelectorAll(".f-toggle");
 
-	// toggle single
-	var toggleSingleItemCode = function () {
-		var group = this.parentNode.parentNode.parentNode,
-			toggle = this.attributes["data-toggle-control"].value;
+    // toggle single
+    var toggleSingleItemCode = function() {
+        var group = this.parentNode.parentNode.parentNode,
+            toggle = this.attributes["data-toggle-control"].value;
 
-		group.querySelector("[data-toggle=\"code\"]").classList.toggle("f-item-hidden");
-	};
+        group.querySelector("[data-toggle=\"code\"]").classList.toggle("f-item-hidden");
+    };
 
-	for (var i = 0; i < itemToggleSingle.length; i++) {
-		itemToggleSingle[i].addEventListener("click", toggleSingleItemCode);
-	}
+    for (var i = 0; i < itemToggleSingle.length; i++) {
+        itemToggleSingle[i].addEventListener("click", toggleSingleItemCode);
+    }
 
-	return this;
+    return this;
 
 };
 
@@ -328,22 +328,22 @@ fabricator.singleItemCodeToggle = function () {
 ////////////////////////////////////////////////////////
 // Init
 ////////////////////////////////////////////////////////
-(function () {
+(function() {
 
-	// invoke
-	fabricator
-		.primaryMenuControls()
-		.allItemsToggles()
-		.singleItemCodeToggle()
-		.buildColorChips()
-		.setActiveItem();
+    // invoke
+    fabricator
+        .primaryMenuControls()
+        .allItemsToggles()
+        .singleItemCodeToggle()
+        .buildColorChips()
+        .setActiveItem();
 
-	// if prototype page, template accordingly
-	if (fabricator.dom.prototype && location.hash) {
-		fabricator.templatePrototype(location.hash.replace(/#/, ""));
-	}
+    // if prototype page, template accordingly
+    if (fabricator.dom.prototype && location.hash) {
+        fabricator.templatePrototype(location.hash.replace(/#/, ""));
+    }
 
-	// syntax highlighting
-	Prism.highlightAll();
+    // syntax highlighting
+    Prism.highlightAll();
 
 }());
