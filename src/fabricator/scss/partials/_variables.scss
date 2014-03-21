@@ -8,7 +8,6 @@ $color--medium: rgb(150, 150, 150);
 $color--light: rgb(242, 242, 242);
 $color--accent: #51c1ab;
 
-
 $color--menu-background: if($theme == "dark", lighten($color--dark, 4%), lighten($color--light, 4%));
 $color--menu-heading-text: $color--medium;
 $color--menu-heading-border: if($theme == "dark", $color--dark, darken($color--light, 4%));
