@@ -8,17 +8,15 @@ Fabricator is a tool for creating modular websites.
 
 There is an option for the Sass CSS precompiler.  **`sassGem`** in gulpfile.js is used to determine if `gulp-sass` or `gulp-ruby-sass` is used compiling Sass.
 
-/**
- * Sass CSS precompiler Options
- 1) `gulp-ruby-sass`
-   * Dependencies: Ruby and Sass gem  - [install](http://sass-lang.com/install)
-   * Support for latest version of Sass
- 2) `gulp-ruby-sass`
-   * Dependencies: No additional dependencies
-   * Uses [Libsass](https://github.com/hcatlin/libsass) - C/C++ port of the Sass CSS precompiler
+* Sass CSS precompiler Options
+
+* `gulp-ruby-sass`
+ * Dependencies: Ruby and Sass gem  - [install](http://sass-lang.com/install)
+ * Support for latest version of Sass
+* `gulp-sass`
+ * Dependencies: No additional dependencies
+ * Uses [Libsass](https://github.com/hcatlin/libsass) - C/C++ port of the Sass CSS precompiler
    * Lighter than full Sass gem but does not include all latest functionality of Sass
- */
-var sassGem = false;
 
 
 ## Documentation
