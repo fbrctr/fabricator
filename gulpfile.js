@@ -1,9 +1,8 @@
 "use strict";
 
-
 /**
- * Sass 3.3 Support
- * `supportSass3_3` (boolean) to determine if `gulp-sass` or `gulp-ruby-sass` is used for compiling Sass
+ * Sass CSS precompiler Options
+ * `sassGem` (boolean) to determine if `gulp-sass` or `gulp-ruby-sass` is used for compiling Sass
 
  1) `gulp-ruby-sass`
    * Dependencies: Ruby and Sass gem  - [install](http://sass-lang.com/install)
@@ -13,7 +12,7 @@
    * Uses [Libsass](https://github.com/hcatlin/libsass) - C/C++ port of the Sass CSS precompiler
    * Lighter than full Sass gem but does not include all latest functionality of Sass
  */
-var supportSass3_3 = true;
+var sassGem = false;
 
 
 // plugins
@@ -25,7 +24,7 @@ var Q = require("q");
 var rename = require("gulp-rename");
 var concat = require("gulp-concat");
 var clean = require("gulp-clean");
-var sass = (supportSass3_3) ? require("gulp-ruby-sass") : require("gulp-sass");
+var sass = (sassGem) ? require("gulp-ruby-sass") : require("gulp-sass");
 var csso = require("gulp-csso");
 var prefix = require("gulp-autoprefixer");
 var uglify = require("gulp-uglify");
