@@ -6,6 +6,9 @@
 "use strict";
 
 var fs = require("fs");
+var path = require("path");
+var gutil = require("gulp-util");
+var Q = require("q");
 var markdown = require("marked");
 var cheerio = require("cheerio");
 var Handlebars = require("handlebars");
@@ -14,12 +17,18 @@ var beautifyHtml = require("js-beautify").html;
 var mkpath = require("mkpath");
 var through = require("through2");
 
+/**
+ * Deferred object
+ * @type {Promise}
+ */
+var deferred = Q.defer();
+
 
 /**
  * Compiled component/structure/etc data
  * @type {Object}
  */
-var data = {};
+var data;
 
 
 // configure marked
@@ -62,46 +71,78 @@ var registerHelper = function (item) {
 
 
 /**
- * Collate data
+ * Parse a directory of files
+ * @param {Sting} dir The directory that contains .html and .md files to be parsed
  * @return {Function} A stream
  */
-var collate = function (file, enc, callback) {
-
-	var pathArr = file.path.split("/"),
-		key = pathArr[pathArr.length - 2],
-		extension = pathArr[pathArr.length - 1].match(/\.[0-9a-z]+$/)[0].replace(/\./, ""),
-		item = {};
+var parse = function (dir) {
 
 	// create key if it doesn't exist
-	if (!data[key]) {
-		data[key] = [];
+	if (!data[dir]) {
+		data[dir] = [];
 	}
 
-	// compile templates
-	var template = Handlebars.compile(file.contents.toString());
+	// TODO
+	// create an array of "items" - go through (readdir) the list of files and de-dupe
+	// iterate over that array and parse each item, grabbing/parsing the html/md adhoc
+	var raw = fs.readdirSync("src/toolkit/" + dir);
 
-	// add to item obj
-	item.id = pathArr[pathArr.length - 1].replace(/(.[\w]+)$/, "");
-	item.name = changeCase.titleCase(item.id.replace(/-/ig, " "));
-	item.content = (extension === "md") ? markdown(file.contents.toString()) : beautifyHtml(template(), beautifyOptions);
+	var fileNames = raw.map(function (e, i) {
+		return e.replace(path.extname(e), "");
+	});
 
-	// push
-	data[key].push(item);
-	this.push(file);
 
-	// register the helper
-	registerHelper(item);
 
-	return callback();
+	var items = fileNames.filter(function (e, i, a) {
+		return a.indexOf(e) === i;
+	});
+
+
+
+	for (var i = 0, length = items.length; i < length; i++) {
+
+		var item = {};
+
+		item.id = items[i];
+		item.name = changeCase.titleCase(item.id.replace(/-/ig, " "));
+
+		try {
+			// compile templates
+			var content = fs.readFileSync("src/toolkit/" + dir + "/" + items[i] + ".html", "utf8");
+			var template = Handlebars.compile(content);
+			item.content = beautifyHtml(template(), beautifyOptions);
+			// register the helper
+			registerHelper(item);
+		} catch (e) {}
+
+		try {
+			var notes = fs.readFileSync("src/toolkit/" + dir + "/" + items[i] + ".md", "utf8");
+			item.notes = markdown(notes);
+		} catch (e) {}
+
+		data[dir].push(item);
+	}
 
 };
 
 
-module.exports = function (outputPath) {
+module.exports = function (opts, cb) {
+
 	data = {};
-	return through.obj(collate, function () {
-		mkpath.sync(outputPath);
-		fs.writeFileSync(outputPath + "/data.json", JSON.stringify(data));
-		this.emit("end");
+
+	for (var i = 0, length = opts.materials.length; i < length; i++) {
+		parse(opts.materials[i]);
+	}
+
+	mkpath.sync(path.dirname(opts.dest));
+
+	fs.writeFile(opts.dest, JSON.stringify(data), function (err) {
+		if (err) {
+			gutil.log(err);
+		} else {
+			cb();
+		}
 	});
+
+	// return deferred.promise;
 };
