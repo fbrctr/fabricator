@@ -34,6 +34,13 @@ var template = require("./tasks/template");
 var connect = require("gulp-connect");
 var imagemin = require("gulp-imagemin");
 
+// Sass Error options
+var sassOptions = (sassGem) ? {
+    trace: true
+} : {
+    errLogToConsole: true
+};
+
 // env vars
 gutil.env.production = gutil.env.production || false;
 
@@ -50,9 +57,7 @@ gulp.task("clean", function() {
 gulp.task("styles:fabricator", function() {
     return gulp.src("src/fabricator/scss/**/*.scss")
         .pipe(plumber())
-        .pipe(sass({
-            trace: true
-        }))
+        .pipe(sass(sassOptions))
         .pipe(prefix("last 1 version"))
         .pipe(gulpif(gutil.env.production, csso()))
         .pipe(rename("f.css"))
@@ -63,9 +68,7 @@ gulp.task("styles:fabricator", function() {
 gulp.task("styles:toolkit", function() {
     return gulp.src("src/toolkit/assets/scss/**/*.scss")
         .pipe(plumber())
-        .pipe(sass({
-            trace: true
-        }))
+        .pipe(sass(sassOptions))
         .pipe(prefix("last 1 version"))
         .pipe(gulpif(gutil.env.production, csso()))
         .pipe(gulp.dest("dist/toolkit/css"))
