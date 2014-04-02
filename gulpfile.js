@@ -129,8 +129,8 @@ gulp.task("template", ["collate"], function () {
 // server
 gulp.task("connect", connect.server({
 	root: ["dist"],
-	port: 9000,
-	livereload: true,
+	port: (Math.floor(Math.random() * (8990 - 9000 + 1) + 8990)),
+	livereload: gutil.env.production ? false : {port:(Math.floor(Math.random() * (35729 - 35720 + 1) + 35720))},
 	open: {
 		file: ""
 	}
