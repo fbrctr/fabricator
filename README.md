@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="http://resource.github.io/fabricator/toolkit/toolkit/img/mask.svg" />
+</p>
+
 # Fabricator
 
 > _fabricate_ - to make by assembling parts or sections.

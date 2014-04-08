@@ -3,10 +3,7 @@
 // modules
 var fs = require("fs");
 var Handlebars = require("handlebars");
-var gutil = require("gulp-util");
-var es = require("event-stream");
-var map = require("vinyl-map");
-
+var through = require("through2");
 
 var data;
 
@@ -29,17 +26,22 @@ var registerPartials = function () {
 /**
  * Pass views through Handlebars
  */
-var template = function (contents, path) {
+var transform = function (file, enc, cb) {
 
-	var source = contents.toString(),
-		template = Handlebars.compile(source);
+	var source = file.contents.toString(),
+		template = Handlebars.compile(source),
+		html = template(data);
 
-	return template(data);
+	file.contents = new Buffer(html);
+
+	this.push(file);
+
+	cb();
 
 };
 
 module.exports = function () {
 	data = JSON.parse(fs.readFileSync("dist/assets/json/data.json"));
 	registerPartials();
-	return es.pipeline(map(template));
+	return through.obj(transform);
 };
