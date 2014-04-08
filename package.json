@@ -1,13 +1,13 @@
 {
   "name": "fabricator",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "A tool for creating modular websites",
   "homepage": "http://resource.github.io/fabricator/",
   "private": true,
   "main": "README.md",
   "scripts": {
     "dev": "npm install && gulp dev",
-    "prod": "npm install && gulp --production"
+    "prod": "npm install && gulp"
   },
   "keywords": [
     "toolkit",
