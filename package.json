@@ -46,7 +46,6 @@
     "gulp-imagemin": "~0.2.0",
     "gulp-connect": "~1.0.7",
     "gulp-csso": "~0.2.6",
-    "gulp-browserify": "~0.5.0",
     "gulp-serve": "~0.1.1",
     "gulp-clean": "~0.2.4",
     "gulp-sass": "~0.7.1",
@@ -57,6 +56,8 @@
     "gulp-rename": "~1.0.0",
     "gulp-if": "0.0.5",
     "gulp": "~3.5.5",
-    "q": "~1.0.1"
+    "q": "~1.0.1",
+    "vinyl-source-stream": "~0.1.1",
+    "browserify": "~3.38.1"
   }
 }

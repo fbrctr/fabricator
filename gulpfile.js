@@ -13,7 +13,8 @@ var sass = require("gulp-sass");
 var csso = require("gulp-csso");
 var prefix = require("gulp-autoprefixer");
 var uglify = require("gulp-uglify");
-var browserify = require("gulp-browserify");
+var browserify = require("browserify");
+var source = require("vinyl-source-stream");
 var collate = require("./tasks/collate");
 var template = require("./tasks/template");
 var connect = require("gulp-connect");
@@ -73,9 +74,9 @@ gulp.task("scripts:fabricator", function () {
 });
 
 gulp.task("scripts:toolkit", function () {
-	return gulp.src("src/toolkit/assets/js/toolkit.js")
+	return browserify("./src/toolkit/assets/js/toolkit.js").bundle()
+		.pipe(source("toolkit.js"))
 		.pipe(plumber())
-		.pipe(browserify())
 		.pipe(gulpif(gutil.env.production, uglify()))
 		.pipe(gulp.dest("dist/toolkit/js"))
 		.pipe(gulpif(!gutil.env.production, connect.reload()));
