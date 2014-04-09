@@ -16,6 +16,7 @@ var Q = require('q');
 var rename = require('gulp-rename');
 var sass = require('gulp-sass');
 var source = require('vinyl-source-stream');
+var streamify = require('gulp-streamify');
 var template = require('./tasks/template');
 var uglify = require('gulp-uglify');
 
@@ -92,9 +93,9 @@ gulp.task('scripts:fabricator', function () {
 
 gulp.task('scripts:toolkit', function () {
 	return browserify(config.src.scripts.toolkit).bundle()
-		.pipe(source('toolkit.js'))
 		.pipe(plumber())
-		.pipe(gulpif(!config.dev, uglify()))
+		.pipe(source('toolkit.js'))
+		.pipe(gulpif(!config.dev, streamify(uglify())))
 		.pipe(gulp.dest(config.dest + '/toolkit/js'))
 		.pipe(gulpif(config.dev, connect.reload()));
 });
