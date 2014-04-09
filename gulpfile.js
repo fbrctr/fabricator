@@ -89,8 +89,8 @@ gulp.task("scripts", ["scripts:fabricator", "scripts:toolkit"]);
 gulp.task("images", function () {
 	return gulp.src("src/toolkit/assets/img/**/*")
 		.pipe(imagemin())
-		.pipe(gulp.dest("dist/toolkit/img")
-		.pipe(gulpif(!gutil.env.production, connect.reload())));
+		.pipe(gulp.dest("dist/toolkit/img"))
+		.pipe(gulpif(!gutil.env.production, connect.reload()));
 });
 
 
