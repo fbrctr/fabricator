@@ -40,8 +40,8 @@ var transform = function (file, enc, cb) {
 
 };
 
-module.exports = function () {
-	data = JSON.parse(fs.readFileSync("dist/assets/json/data.json"));
+module.exports = function (opts) {
+	data = JSON.parse(fs.readFileSync(opts.data));
 	registerPartials();
 	return through.obj(transform);
 };

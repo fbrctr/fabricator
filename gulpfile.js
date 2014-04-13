@@ -138,8 +138,12 @@ gulp.task('collate', function () {
 
 // templates
 gulp.task('template', ['collate'], function () {
+	var opts = {
+		data: config.dest + '/assets/json/data.json'
+	};
+
 	return gulp.src(config.src.templates)
-		.pipe(template())
+		.pipe(template(opts))
 		.pipe(gulp.dest(config.dest))
 		.pipe(gulpif(config.dev, connect.reload()));
 });
