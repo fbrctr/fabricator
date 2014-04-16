@@ -1,27 +1,19 @@
 /**
- * Collate the components, structures, and prototypes.
- * Gets contents of files, parses, and creates JSON
+ * Collate "materials" - html and md files
+ * @description Gets contents of files, parses, and creates JSON
  */
 
-"use strict";
+'use strict';
 
-var fs = require("fs");
-var path = require("path");
-var gutil = require("gulp-util");
-var Q = require("q");
-var markdown = require("marked");
-var cheerio = require("cheerio");
-var Handlebars = require("handlebars");
-var changeCase = require("change-case");
-var beautifyHtml = require("js-beautify").html;
-var mkpath = require("mkpath");
-var through = require("through2");
-
-/**
- * Deferred object
- * @type {Promise}
- */
-var deferred = Q.defer();
+var beautifyHtml = require('js-beautify').html;
+var changeCase = require('change-case');
+var cheerio = require('cheerio');
+var fs = require('fs');
+var gutil = require('gulp-util');
+var Handlebars = require('handlebars');
+var markdown = require('marked');
+var mkpath = require('mkpath');
+var path = require('path');
 
 
 /**
@@ -33,15 +25,15 @@ var data;
 
 // configure marked
 markdown.setOptions({
-	langPrefix: "language-"
+	langPrefix: 'language-'
 });
 
 
 // configure beautifier
 var beautifyOptions = {
-	"indent_size": 1,
-	"indent_char": "	",
-	"indent_with_tabs": true
+	'indent_size': 1,
+	'indent_char': '    ',
+	'indent_with_tabs': true
 };
 
 
@@ -55,13 +47,13 @@ var registerHelper = function (item) {
 	Handlebars.registerHelper(item.id, function () {
 
 		// get helper classes if passed in
-		var helperClasses = (typeof arguments[0] === "string") ? arguments[0] : "";
+		var helperClasses = (typeof arguments[0] === 'string') ? arguments[0] : '';
 
 		// init cheerio
 		var $ = cheerio.load(item.content);
 
 		// add helper classes to first element
-		$("*").first().addClass(helperClasses);
+		$('*').first().addClass(helperClasses);
 
 		return new Handlebars.SafeString($.html());
 
@@ -82,33 +74,30 @@ var parse = function (dir) {
 		data[dir] = [];
 	}
 
-	// TODO
-	// create an array of "items" - go through (readdir) the list of files and de-dupe
-	// iterate over that array and parse each item, grabbing/parsing the html/md adhoc
-	var raw = fs.readdirSync("src/toolkit/" + dir);
+	// get directory contents
+	var raw = fs.readdirSync('src/toolkit/' + dir);
 
+	// create an array of file names
 	var fileNames = raw.map(function (e, i) {
-		return e.replace(path.extname(e), "");
+		return e.replace(path.extname(e), '');
 	});
 
-
-
+	// de-dupe file names (both .html and .md present)
 	var items = fileNames.filter(function (e, i, a) {
 		return a.indexOf(e) === i;
 	});
 
-
-
+	// iterate over each item, parse, add to item object
 	for (var i = 0, length = items.length; i < length; i++) {
 
 		var item = {};
 
 		item.id = items[i];
-		item.name = changeCase.titleCase(item.id.replace(/-/ig, " "));
+		item.name = changeCase.titleCase(item.id.replace(/-/ig, ' '));
 
 		try {
 			// compile templates
-			var content = fs.readFileSync("src/toolkit/" + dir + "/" + items[i] + ".html", "utf8");
+			var content = fs.readFileSync('src/toolkit/' + dir + '/' + items[i] + '.html', 'utf8');
 			var template = Handlebars.compile(content);
 			item.content = beautifyHtml(template(), beautifyOptions);
 			// register the helper
@@ -116,7 +105,7 @@ var parse = function (dir) {
 		} catch (e) {}
 
 		try {
-			var notes = fs.readFileSync("src/toolkit/" + dir + "/" + items[i] + ".md", "utf8");
+			var notes = fs.readFileSync('src/toolkit/' + dir + '/' + items[i] + '.md', 'utf8');
 			item.notes = markdown(notes);
 		} catch (e) {}
 
@@ -130,10 +119,12 @@ module.exports = function (opts, cb) {
 
 	data = {};
 
+	// iterate over each "materials" directory
 	for (var i = 0, length = opts.materials.length; i < length; i++) {
 		parse(opts.materials[i]);
 	}
 
+	// write the json file
 	mkpath.sync(path.dirname(opts.dest));
 
 	fs.writeFile(opts.dest, JSON.stringify(data), function (err) {
@@ -144,5 +135,4 @@ module.exports = function (opts, cb) {
 		}
 	});
 
-	// return deferred.promise;
 };

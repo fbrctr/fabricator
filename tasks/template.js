@@ -1,23 +1,28 @@
-"use strict";
+'use strict';
 
 // modules
-var fs = require("fs");
-var Handlebars = require("handlebars");
-var through = require("through2");
+var fs = require('fs');
+var Handlebars = require('handlebars');
+var through = require('through2');
 
+/**
+ * Contents of data.json
+ * @type {Object}
+ */
 var data;
+
 
 /**
  * Register partials with Handlebars
  */
 var registerPartials = function () {
 
-	var partials = fs.readdirSync("src/toolkit/views/partials"),
+	var partials = fs.readdirSync('src/toolkit/views/partials'),
 		html;
 
 	for (var i = partials.length - 1; i >= 0; i--) {
-		html = fs.readFileSync("src/toolkit/views/partials/" + partials[i], "utf-8");
-		Handlebars.registerPartial(partials[i].replace(/.html/, ""), html);
+		html = fs.readFileSync('src/toolkit/views/partials/' + partials[i], 'utf-8');
+		Handlebars.registerPartial(partials[i].replace(/.html/, ''), html);
 	}
 
 };
@@ -26,7 +31,7 @@ var registerPartials = function () {
 /**
  * Pass views through Handlebars
  */
-var transform = function (file, enc, cb) {
+var template = function (file, enc, cb) {
 
 	var source = file.contents.toString(),
 		template = Handlebars.compile(source),
@@ -43,5 +48,5 @@ var transform = function (file, enc, cb) {
 module.exports = function (opts) {
 	data = JSON.parse(fs.readFileSync(opts.data));
 	registerPartials();
-	return through.obj(transform);
+	return through.obj(template);
 };
