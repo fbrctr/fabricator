@@ -130,6 +130,7 @@ gulp.task('collate', function () {
 		dest: config.dest + '/assets/json/data.json'
 	};
 
+	// run the collate task; resolve deferred when complete
 	collate(opts, deferred.resolve);
 
 	return deferred.promise;
