@@ -11,6 +11,7 @@ var cheerio = require('cheerio');
 var fs = require('fs');
 var gutil = require('gulp-util');
 var Handlebars = require('handlebars');
+var junk = require('junk');
 var markdown = require('marked');
 var mkpath = require('mkpath');
 var path = require('path');
@@ -75,7 +76,7 @@ var parse = function (dir) {
 	}
 
 	// get directory contents
-	var raw = fs.readdirSync('src/toolkit/' + dir);
+	var raw = fs.readdirSync('src/toolkit/' + dir).filter(junk.not);
 
 	// create an array of file names
 	var fileNames = raw.map(function (e, i) {
