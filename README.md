@@ -6,7 +6,7 @@
 
 > _fabricate_ - to make by assembling parts or sections.
 
-Fabricator is a tool for creating modular websites.
+Fabricator is a tool for creating modular website toolkits - _think ["Tiny Bootstraps, for Every Client"](http://daverupert.com/2013/04/responsive-deliverables/)_
 
 ## Documentation
 
