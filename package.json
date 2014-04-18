@@ -59,6 +59,7 @@
     "q": "~1.0.1",
     "vinyl-source-stream": "~0.1.1",
     "browserify": "~3.38.1",
-    "gulp-streamify": "0.0.5"
+    "gulp-streamify": "0.0.5",
+    "junk": "~0.3.0"
   }
 }
