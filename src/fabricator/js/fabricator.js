@@ -324,6 +324,54 @@ fabricator.singleItemCodeToggle = function () {
 
 };
 
+/**
+ * Handler for adding HTML content select on click
+ */
+fabricator.codeSnippetSelect = function () {
+
+	var unSelectAllTheThings = function () {
+		if (document.selection)
+			document.selection.empty();
+		else if (window.getSelection)
+			window.getSelection().removeAllRanges();
+	}
+
+	var selectCodeSnippet = function () {
+		var selected, range;
+		selected = this.parentNode.querySelector('code.language-markup');
+		unSelectAllTheThings();
+		if (document.selection) {
+			range = document.body.createTextRange();
+			range.moveToElementText(selected);
+			range.select();
+		} else if (window.getSelection) {
+			range = document.createRange();
+			range.selectNode(selected);
+			window.getSelection().addRange(range);
+		}
+	}
+
+	var toggleSelectAnchor = function () {
+		if(this.querySelector('#select-code')) {
+			this.removeChild(this.querySelector('#select-code'));
+		}
+		else {
+			var anchor;
+			anchor = document.createElement('a');
+			anchor.setAttribute('id', 'select-code');
+			anchor.innerHTML = "Select Code";
+			anchor.addEventListener("click", selectCodeSnippet);
+
+			this.appendChild(anchor);
+		}
+	}
+
+	for(var i = 0; i < document.querySelectorAll("[data-toggle=\"code\"]").length; i++) {
+		document.querySelectorAll("[data-toggle=\"code\"]")[i].addEventListener("mouseenter", toggleSelectAnchor);
+		document.querySelectorAll("[data-toggle=\"code\"]")[i].addEventListener("mouseleave", toggleSelectAnchor);
+	}
+};
+
 
 ////////////////////////////////////////////////////////
 // Init
@@ -336,7 +384,8 @@ fabricator.singleItemCodeToggle = function () {
 		.allItemsToggles()
 		.singleItemCodeToggle()
 		.buildColorChips()
-		.setActiveItem();
+		.setActiveItem()
+		.codeSnippetSelect();
 
 	// if prototype page, template accordingly
 	if (fabricator.dom.prototype && location.hash) {

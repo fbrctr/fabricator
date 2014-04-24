@@ -3,6 +3,8 @@
  * @author Luke Askew
  */
 
+[data-toggle="code"] { position: relative; }
+
 code[class*="language-"],
 pre[class*="language-"] {
 	color: #1b1e20;
@@ -99,4 +101,19 @@ pre[class*="language-"] {
 
 .token.entity {
 	cursor: help;
+}
+
+#select-code {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	font-size: 12px;
+	color: $color--light;
+	background-color: $color--menu-item-hover;
+	box-shadow: inset 3px 0 0 $color--accent;
+	padding: 5px 5px 5px 15px;
+
+	&:hover {
+		cursor: pointer;
+	}
 }
