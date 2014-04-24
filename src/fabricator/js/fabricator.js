@@ -329,6 +329,8 @@ fabricator.singleItemCodeToggle = function () {
  */
 fabricator.codeSnippetSelect = function () {
 
+	var codeSelector = document.querySelectorAll("[data-toggle=\"code\"]");
+
 	var unSelectAllTheThings = function () {
 		if (document.selection)
 			document.selection.empty();
@@ -356,8 +358,7 @@ fabricator.codeSnippetSelect = function () {
 			this.removeChild(this.querySelector('#select-code'));
 		}
 		else {
-			var anchor;
-			anchor = document.createElement('a');
+			var anchor = document.createElement('a');
 			anchor.setAttribute('id', 'select-code');
 			anchor.innerHTML = "Select Code";
 			anchor.addEventListener("click", selectCodeSnippet);
@@ -366,9 +367,9 @@ fabricator.codeSnippetSelect = function () {
 		}
 	}
 
-	for(var i = 0; i < document.querySelectorAll("[data-toggle=\"code\"]").length; i++) {
-		document.querySelectorAll("[data-toggle=\"code\"]")[i].addEventListener("mouseenter", toggleSelectAnchor);
-		document.querySelectorAll("[data-toggle=\"code\"]")[i].addEventListener("mouseleave", toggleSelectAnchor);
+	for(var i = 0; i < codeSelector.length; i++) {
+		codeSelector[i].addEventListener("mouseenter", toggleSelectAnchor);
+		codeSelector[i].addEventListener("mouseleave", toggleSelectAnchor);
 	}
 };
 
