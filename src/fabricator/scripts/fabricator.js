@@ -61,7 +61,7 @@ fabricator.dom = {
  */
 fabricator.getData = function (callback) {
 
-	var url = "assets/json/data.json",
+	var url = "assets/data/data.json",
 		data;
 
 	// get data
