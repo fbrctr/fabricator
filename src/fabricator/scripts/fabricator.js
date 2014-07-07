@@ -26,10 +26,10 @@ fabricator.test = {};
 
 // test for localstorage
 fabricator.test.localStorage = (function () {
-	var mod = "fabricator";
+	var test = "_f";
 	try {
-		localStorage.setItem(mod, mod);
-		localStorage.removeItem(mod);
+		localStorage.setItem(test, test);
+		localStorage.removeItem(test);
 		return true;
 	} catch(e) {
 		return false;
