@@ -165,10 +165,7 @@ gulp.task('build', ['clean'], function () {
 gulp.task('connect', connect.server({
 	root: [config.dest],
 	port: 9000,
-	livereload: config.dev ? { port:(Math.floor(Math.random() * (35729 - 35720 + 1) + 35720)) } : false,
-	open: {
-		file: ''
-	}
+	livereload: config.dev ? { port:(Math.floor(Math.random() * (35729 - 35720 + 1) + 35720)) } : false
 }));
 
 
