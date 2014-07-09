@@ -37,7 +37,13 @@ var config = {
 			toolkit: './src/toolkit/assets/styles/toolkit.scss'
 		},
 		images: './src/toolkit/assets/images/**/*',
-		templates: './src/toolkit/views/*.html'
+		templates: './src/toolkit/views/*.html',
+		materials: [
+			'components',
+			'structures',
+			'prototypes',
+			'documentation'
+		]
 	},
 	dest: './public'
 };
@@ -126,12 +132,7 @@ gulp.task('collate', function () {
 	var deferred = Q.defer();
 
 	var opts = {
-		materials: [
-			'components',
-			'structures',
-			'prototypes',
-			'documentation'
-		],
+		materials: config.src.materials,
 		dest: config.dest + '/fabricator/data/data.json'
 	};
 
