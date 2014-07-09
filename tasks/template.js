@@ -1,7 +1,12 @@
+/**
+ * Pass the Fabricator views through Handlebars
+ */
+
 'use strict';
 
 // modules
 var fs = require('fs');
+var path = require('path');
 var Handlebars = require('handlebars');
 var through = require('through2');
 
@@ -29,14 +34,59 @@ var registerPartials = function () {
 
 
 /**
- * Pass views through Handlebars
+ * Template standard views (e.g. components, structures, documentation)
  */
-var template = function (file, enc, cb) {
+var templateFabricator = function (file, enc, cb) {
 
+	// augment data object
+	data.fabricator = true;
+	data.pathBase = '';
+
+	// template pages
 	var source = file.contents.toString(),
 		template = Handlebars.compile(source),
 		html = template(data);
 
+	// save as file buffer
+	file.contents = new Buffer(html);
+
+	this.push(file);
+
+	cb();
+
+};
+
+
+/**
+ * Template prototype views
+ */
+var templatePrototype = function (file, enc, cb) {
+
+	// augment data object
+	data.fabricator = false;
+	data.pathBase = '../';
+
+	// use the filename as the key value lookup in the data.json object
+	var key = path.basename(file.path, '.html').replace(/-/g, '');
+
+	// define comment blocks to wrap the prototype code
+	var comments = {
+			start: '\n\n<!-- Start ' + data.prototypes[key].name + ' prototype -->\n\n',
+			end: '\n\n<!-- /End ' + data.prototypes[key].name + ' prototype -->\n\n'
+		};
+
+	// concat file contents
+	var source = '{{> intro}}' +
+				comments.start +
+				data.prototypes[key].content +
+				comments.end +
+				'{{> outro}}';
+
+	// template
+	var template = Handlebars.compile(source),
+		html = template(data);
+
+	// save as file buffer
 	file.contents = new Buffer(html);
 
 	this.push(file);
@@ -48,5 +98,5 @@ var template = function (file, enc, cb) {
 module.exports = function (opts) {
 	data = JSON.parse(fs.readFileSync(opts.data));
 	registerPartials();
-	return through.obj(template);
+	return through.obj((opts.prototype) ? templatePrototype : templateFabricator);
 };

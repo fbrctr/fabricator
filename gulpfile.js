@@ -143,9 +143,10 @@ gulp.task('collate', function () {
 });
 
 // templates
-gulp.task('template', ['collate'], function () {
+gulp.task('template', function () {
 	var opts = {
-		data: config.dest + '/fabricator/data/data.json'
+		data: config.dest + '/fabricator/data/data.json',
+		prototype: false
 	};
 
 	return gulp.src(config.src.templates)
@@ -154,10 +155,24 @@ gulp.task('template', ['collate'], function () {
 		.pipe(gulpif(config.dev, connect.reload()));
 });
 
+gulp.task('prototypes', function () {
+	var opts = {
+		data: config.dest + '/fabricator/data/data.json',
+		prototype: true
+	};
+	return gulp.src('./src/toolkit/prototypes/*.html')
+		.pipe(template(opts))
+		.pipe(gulp.dest(config.dest + '/prototypes'));
+});
+
+gulp.task('templates', ['collate'], function () {
+	gulp.start('template', 'prototypes');
+});
+
 
 // build
 gulp.task('build', ['clean'], function () {
-	gulp.start('styles', 'scripts', 'images', 'template');
+	gulp.start('styles', 'scripts', 'images', 'templates');
 });
 
 
@@ -171,7 +186,7 @@ gulp.task('connect', connect.server({
 
 // watch
 gulp.task('watch', ['connect'], function () {
-	gulp.watch('./src/toolkit/{components,structures,prototypes,documentation,views}/*.{html,md}', ['template']);
+	gulp.watch('./src/toolkit/{components,structures,prototypes,documentation,views}/*.{html,md}', ['templates']);
 	gulp.watch('./src/fabricator/styles/**/*.scss', ['styles:fabricator']);
 	gulp.watch('./src/toolkit/assets/styles/**/*.scss', ['styles:toolkit']);
 	gulp.watch('./src/fabricator/scripts/**/*.js', ['scripts:fabricator']);
