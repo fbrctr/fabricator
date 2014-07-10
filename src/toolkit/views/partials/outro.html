@@ -1,11 +1,11 @@
 
-	<!-- fabricator scripts -->
-	<script src="assets/js/f.js"></script>
-	<!-- /fabricator scripts -->
+	{{#if fabricator}}<!-- fabricator scripts -->
+	<script src="{{pathBase}}fabricator/scripts/f.js"></script>
+	<!-- /fabricator scripts -->{{/if}}
 
 
 	<!-- toolkit scripts -->
-	<script src="toolkit/js/toolkit.js"></script>
+	<script src="{{pathBase}}toolkit/scripts/toolkit.js"></script>
 	<!-- /toolkit scripts -->
 
 </body>

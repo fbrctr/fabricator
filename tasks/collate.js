@@ -72,7 +72,7 @@ var parse = function (dir) {
 
 	// create key if it doesn't exist
 	if (!data[dir]) {
-		data[dir] = [];
+		data[dir] = {};
 	}
 
 	// get directory contents
@@ -110,7 +110,7 @@ var parse = function (dir) {
 			item.notes = markdown(notes);
 		} catch (e) {}
 
-		data[dir].push(item);
+		data[dir][item.id.replace(/-/g, '')] = item;
 	}
 
 };

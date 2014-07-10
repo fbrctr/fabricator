@@ -26,10 +26,10 @@ fabricator.test = {};
 
 // test for localstorage
 fabricator.test.localStorage = (function () {
-	var mod = "fabricator";
+	var test = "_f";
 	try {
-		localStorage.setItem(mod, mod);
-		localStorage.removeItem(mod);
+		localStorage.setItem(test, test);
+		localStorage.removeItem(test);
 		return true;
 	} catch(e) {
 		return false;
@@ -49,35 +49,7 @@ if (fabricator.test.localStorage) {
 fabricator.dom = {
 	primaryMenu: document.querySelector(".f-menu"),
 	menuItems: document.querySelectorAll(".f-menu li a"),
-	menuToggle: document.querySelector(".f-menu-toggle"),
-	prototype: document.getElementById("prototype")
-};
-
-
-/**
- * AJAX call for JSON
- * @param  {Function} callback
- * @return {Object} fabricator
- */
-fabricator.getData = function (callback) {
-
-	var url = "assets/json/data.json",
-		data;
-
-	// get data
-	var getData = new XMLHttpRequest();
-	getData.open("GET", url, false);
-	getData.send();
-
-	data = JSON.parse(getData.responseText);
-
-	// send data to callback
-	if (typeof callback === "function") {
-		callback(data);
-	}
-
-	return this;
-
+	menuToggle: document.querySelector(".f-menu-toggle")
 };
 
 
@@ -163,31 +135,6 @@ fabricator.setActiveItem = function () {
 	window.addEventListener("hashchange", setActive);
 
 	setActive();
-
-	return this;
-
-};
-
-
-/**
- * Inject prototype content into page
- * @param  {String} id prototype identifier
- * @return {Object} fabricator
- */
-fabricator.templatePrototype = function (id) {
-
-	var content;
-
-	// get data
-	this.getData(function (data) {
-		for (var i = data.prototypes.length - 1; i >= 0; i--) {
-			if (data.prototypes[i].id === id) {
-				content = data.prototypes[i].content;
-				fabricator.dom.prototype.innerHTML = content;
-			}
-		}
-
-	});
 
 	return this;
 
@@ -337,11 +284,6 @@ fabricator.singleItemCodeToggle = function () {
 		.singleItemCodeToggle()
 		.buildColorChips()
 		.setActiveItem();
-
-	// if prototype page, template accordingly
-	if (fabricator.dom.prototype && location.hash) {
-		fabricator.templatePrototype(location.hash.replace(/#/, ""));
-	}
 
 	// syntax highlighting
 	Prism.highlightAll();
