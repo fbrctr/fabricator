@@ -192,6 +192,7 @@ gulp.task('watch', ['connect'], function () {
 	gulp.watch('./src/toolkit/assets/styles/**/*.scss', ['styles:toolkit']);
 	gulp.watch('./src/fabricator/scripts/**/*.js', ['scripts:fabricator']);
 	gulp.watch('./src/toolkit/assets/scripts/**/*.js', ['scripts:toolkit']);
+	gulp.watch(config.src.images, ['images']);
 });
 
 
