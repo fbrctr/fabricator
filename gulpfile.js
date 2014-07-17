@@ -27,17 +27,17 @@ var config = {
 	src: {
 		scripts: {
 			fabricator: [
-				'src/fabricator/scripts/prism.js',
-				'src/fabricator/scripts/fabricator.js'
+				'./src/fabricator/scripts/prism.js',
+				'./src/fabricator/scripts/fabricator.js'
 			],
-			toolkit: 'src/toolkit/assets/scripts/toolkit.js'
+			toolkit: './src/toolkit/assets/scripts/toolkit.js'
 		},
 		styles: {
-			fabricator: 'src/fabricator/styles/fabricator.scss',
-			toolkit: 'src/toolkit/assets/styles/toolkit.scss'
+			fabricator: './src/fabricator/styles/fabricator.scss',
+			toolkit: './src/toolkit/assets/styles/toolkit.scss'
 		},
 		images: 'src/toolkit/assets/images/**/*',
-		templates: 'src/toolkit/views/*.html',
+		templates: './src/toolkit/views/*.html',
 		materials: [
 			'components',
 			'structures',
@@ -178,16 +178,18 @@ gulp.task('build', ['clean'], function () {
 
 
 // server
-gulp.task('connect', connect.server({
-	root: [config.dest],
-	port: 9000,
-	livereload: config.dev ? { port:(Math.floor(Math.random() * (35729 - 35720 + 1) + 35720)) } : false
-}));
+gulp.task('connect', function () {
+	connect.server({
+		root: [config.dest],
+		port: 9000,
+		livereload: config.dev ? { port:(Math.floor(Math.random() * (35729 - 35720 + 1) + 35720)) } : false
+	});
+});
 
 
 // watch
 gulp.task('watch', ['connect'], function () {
-	gulp.watch('src/toolkit/{components,structures,prototypes,documentation,views}/*.{html,md}', ['templates']);
+	gulp.watch('src/toolkit/{components,structures,prototypes,documentation,views}/**/*.{html,md}', ['templates']);
 	gulp.watch('src/fabricator/styles/**/*.scss', ['styles:fabricator']);
 	gulp.watch('src/toolkit/assets/styles/**/*.scss', ['styles:toolkit']);
 	gulp.watch('src/fabricator/scripts/**/*.js', ['scripts:fabricator']);
