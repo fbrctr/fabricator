@@ -14,6 +14,7 @@ var fabricator = window.fabricator = {};
 fabricator.options = {
 	toggles: {
 		details: true,
+		notes: true,
 		code: false
 	}
 };
@@ -183,14 +184,13 @@ fabricator.allItemsToggles = function () {
 
 	var items = {
 		details: document.querySelectorAll("[data-toggle=\"details\"]"),
+		notes: document.querySelectorAll("[data-toggle=\"notes\"]"),
 		code: document.querySelectorAll("[data-toggle=\"code\"]")
 	};
 
 	var toggleAllControls = document.querySelectorAll(".f-controls [data-toggle-control]");
 
-
 	var options = (fabricator.test.localStorage) ? JSON.parse(localStorage.fabricator) : fabricator.options;
-
 
 	// toggle all
 	var toggleAllItems = function (type, value) {
@@ -222,9 +222,9 @@ fabricator.allItemsToggles = function () {
 
 	};
 
-	for (var ii = 0; ii < toggleAllControls.length; ii++) {
+	for (var i = 0; i < toggleAllControls.length; i++) {
 
-		toggleAllControls[ii].addEventListener("click", function (e) {
+		toggleAllControls[i].addEventListener("click", function (e) {
 
 			// extract info from target node
 			var type = e.target.getAttribute("data-toggle-control"),
@@ -251,16 +251,17 @@ fabricator.allItemsToggles = function () {
 /**
  * Handler for single item code toggling
  */
-fabricator.singleItemCodeToggle = function () {
+fabricator.singleItemToggle = function () {
 
 	var itemToggleSingle = document.querySelectorAll(".f-toggle");
 
 	// toggle single
-	var toggleSingleItemCode = function () {
+	var toggleSingleItemCode = function (e) {
 		var group = this.parentNode.parentNode.parentNode,
-			toggle = this.attributes["data-toggle-control"].value;
+			toggle = this.attributes["data-toggle-control"].value,
+			type = e.target.getAttribute("data-toggle-control");
 
-		group.querySelector("[data-toggle=\"code\"]").classList.toggle("f-item-hidden");
+		group.querySelector("[data-toggle=" + type + "]").classList.toggle("f-item-hidden");
 	};
 
 	for (var i = 0; i < itemToggleSingle.length; i++) {
@@ -281,7 +282,7 @@ fabricator.singleItemCodeToggle = function () {
 	fabricator
 		.primaryMenuControls()
 		.allItemsToggles()
-		.singleItemCodeToggle()
+		.singleItemToggle()
 		.buildColorChips()
 		.setActiveItem();
 

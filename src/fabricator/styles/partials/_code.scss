@@ -3,6 +3,7 @@
  * @author Luke Askew
  */
 
+code,
 code[class*="language-"],
 pre[class*="language-"] {
 	color: #1b1e20;
@@ -15,16 +16,29 @@ pre[class*="language-"] {
 	font-family: Consolas, Monaco, 'Andale Mono', monospace;
 	line-height: 18px;
 	direction: ltr;
-	max-height: 30em;
 }
 
 /* Code blocks */
 pre[class*="language-"] {
 	overflow: auto;
-	margin: .5em 0;
+	margin: 1em 0;
 	padding: 1em;
+	border-radius: 3px;
 }
 
+p code {
+	margin: 0;
+	border-radius: 3px;
+	padding-bottom: 2px;
+	border: 1px solid darken($color--light, 7.3%);
+	&:before,
+	&:after {
+		letter-spacing: -0.2em;
+		content: "\00a0";
+	}
+}
+
+code,
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
 	background: $color--light;

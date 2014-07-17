@@ -28,3 +28,8 @@
 .f-item-hidden {
 	display: none;
 }
+
+.f-item-notes {
+	font-size: 0.875em;
+	color: darken($color--medium, 13%);
+}
