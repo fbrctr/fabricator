@@ -2,4 +2,4 @@
  * Toolkit JavaScript
  */
 
-"use strict";
+'use strict';
