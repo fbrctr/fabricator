@@ -144,7 +144,7 @@ gulp.task('collate', function () {
 });
 
 // templates
-gulp.task('template', function () {
+gulp.task('templates:fabricator', function () {
 	var opts = {
 		data: config.dest + '/fabricator/data/data.json',
 		prototype: false
@@ -156,18 +156,22 @@ gulp.task('template', function () {
 		.pipe(gulpif(config.dev, connect.reload()));
 });
 
-gulp.task('prototypes', function () {
+gulp.task('templates:prototypes', function () {
 	var opts = {
 		data: config.dest + '/fabricator/data/data.json',
 		prototype: true
 	};
 	return gulp.src('./src/toolkit/prototypes/*.html')
 		.pipe(template(opts))
-		.pipe(gulp.dest(config.dest + '/prototypes'));
+		.pipe(rename({
+			prefix: 'prototype-'
+		}))
+		.pipe(gulp.dest(config.dest))
+		.pipe(gulpif(config.dev, connect.reload()));
 });
 
 gulp.task('templates', ['collate'], function () {
-	gulp.start('template', 'prototypes');
+	gulp.start('templates:fabricator', 'templates:prototypes');
 });
 
 
