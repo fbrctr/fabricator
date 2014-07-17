@@ -40,7 +40,6 @@ var templateFabricator = function (file, enc, cb) {
 
 	// augment data object
 	data.fabricator = true;
-	data.pathBase = '';
 
 	// template pages
 	var source = file.contents.toString(),
@@ -64,7 +63,6 @@ var templatePrototype = function (file, enc, cb) {
 
 	// augment data object
 	data.fabricator = false;
-	data.pathBase = '../';
 
 	// use the filename as the key value lookup in the data.json object
 	var key = path.basename(file.path, '.html').replace(/-/g, '');
