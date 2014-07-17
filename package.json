@@ -5,6 +5,7 @@
   "homepage": "http://resource.github.io/fabricator/",
   "main": "README.md",
   "scripts": {
+    "gulp": "gulp",
     "dev": "npm install && gulp dev",
     "prod": "npm install && gulp"
   },
