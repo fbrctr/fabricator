@@ -18,6 +18,7 @@
 				<div class="f-item-heading-group" data-toggle="details">
 					<span class="f-item-heading">{{name}}</span>
 					<div class="f-item-toggles">
+						{{#if notes}}<span class="f-toggle f-icon-notes" data-toggle-control="notes" title="toggle notes"></span>{{/if}}
 						<span class="f-toggle f-icon-code" data-toggle-control="code" title="toggle code"></span>
 					</div>
 				</div>
@@ -29,6 +30,10 @@
 				<div class="f-item-preview">
 					{{{content}}}
 				</div>
+
+				{{#if notes}}<div class="f-item-notes" data-toggle="notes">
+					{{{notes}}}
+				</div>{{/if}}
 
 				<div class="f-item-code" data-toggle="code">
 					<pre><code class="language-markup">{{content}}</code></pre>
