@@ -2,17 +2,18 @@
 	@include clearfix;
 	div {
 		box-sizing: border-box;
-		width: 50%;
-		padding: 1em 0;
+		width: 33%;
+		padding: 0.75em 0;
 		text-align: center;
 		float: left;
 		cursor: pointer;
 		color: $color--menu-heading-text;
+		border-right: $color--menu-heading-border 1px solid;
 		&:hover:not(.f-active) {
 			color: $color--menu-item-text;
 		}
-		&:first-child {
-			border-right: $color--menu-heading-border 1px solid;
+		&:last-child {
+			border-right: none;
 		}
 	}
 	.f-active {

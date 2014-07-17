@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /**
  * Global `fabricator` object
@@ -14,6 +14,7 @@ var fabricator = window.fabricator = {};
 fabricator.options = {
 	toggles: {
 		details: true,
+		notes: true,
 		code: false
 	}
 };
@@ -26,7 +27,7 @@ fabricator.test = {};
 
 // test for localstorage
 fabricator.test.localStorage = (function () {
-	var test = "_f";
+	var test = '_f';
 	try {
 		localStorage.setItem(test, test);
 		localStorage.removeItem(test);
@@ -47,9 +48,9 @@ if (fabricator.test.localStorage) {
  * @type {Object}
  */
 fabricator.dom = {
-	primaryMenu: document.querySelector(".f-menu"),
-	menuItems: document.querySelectorAll(".f-menu li a"),
-	menuToggle: document.querySelector(".f-menu-toggle")
+	primaryMenu: document.querySelector('.f-menu'),
+	menuItems: document.querySelectorAll('.f-menu li a'),
+	menuToggle: document.querySelector('.f-menu-toggle')
 };
 
 
@@ -58,11 +59,11 @@ fabricator.dom = {
  */
 fabricator.buildColorChips = function () {
 
-	var chips = document.querySelectorAll(".f-color-chip"),
+	var chips = document.querySelectorAll('.f-color-chip'),
 		color;
 
 	for (var i = chips.length - 1; i >= 0; i--) {
-		color = chips[i].querySelector(".f-color-chip__color").innerHTML;
+		color = chips[i].querySelector('.f-color-chip__color').innerHTML;
 		chips[i].style.borderTopColor = color;
 	}
 
@@ -77,7 +78,7 @@ fabricator.buildColorChips = function () {
 fabricator.setActiveItem = function () {
 
 	/**
-	 * @return {Array} Sorted array of menu item "ids"
+	 * @return {Array} Sorted array of menu item 'ids'
 	 */
 	var parsedItems = function () {
 
@@ -87,16 +88,16 @@ fabricator.setActiveItem = function () {
 		for (var i = fabricator.dom.menuItems.length - 1; i >= 0; i--) {
 
 			// remove active class from items
-			fabricator.dom.menuItems[i].classList.remove("f-active");
+			fabricator.dom.menuItems[i].classList.remove('f-active');
 
 			// get item href
-			href = fabricator.dom.menuItems[i].getAttribute("href");
+			href = fabricator.dom.menuItems[i].getAttribute('href');
 
 			// get id
-			if (href.indexOf("#") > -1) {
-				id = href.split("#").pop();
+			if (href.indexOf('#') > -1) {
+				id = href.split('#').pop();
 			} else {
-				id = href.split("/").pop().replace(/\.[^/.]+$/, "");
+				id = href.split('/').pop().replace(/\.[^/.]+$/, '');
 			}
 
 			items.push(id);
@@ -109,7 +110,7 @@ fabricator.setActiveItem = function () {
 
 
 	/**
-	 * Match the "id" in the window location with the menu item, set menu item as active
+	 * Match the 'id' in the window location with the menu item, set menu item as active
 	 */
 	var setActive = function () {
 
@@ -117,22 +118,22 @@ fabricator.setActiveItem = function () {
 			items = parsedItems(),
 			id, index;
 
-		// get window "id"
-		if (href.indexOf("#") > -1) {
-			id = window.location.hash.replace("#", "");
+		// get window 'id'
+		if (href.indexOf('#') > -1) {
+			id = window.location.hash.replace('#', '');
 		} else {
-			id = window.location.pathname.split("/").pop().replace(/\.[^/.]+$/, "");
+			id = window.location.pathname.split('/').pop().replace(/\.[^/.]+$/, '');
 		}
 
 		// find the window id in the items array
 		index = (items.indexOf(id) > -1) ? items.indexOf(id) : 0;
 
 		// set the matched item as active
-		fabricator.dom.menuItems[index].classList.add("f-active");
+		fabricator.dom.menuItems[index].classList.add('f-active');
 
 	};
 
-	window.addEventListener("hashchange", setActive);
+	window.addEventListener('hashchange', setActive);
 
 	setActive();
 
@@ -152,13 +153,13 @@ fabricator.primaryMenuControls = function () {
 
 	// toggle classes on certain elements
 	var toggleClasses = function () {
-		document.querySelector("html").classList.toggle("state--menu-active");
-		fabricator.dom.menuToggle.classList.toggle("f-icon-menu");
-		fabricator.dom.menuToggle.classList.toggle("f-icon-close");
+		document.querySelector('html').classList.toggle('state--menu-active');
+		fabricator.dom.menuToggle.classList.toggle('f-icon-menu');
+		fabricator.dom.menuToggle.classList.toggle('f-icon-close');
 	};
 
 	// toggle classes on click
-	toggle.addEventListener("click", function () {
+	toggle.addEventListener('click', function () {
 		toggleClasses();
 	});
 
@@ -168,7 +169,7 @@ fabricator.primaryMenuControls = function () {
 	};
 
 	for (var i = 0; i < fabricator.dom.menuItems.length; i++) {
-		fabricator.dom.menuItems[i].addEventListener("click", closeMenu);
+		fabricator.dom.menuItems[i].addEventListener('click', closeMenu);
 	}
 
 	return this;
@@ -182,53 +183,52 @@ fabricator.primaryMenuControls = function () {
 fabricator.allItemsToggles = function () {
 
 	var items = {
-		details: document.querySelectorAll("[data-toggle=\"details\"]"),
-		code: document.querySelectorAll("[data-toggle=\"code\"]")
+		details: document.querySelectorAll('[data-toggle="details"]'),
+		notes: document.querySelectorAll('[data-toggle="notes"]'),
+		code: document.querySelectorAll('[data-toggle="code"]')
 	};
 
-	var toggleAllControls = document.querySelectorAll(".f-controls [data-toggle-control]");
-
+	var toggleAllControls = document.querySelectorAll('.f-controls [data-toggle-control]');
 
 	var options = (fabricator.test.localStorage) ? JSON.parse(localStorage.fabricator) : fabricator.options;
-
 
 	// toggle all
 	var toggleAllItems = function (type, value) {
 
-		var button = document.querySelector(".f-controls [data-toggle-control=" + type + "]"),
+		var button = document.querySelector('.f-controls [data-toggle-control=' + type + ']'),
 			_items = items[type];
 
 		for (var i = 0; i < _items.length; i++) {
 			if (value) {
-				_items[i].classList.remove("f-item-hidden");
+				_items[i].classList.remove('f-item-hidden');
 			} else {
-				_items[i].classList.add("f-item-hidden");
+				_items[i].classList.add('f-item-hidden');
 			}
 		}
 
 		// toggle styles
 		if (value) {
-			button.classList.add("f-active");
+			button.classList.add('f-active');
 		} else {
-			button.classList.remove("f-active");
+			button.classList.remove('f-active');
 		}
 
 		// update options
 		options.toggles[type] = value;
 
 		if (fabricator.test.localStorage) {
-			localStorage.setItem("fabricator", JSON.stringify(options));
+			localStorage.setItem('fabricator', JSON.stringify(options));
 		}
 
 	};
 
-	for (var ii = 0; ii < toggleAllControls.length; ii++) {
+	for (var i = 0; i < toggleAllControls.length; i++) {
 
-		toggleAllControls[ii].addEventListener("click", function (e) {
+		toggleAllControls[i].addEventListener('click', function (e) {
 
 			// extract info from target node
-			var type = e.target.getAttribute("data-toggle-control"),
-				value = e.target.className.indexOf("f-active") < 0;
+			var type = e.target.getAttribute('data-toggle-control'),
+				value = e.target.className.indexOf('f-active') < 0;
 
 			// toggle the items
 			toggleAllItems(type, value);
@@ -251,20 +251,20 @@ fabricator.allItemsToggles = function () {
 /**
  * Handler for single item code toggling
  */
-fabricator.singleItemCodeToggle = function () {
+fabricator.singleItemToggle = function () {
 
-	var itemToggleSingle = document.querySelectorAll(".f-toggle");
+	var itemToggleSingle = document.querySelectorAll('.f-toggle');
 
 	// toggle single
-	var toggleSingleItemCode = function () {
+	var toggleSingleItemCode = function (e) {
 		var group = this.parentNode.parentNode.parentNode,
-			toggle = this.attributes["data-toggle-control"].value;
+			type = e.target.getAttribute('data-toggle-control');
 
-		group.querySelector("[data-toggle=\"code\"]").classList.toggle("f-item-hidden");
+		group.querySelector('[data-toggle=' + type + ']').classList.toggle('f-item-hidden');
 	};
 
 	for (var i = 0; i < itemToggleSingle.length; i++) {
-		itemToggleSingle[i].addEventListener("click", toggleSingleItemCode);
+		itemToggleSingle[i].addEventListener('click', toggleSingleItemCode);
 	}
 
 	return this;
@@ -281,7 +281,7 @@ fabricator.singleItemCodeToggle = function () {
 	fabricator
 		.primaryMenuControls()
 		.allItemsToggles()
-		.singleItemCodeToggle()
+		.singleItemToggle()
 		.buildColorChips()
 		.setActiveItem();
 
