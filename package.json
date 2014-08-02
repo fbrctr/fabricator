@@ -1,6 +1,6 @@
 {
   "name": "fabricator",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Fabricator is a tool for creating modular website toolkits",
   "homepage": "http://resource.github.io/fabricator/",
   "main": "README.md",
