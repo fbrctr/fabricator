@@ -1,7 +1,12 @@
 /* item */
 .f-item-group {
-	margin-bottom: 2em;
+	padding-bottom: 0.5em;
+	margin-bottom: 1.5em;
 	line-height: 1;
+}
+
+.f-item-border-bottom {
+	border-bottom: 1px solid $color--light;
 }
 
 .f-item-heading-group {
@@ -14,6 +19,11 @@
 	.f-item-heading {
 		font-size: 0.75em;
 		display: inline-block;
+		color: inherit;
+		text-decoration: none;
+		&:hover {
+			text-decoration: underline;
+		}
 	}
 	.f-item-toggles {
 		float: right;
@@ -32,4 +42,7 @@
 .f-item-notes {
 	font-size: 0.875em;
 	color: darken($color--medium, 13%);
+	p {
+		line-height: 1.875;
+	}
 }
