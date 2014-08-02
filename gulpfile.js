@@ -4,6 +4,7 @@
 var browserify = require('browserify');
 var clean = require('gulp-clean');
 var collate = require('./tasks/collate');
+var compile = require('./tasks/compile');
 var concat = require('gulp-concat');
 var connect = require('gulp-connect');
 var csso = require('gulp-csso');
@@ -17,7 +18,6 @@ var rename = require('gulp-rename');
 var sass = require('gulp-sass');
 var source = require('vinyl-source-stream');
 var streamify = require('gulp-streamify');
-var template = require('./tasks/template');
 var uglify = require('gulp-uglify');
 
 
@@ -37,11 +37,11 @@ var config = {
 			toolkit: './src/toolkit/assets/styles/toolkit.scss'
 		},
 		images: 'src/toolkit/assets/images/**/*',
-		templates: './src/toolkit/views/*.html',
+		views: './src/toolkit/views/*.html',
 		materials: [
 			'components',
 			'structures',
-			'prototypes',
+			'templates',
 			'documentation'
 		]
 	},
@@ -143,41 +143,41 @@ gulp.task('collate', function () {
 
 });
 
-// templates
-gulp.task('templates:fabricator', function () {
+// assembly
+gulp.task('assemble:fabricator', function () {
 	var opts = {
 		data: config.dest + '/fabricator/data/data.json',
-		prototype: false
+		template: false
 	};
 
-	return gulp.src(config.src.templates)
-		.pipe(template(opts))
+	return gulp.src(config.src.views)
+		.pipe(compile(opts))
 		.pipe(gulp.dest(config.dest))
 		.pipe(gulpif(config.dev, connect.reload()));
 });
 
-gulp.task('templates:prototypes', function () {
+gulp.task('assemble:templates', function () {
 	var opts = {
 		data: config.dest + '/fabricator/data/data.json',
-		prototype: true
+		template: true
 	};
-	return gulp.src('./src/toolkit/prototypes/*.html')
-		.pipe(template(opts))
+	return gulp.src('./src/toolkit/templates/*.html')
+		.pipe(compile(opts))
 		.pipe(rename({
-			prefix: 'prototype-'
+			prefix: 'template-'
 		}))
 		.pipe(gulp.dest(config.dest))
 		.pipe(gulpif(config.dev, connect.reload()));
 });
 
-gulp.task('templates', ['collate'], function () {
-	gulp.start('templates:fabricator', 'templates:prototypes');
+gulp.task('assemble', ['collate'], function () {
+	gulp.start('assemble:fabricator', 'assemble:templates');
 });
 
 
 // build
 gulp.task('build', ['clean'], function () {
-	gulp.start('styles', 'scripts', 'images', 'templates');
+	gulp.start('styles', 'scripts', 'images', 'assemble');
 });
 
 
@@ -193,7 +193,7 @@ gulp.task('connect', function () {
 
 // watch
 gulp.task('watch', ['connect'], function () {
-	gulp.watch('src/toolkit/{components,structures,prototypes,documentation,views}/**/*.{html,md}', ['templates']);
+	gulp.watch('src/toolkit/{components,structures,templates,documentation,views}/**/*.{html,md}', ['assemble']);
 	gulp.watch('src/fabricator/styles/**/*.scss', ['styles:fabricator']);
 	gulp.watch('src/toolkit/assets/styles/**/*.scss', ['styles:toolkit']);
 	gulp.watch('src/fabricator/scripts/**/*.js', ['scripts:fabricator']);

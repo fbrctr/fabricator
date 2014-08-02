@@ -34,9 +34,9 @@ var registerPartials = function () {
 
 
 /**
- * Template standard views (e.g. components, structures, documentation)
+ * Assemble standard views (e.g. components, structures, documentation)
  */
-var templateFabricator = function (file, enc, cb) {
+var assembleFabricator = function (file, enc, cb) {
 
 	// augment data object
 	data.fabricator = true;
@@ -57,9 +57,9 @@ var templateFabricator = function (file, enc, cb) {
 
 
 /**
- * Template prototype views
+ * Assemble templates
  */
-var templatePrototype = function (file, enc, cb) {
+var assembleTemplates = function (file, enc, cb) {
 
 	// augment data object
 	data.fabricator = false;
@@ -67,16 +67,16 @@ var templatePrototype = function (file, enc, cb) {
 	// use the filename as the key value lookup in the data.json object
 	var key = path.basename(file.path, '.html').replace(/-/g, '');
 
-	// define comment blocks to wrap the prototype code
+	// define comment blocks to wrap the template code
 	var comments = {
-			start: '\n\n<!-- Start ' + data.prototypes[key].name + ' prototype -->\n\n',
-			end: '\n\n<!-- /End ' + data.prototypes[key].name + ' prototype -->\n\n'
+			start: '\n\n<!-- Start ' + data.templates[key].name + ' template -->\n\n',
+			end: '\n\n<!-- /End ' + data.templates[key].name + ' template -->\n\n'
 		};
 
 	// concat file contents
 	var source = '{{> intro}}' +
 				comments.start +
-				data.prototypes[key].content +
+				data.templates[key].content +
 				comments.end +
 				'{{> outro}}';
 
@@ -96,5 +96,5 @@ var templatePrototype = function (file, enc, cb) {
 module.exports = function (opts) {
 	data = JSON.parse(fs.readFileSync(opts.data));
 	registerPartials();
-	return through.obj((opts.prototype) ? templatePrototype : templateFabricator);
+	return through.obj((opts.template) ? assembleTemplates : assembleFabricator);
 };
