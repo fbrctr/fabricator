@@ -176,6 +176,7 @@ fabricator.primaryMenuControls = function () {
 
 };
 
+
 /**
  * Handler for preview and code toggles
  * @return {Object} fabricator
@@ -248,6 +249,7 @@ fabricator.allItemsToggles = function () {
 
 };
 
+
 /**
  * Handler for single item code toggling
  */
@@ -272,9 +274,31 @@ fabricator.singleItemToggle = function () {
 };
 
 
-////////////////////////////////////////////////////////
-// Init
-////////////////////////////////////////////////////////
+/**
+ * Automatically select code when code block is clicked
+ */
+fabricator.bindCodeAutoSelect = function () {
+
+	var codeBlocks = document.querySelectorAll('.f-item-code');
+
+	var select = function (block) {
+		var selection = window.getSelection();
+		var range = document.createRange();
+		range.selectNodeContents(block.querySelector('code'));
+		selection.removeAllRanges();
+		selection.addRange(range);
+	};
+
+	for (var i = codeBlocks.length - 1; i >= 0; i--) {
+		codeBlocks[i].addEventListener('click', select.bind(this, codeBlocks[i]));
+	}
+
+};
+
+
+/**
+ * Initialization
+ */
 (function () {
 
 	// invoke
@@ -283,7 +307,8 @@ fabricator.singleItemToggle = function () {
 		.allItemsToggles()
 		.singleItemToggle()
 		.buildColorChips()
-		.setActiveItem();
+		.setActiveItem()
+		.bindCodeAutoSelect();
 
 	// syntax highlighting
 	Prism.highlightAll();
