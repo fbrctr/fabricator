@@ -1,4 +1,4 @@
-/*!
+/**
  * Toolkit JavaScript
  */
 
