@@ -64,6 +64,23 @@ var registerHelper = function (item) {
 
 
 /**
+ * Block iteration
+ * @description Repeat a block a given amount of times.
+ * @example
+ * {{#iterate 20}}
+ *   <li>List Item</li>
+ * {{/iterate}}
+ */
+Handlebars.registerHelper('iterate', function (n, block) {
+	var accum = '';
+	for (var i = 0; i < n; ++i) {
+		accum += block.fn(i);
+	}
+	return accum;
+});
+
+
+/**
  * Parse a directory of files
  * @param {Sting} dir The directory that contains .html and .md files to be parsed
  * @return {Function} A stream
