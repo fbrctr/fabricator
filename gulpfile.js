@@ -2,11 +2,11 @@
 
 // modules
 var browserify = require('browserify');
+var browserSync = require('browser-sync');
 var clean = require('gulp-clean');
 var collate = require('./tasks/collate');
 var compile = require('./tasks/compile');
 var concat = require('gulp-concat');
-var connect = require('gulp-connect');
 var csso = require('gulp-csso');
 var gulp = require('gulp');
 var gulpif = require('gulp-if');
@@ -15,6 +15,7 @@ var plumber = require('gulp-plumber');
 var prefix = require('gulp-autoprefixer');
 var Q = require('q');
 var rename = require('gulp-rename');
+var reload = browserSync.reload;
 var sass = require('gulp-sass');
 var source = require('vinyl-source-stream');
 var streamify = require('gulp-streamify');
@@ -69,7 +70,7 @@ gulp.task('styles:fabricator', function () {
 		.pipe(gulpif(!config.dev, csso()))
 		.pipe(rename('f.css'))
 		.pipe(gulp.dest(config.dest + '/fabricator/styles'))
-		.pipe(gulpif(config.dev, connect.reload()));
+		.pipe(gulpif(config.dev, reload({stream:true})));
 });
 
 gulp.task('styles:toolkit', function () {
@@ -81,7 +82,7 @@ gulp.task('styles:toolkit', function () {
 		.pipe(prefix('last 1 version'))
 		.pipe(gulpif(!config.dev, csso()))
 		.pipe(gulp.dest(config.dest + '/toolkit/styles'))
-		.pipe(gulpif(config.dev, connect.reload()));
+		.pipe(gulpif(config.dev, reload({stream:true})));
 });
 
 gulp.task('styles', ['styles:fabricator', 'styles:toolkit']);
@@ -93,8 +94,7 @@ gulp.task('scripts:fabricator', function () {
 		.pipe(plumber())
 		.pipe(concat('f.js'))
 		.pipe(gulpif(!config.dev, uglify()))
-		.pipe(gulp.dest(config.dest + '/fabricator/scripts'))
-		.pipe(gulpif(config.dev, connect.reload()));
+		.pipe(gulp.dest(config.dest + '/fabricator/scripts'));
 });
 
 gulp.task('scripts:toolkit', function () {
@@ -102,8 +102,7 @@ gulp.task('scripts:toolkit', function () {
 		.pipe(plumber())
 		.pipe(source('toolkit.js'))
 		.pipe(gulpif(!config.dev, streamify(uglify())))
-		.pipe(gulp.dest(config.dest + '/toolkit/scripts'))
-		.pipe(gulpif(config.dev, connect.reload()));
+		.pipe(gulp.dest(config.dest + '/toolkit/scripts'));
 });
 
 gulp.task('scripts', ['scripts:fabricator', 'scripts:toolkit']);
@@ -113,8 +112,7 @@ gulp.task('scripts', ['scripts:fabricator', 'scripts:toolkit']);
 gulp.task('images', ['favicon'], function () {
 	return gulp.src(config.src.images)
 		.pipe(imagemin())
-		.pipe(gulp.dest(config.dest + '/toolkit/images'))
-		.pipe(gulpif(config.dev, connect.reload()));
+		.pipe(gulp.dest(config.dest + '/toolkit/images'));
 });
 
 gulp.task('favicon', function () {
@@ -152,8 +150,7 @@ gulp.task('assemble:fabricator', function () {
 
 	return gulp.src(config.src.views)
 		.pipe(compile(opts))
-		.pipe(gulp.dest(config.dest))
-		.pipe(gulpif(config.dev, connect.reload()));
+		.pipe(gulp.dest(config.dest));
 });
 
 gulp.task('assemble:templates', function () {
@@ -166,8 +163,7 @@ gulp.task('assemble:templates', function () {
 		.pipe(rename({
 			prefix: 'template-'
 		}))
-		.pipe(gulp.dest(config.dest))
-		.pipe(gulpif(config.dev, connect.reload()));
+		.pipe(gulp.dest(config.dest));
 });
 
 gulp.task('assemble', ['collate'], function () {
@@ -182,23 +178,24 @@ gulp.task('build', ['clean'], function () {
 
 
 // server
-gulp.task('connect', function () {
-	connect.server({
-		root: [config.dest],
-		port: 9000,
-		livereload: config.dev ? { port:(Math.floor(Math.random() * (35729 - 35720 + 1) + 35720)) } : false
-	});
+gulp.task('browser-sync', function () {
+	browserSync({
+		server: {
+			baseDir: config.dest
+		},
+		notify: false
+	})
 });
 
 
 // watch
-gulp.task('watch', ['connect'], function () {
-	gulp.watch('src/toolkit/{components,structures,templates,documentation,views}/**/*.{html,md}', ['assemble']);
+gulp.task('watch', ['browser-sync'], function () {
+	gulp.watch('src/toolkit/{components,structures,templates,documentation,views}/**/*.{html,md}', ['assemble', browserSync.reload]);
 	gulp.watch('src/fabricator/styles/**/*.scss', ['styles:fabricator']);
 	gulp.watch('src/toolkit/assets/styles/**/*.scss', ['styles:toolkit']);
-	gulp.watch('src/fabricator/scripts/**/*.js', ['scripts:fabricator']);
-	gulp.watch('src/toolkit/assets/scripts/**/*.js', ['scripts:toolkit']);
-	gulp.watch(config.src.images, ['images']);
+	gulp.watch('src/fabricator/scripts/**/*.js', ['scripts:fabricator', browserSync.reload]);
+	gulp.watch('src/toolkit/assets/scripts/**/*.js', ['scripts:toolkit', browserSync.reload]);
+	gulp.watch(config.src.images, ['images', browserSync.reload]);
 });
 
 
