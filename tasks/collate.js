@@ -115,7 +115,7 @@ var parse = function (dir) {
 
 		try {
 			// compile templates
-			var content = fs.readFileSync('src/toolkit/' + dir + '/' + items[i] + '.html', 'utf8');
+			var content = fs.readFileSync('src/toolkit/' + dir + '/' + items[i] + '.html', 'utf8').replace(/(\s*(\r?\n|\r))+$/, '');
 			var template = Handlebars.compile(content);
 			item.content = beautifyHtml(template(), beautifyOptions);
 			// register the helper
