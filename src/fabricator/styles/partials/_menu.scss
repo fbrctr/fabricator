@@ -75,8 +75,11 @@
 .f-menu-toggle {
 	float: right;
 	border: none;
-	font-size: 2em;
 	cursor: pointer;
+	svg {
+		width: 2em;
+		height: 2em;
+	}
 	@media (min-width: 60em) {
 		display: none;
 	}
