@@ -261,7 +261,7 @@ fabricator.singleItemToggle = function () {
 	// toggle single
 	var toggleSingleItemCode = function (e) {
 		var group = this.parentNode.parentNode.parentNode,
-			type = e.target.getAttribute('data-toggle-control');
+			type = e.currentTarget.getAttribute('data-toggle-control');
 
 		group.querySelector('[data-toggle=' + type + ']').classList.toggle('f-item-hidden');
 	};

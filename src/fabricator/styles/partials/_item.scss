@@ -27,6 +27,15 @@
 	.f-item-toggles {
 		float: right;
 		display: inline-block;
+		svg {
+			width: 1em;
+			height: 1em;
+			display: inline-block;
+			vertical-align: middle;
+			use {
+				fill: $color--medium;
+			}
+		}
 	}
 	.f-toggle {
 		margin-left: 0.2em;

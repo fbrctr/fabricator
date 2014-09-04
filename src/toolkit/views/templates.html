@@ -22,8 +22,16 @@
 				<div class="f-item-heading-group" data-toggle="details">
 					<a href="#{{id}}" class="f-item-heading">{{name}}</a>
 					<div class="f-item-toggles">
-						{{#if notes}}<span class="f-toggle f-icon-notes" data-toggle-control="notes" title="toggle notes"></span>{{/if}}
-						<span class="f-toggle f-icon-code" data-toggle-control="code" title="toggle code"></span>
+						{{#if notes}}<span class="f-toggle f-icon" data-toggle-control="notes" title="toggle notes">
+							<svg>
+								<use xlink:href="#f-icon-notes" />
+							</svg>
+						</span>{{/if}}
+						<span class="f-toggle f-icon" data-toggle-control="code" title="toggle code">
+							<svg>
+								<use xlink:href="#f-icon-code" />
+							</svg>
+						</span>
 					</div>
 				</div>
 
