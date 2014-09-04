@@ -229,8 +229,8 @@ fabricator.allItemsToggles = function () {
 		toggleAllControls[i].addEventListener('click', function (e) {
 
 			// extract info from target node
-			var type = e.target.getAttribute('data-toggle-control'),
-				value = e.target.className.indexOf('f-active') < 0;
+			var type = e.currentTarget.getAttribute('data-toggle-control'),
+				value = e.currentTarget.className.indexOf('f-active') < 0;
 
 			// toggle the items
 			toggleAllItems(type, value);
