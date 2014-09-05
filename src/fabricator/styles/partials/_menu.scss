@@ -26,14 +26,15 @@
 	}
 	> ul {
 		margin-bottom: 0;
-		border-bottom: $color--menu-heading-border 1px solid;
 	}
 	li {
 		list-style-type: none;
+		margin-top: 0;
+		margin-bottom: 0;
 	}
 	a {
 		display: block;
-		padding: 0.875em 3em;
+		padding: 0.75em 3em;
 		color: $color--menu-item-text !important;
 		text-decoration: none;
 		font-size: 0.875em;
@@ -50,7 +51,6 @@
 	}
 	.f-menu__heading {
 		padding-left: 2em;
-		border-top: $color--menu-heading-border 1px solid;
 		color: $color--menu-heading-text !important;
 		&:hover {
 			color: $color--menu-item-text;
@@ -59,7 +59,7 @@
 	.f-menu__tag {
 		display: block;
 		padding: 0;
-		border-bottom: $color--menu-heading-border 1px solid;
+		margin-top: 0.75em;
 		> img {
 			display: block;
 			width: 100%;
