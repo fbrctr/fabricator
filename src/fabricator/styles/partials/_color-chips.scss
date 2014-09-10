@@ -6,7 +6,6 @@
 	border-bottom-width: 0.5em;
 	border-bottom-style: solid;
 	background-color: #fff;
-	text-transform: uppercase;
 	font-weight: 700;
 	font-size: 0.75em;
 	display: inline-block;
@@ -16,7 +15,6 @@
 		background-color: #fff;
 		content: attr(data-color);
 		font-weight: 400;
-		text-transform: initial;
 	}
 }
 
