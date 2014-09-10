@@ -33,12 +33,10 @@ body {
 		min-height: 100vh;
 		.state--menu-active & {
 			transform: translate(-$menu-width, 0);
-			border-right: $color--menu-heading-border 1px solid;
 		}
 	}
 	@media (min-width: 60em) {
 		margin-left: $menu-width;
-		border-left: $color--menu-heading-border 1px solid;
 	}
 }
 
