@@ -30,7 +30,8 @@ var prefix = require('gulp-autoprefixer');
 var Q = require('q');
 var rename = require('gulp-rename');
 var reload = browserSync.reload;
-var sass = require('gulp-sass');
+var libsass = require('gulp-sass');
+var sass = (sassGem) ? require('gulp-ruby-sass') : libsass;
 var source = require('vinyl-source-stream');
 var streamify = require('gulp-streamify');
 var uglify = require('gulp-uglify');
@@ -69,7 +70,7 @@ var sassOptions = (sassGem) ? {
     trace: config.dev,
     sourcemap: config.dev,
     debugInfo: config.dev,
-    sourcemapPath: '.',
+    sourcemapPath: './src/toolkit/assets/styles/',
     loadPath: './src/toolkit/assets/styles/'
 } : {
     errLogToConsole: true
@@ -89,7 +90,9 @@ gulp.task('clean', function() {
 gulp.task('styles:fabricator', function() {
     return gulp.src(config.src.styles.fabricator)
         .pipe(plumber())
-        .pipe(sass(sassOptions))
+        .pipe(libsass({
+            errLogToConsole: true
+        }))
         .pipe(prefix('last 1 version'))
         .pipe(gulpif(!config.dev, csso()))
         .pipe(rename('f.css'))
