@@ -12,6 +12,9 @@ Fabricator is a tool for creating modular website toolkits - _think ["Tiny Boots
 
 [Check out the wiki](https://github.com/resource/fabricator/wiki).
 
+### Sass 3.3.x
+To use Sass 3.3+, change the `var sassGem` in gulpfile.js to `true`;
+
 ## Credits
 
 Created by [Luke Askew](http://lukeaskew.com).
