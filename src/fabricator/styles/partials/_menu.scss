@@ -43,6 +43,7 @@
 		transition: (background-color 200ms);
 		&:hover {
 			background-color: $color--menu-item-hover;
+			text-decoration: none;
 		}
 		&.f-active {
 			background-color: $color--menu-item-hover;
@@ -60,7 +61,6 @@
 
 .f-menu-bar {
 	@include clearfix;
-	margin-bottom: 1em;
 }
 
 .f-menu-toggle {
