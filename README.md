@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="http://resource.github.io/fabricator/toolkit/toolkit/img/mask.svg" />
-</p>
+![Fabricator](http://resource.github.io/fabricator/fb.jpg)
 
 # Fabricator
 
