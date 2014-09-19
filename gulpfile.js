@@ -184,7 +184,7 @@ gulp.task('browser-sync', function () {
 			baseDir: config.dest
 		},
 		notify: false
-	})
+	});
 });
 
 
