@@ -3,7 +3,6 @@
 // modules
 var browserify = require('browserify');
 var browserSync = require('browser-sync');
-var clean = require('gulp-clean');
 var collate = require('./tasks/collate');
 var compile = require('./tasks/compile');
 var concat = require('gulp-concat');
@@ -16,6 +15,7 @@ var prefix = require('gulp-autoprefixer');
 var Q = require('q');
 var rename = require('gulp-rename');
 var reload = browserSync.reload;
+var rimraf = require('gulp-rimraf');
 var sass = require('gulp-sass');
 var source = require('vinyl-source-stream');
 var streamify = require('gulp-streamify');
@@ -52,10 +52,8 @@ var config = {
 
 // clean
 gulp.task('clean', function () {
-	return gulp.src([config.dest], {
-		read: false
-	})
-	.pipe(clean());
+	return gulp.src(config.dest, { read: false })
+		.pipe(rimraf({ force: true }));
 });
 
 
