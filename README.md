@@ -1,3 +1,4 @@
+[![Dependencies](https://david-dm.org/resource/fabricator.svg)](https://david-dm.org/resource/fabricator) [![devDependency Status](https://david-dm.org/resource/fabricator/dev-status.svg)](https://david-dm.org/resource/fabricator#info=devDependencies)
 ![Fabricator](http://resource.github.io/fabricator/fb.jpg)
 
 # Fabricator
