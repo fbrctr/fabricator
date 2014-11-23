@@ -183,19 +183,19 @@ fabricator.primaryMenuControls = function () {
 fabricator.allItemsToggles = function () {
 
 	var items = {
-		details: document.querySelectorAll('[data-toggle="details"]'),
-		notes: document.querySelectorAll('[data-toggle="notes"]'),
-		code: document.querySelectorAll('[data-toggle="code"]')
+		details: document.querySelectorAll('[data-f-toggle="details"]'),
+		notes: document.querySelectorAll('[data-f-toggle="notes"]'),
+		code: document.querySelectorAll('[data-f-toggle="code"]')
 	};
 
-	var toggleAllControls = document.querySelectorAll('.f-controls [data-toggle-control]');
+	var toggleAllControls = document.querySelectorAll('.f-controls [data-f-toggle-control]');
 
 	var options = (fabricator.test.localStorage) ? JSON.parse(localStorage.fabricator) : fabricator.options;
 
 	// toggle all
 	var toggleAllItems = function (type, value) {
 
-		var button = document.querySelector('.f-controls [data-toggle-control=' + type + ']'),
+		var button = document.querySelector('.f-controls [data-f-toggle-control=' + type + ']'),
 			_items = items[type];
 
 		for (var i = 0; i < _items.length; i++) {
@@ -227,7 +227,7 @@ fabricator.allItemsToggles = function () {
 		toggleAllControls[i].addEventListener('click', function (e) {
 
 			// extract info from target node
-			var type = e.currentTarget.getAttribute('data-toggle-control'),
+			var type = e.currentTarget.getAttribute('data-f-toggle-control'),
 				value = e.currentTarget.className.indexOf('f-active') < 0;
 
 			// toggle the items
@@ -259,9 +259,9 @@ fabricator.singleItemToggle = function () {
 	// toggle single
 	var toggleSingleItemCode = function (e) {
 		var group = this.parentNode.parentNode.parentNode,
-			type = e.currentTarget.getAttribute('data-toggle-control');
+			type = e.currentTarget.getAttribute('data-f-toggle-control');
 
-		group.querySelector('[data-toggle=' + type + ']').classList.toggle('f-item-hidden');
+		group.querySelector('[data-f-toggle=' + type + ']').classList.toggle('f-item-hidden');
 	};
 
 	for (var i = 0; i < itemToggleSingle.length; i++) {
