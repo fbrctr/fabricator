@@ -13,21 +13,21 @@
 			</div>
 		</div>
 
-		<h1 data-toggle="details">Components</h1>
+		<h1 data-f-toggle="details">Components</h1>
 
 		{{#each components}}
 
 			<div class="f-item-group" id="{{id}}">
 
-				<div class="f-item-heading-group" data-toggle="details">
+				<div class="f-item-heading-group" data-f-toggle="details">
 					<a href="#{{id}}" class="f-item-heading">{{name}}</a>
 					<div class="f-item-toggles">
-						{{#if notes}}<span class="f-toggle f-icon" data-toggle-control="notes" title="toggle notes">
+						{{#if notes}}<span class="f-toggle f-icon" data-f-toggle-control="notes" title="toggle notes">
 							<svg>
 								<use xlink:href="#f-icon-notes" />
 							</svg>
 						</span>{{/if}}
-						<span class="f-toggle f-icon" data-toggle-control="code" title="toggle code">
+						<span class="f-toggle f-icon" data-f-toggle-control="code" title="toggle code">
 							<svg>
 								<use xlink:href="#f-icon-code" />
 							</svg>
@@ -35,7 +35,7 @@
 					</div>
 				</div>
 
-				{{#if notes}}<div class="f-item-notes" data-toggle="notes">
+				{{#if notes}}<div class="f-item-notes" data-f-toggle="notes">
 					{{{notes}}}
 				</div>{{/if}}
 
@@ -43,7 +43,7 @@
 					{{{content}}}
 				</div>
 
-				<div class="f-item-code" data-toggle="code">
+				<div class="f-item-code" data-f-toggle="code">
 					<pre><code class="language-markup">{{content}}</code></pre>
 				</div>
 
