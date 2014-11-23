@@ -9,6 +9,7 @@ var concat = require('gulp-concat');
 var csso = require('gulp-csso');
 var del = require('del');
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var gulpif = require('gulp-if');
 var imagemin = require('gulp-imagemin');
 var plumber = require('gulp-plumber');
@@ -16,6 +17,7 @@ var prefix = require('gulp-autoprefixer');
 var Q = require('q');
 var rename = require('gulp-rename');
 var reload = browserSync.reload;
+var runSequence = require('run-sequence');
 var sass = require('gulp-sass');
 var source = require('vinyl-source-stream');
 var streamify = require('gulp-streamify');
@@ -24,7 +26,7 @@ var uglify = require('gulp-uglify');
 
 // configuration
 var config = {
-	dev: true,
+	dev: gutil.env.dev,
 	src: {
 		scripts: {
 			fabricator: [
@@ -46,7 +48,7 @@ var config = {
 			'documentation'
 		]
 	},
-	dest: './public'
+	dest: './dist'
 };
 
 
@@ -168,12 +170,6 @@ gulp.task('assemble', ['collate'], function () {
 });
 
 
-// build
-gulp.task('build', ['clean'], function () {
-	gulp.start('styles', 'scripts', 'images', 'assemble');
-});
-
-
 // server
 gulp.task('browser-sync', function () {
 	browserSync({
@@ -196,14 +192,22 @@ gulp.task('watch', ['browser-sync'], function () {
 });
 
 
-// development environment
-gulp.task('dev', ['build'], function () {
-	gulp.start('watch');
-});
-
-
 // default build task
-gulp.task('default', function () {
-	config.dev = false;
-	gulp.start('build');
+gulp.task('default', ['clean'], function () {
+
+	// define build tasks
+	var tasks = [
+		'styles',
+		'scripts',
+		'images',
+		'assemble'
+	];
+
+	// run build
+	runSequence(tasks, function () {
+		if (config.dev) {
+			gulp.start('watch');
+		}
+	});
+
 });
