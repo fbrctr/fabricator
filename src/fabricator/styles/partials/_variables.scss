@@ -6,7 +6,7 @@ $theme--dark: false;
 $color--dark: rgb(30,30,30);
 $color--medium: rgb(160,160,160);
 $color--light: rgb(242,242,242);
-$color--accent: rgb(100,178,67);
+$color--accent: rgb(91,216,216);
 
 $color--menu-background: if($theme--dark, lighten($color--dark, 4%), rgb(255,255,255));
 $color--menu-heading-text: if($theme--dark, $color--medium, darken($color--medium, 10%));
