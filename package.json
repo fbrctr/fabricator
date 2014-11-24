@@ -48,7 +48,7 @@
     "gulp-sass": "^1.1.0",
     "gulp-streamify": "0.0.5",
     "gulp-uglify": "^1.0.1",
-    "gulp-util": "^2.2.20",
+    "gulp-util": "^3.0.1",
     "handlebars": "^2.0.0",
     "js-beautify": "^1.5.4",
     "junk": "^1.0.0",
