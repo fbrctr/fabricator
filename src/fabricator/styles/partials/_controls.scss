@@ -2,7 +2,7 @@
 	@include clearfix;
 	.f-icon {
 		box-sizing: border-box;
-		width: 33%;
+		width: 33.333333333%;
 		padding: 0.75em 0;
 		text-align: center;
 		float: left;
@@ -26,7 +26,9 @@
 		}
 	}
 	.f-active {
-		color: $color--accent;
-		background-color: $color--menu-item-hover;
+		box-shadow: inset 0 3px 0 $color--accent;
+		use {
+			fill: $color--menu-item-text;
+		}
 	}
 }

@@ -4,19 +4,19 @@
 $theme--dark: false;
 
 $color--dark: rgb(30,30,30);
-$color--medium: rgb(150,150,150);
+$color--medium: rgb(160,160,160);
 $color--light: rgb(242,242,242);
-$color--accent: rgb(91,216,216);
+$color--accent: rgb(100,178,67);
 
-$color--menu-background: if($theme--dark, lighten($color--dark, 4%), lighten($color--light, 4%));
-$color--menu-heading-text: $color--medium;
+$color--menu-background: if($theme--dark, lighten($color--dark, 4%), rgb(255,255,255));
+$color--menu-heading-text: if($theme--dark, $color--medium, darken($color--medium, 10%));
 $color--menu-heading-border: if($theme--dark, $color--dark, darken($color--light, 4%));
-$color--menu-item-hover: if($theme--dark, $color--dark, $color--light);
+$color--menu-item-hover: if($theme--dark, $color--light, $color--dark);
 $color--menu-item-text: if($theme--dark, $color--light, $color--dark);
 
 
 // menu
-$menu-width: 16rem;
+$menu-width: 14rem;
 
 
 // mixins
