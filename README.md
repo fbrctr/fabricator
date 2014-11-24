@@ -12,7 +12,7 @@ Fabricator is a tool for creating modular website toolkits - _think ["Tiny Boots
 
 ### 1. Download
 
-Each toolkit starts with a new instance of Fabricator. Install the latest:
+Each toolkit starts with a new instance of Fabricator. Grab the latest:
 
 ```shell
 $ curl -L https://github.com/resource/fabricator/archive/master.tar.gz | tar zx --strip 1
