@@ -21,7 +21,8 @@
   "gulp": "gulp",
   "bower": "bower",
   "prestart": "npm install",
+  "build": "npm install && gulp",
   "postinstall": "bower install",
-  "start": "gulp"
+  "start": "gulp --dev"
 },
 ```
