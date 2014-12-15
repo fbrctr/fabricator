@@ -5,7 +5,7 @@
 1. Install bower `$ npm install bower --save-dev`
 2. Add a `.bowerrc` config file (see below).
 3. Update `package.json` `scripts` object to hook into Bower install task.
-4. Refer to [vendor script recipe](https://github.com/resource/fabricator/blob/master/recipes/vendor-scripts.md) for steps on including these scripts into your `toolkit.js` file.
+4. Refer to the [vendor script recipe](https://github.com/resource/fabricator/blob/master/recipes/vendor-scripts.md) for steps on including these scripts into your `toolkit.js` file.
 
 **.bowerrc**
 ```json
