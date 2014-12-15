@@ -2,11 +2,7 @@
 
 Third party scripts like [jQuery](http://jquery.com) can be a helpful part of your toolkit. Here's how to modify the `gulpfile.js` to include these files:
 
-1. Install the [streamqueue](https://www.npmjs.com/package/streamqueue) package.
-```
-npm install streamqueue --save-dev
-```
-
+1. Install the [streamqueue](https://www.npmjs.com/package/streamqueue) package: `$ npm install streamqueue --save-dev`
 2. Create a `config.src.vendor` array and include vendor file paths.
 3. Break the `scripts:toolkit` task into two streams - `toolkit()` and `vendor()` - then merge streams using `streamqueue()`.
 
