@@ -59,4 +59,4 @@ gulp.task('scripts:toolkit', function () {
 
 ```
 
-
+**Optional:** Check out the (Bower recipe)[https://github.com/resource/fabricator/blob/master/recipes/bower.md] for info on using Bower as your client-side dependecny manager.
