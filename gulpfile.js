@@ -176,7 +176,8 @@ gulp.task('browser-sync', function () {
 		server: {
 			baseDir: config.dest
 		},
-		notify: false
+		notify: false,
+		logPrefix: 'FABRICATOR'
 	});
 });
 
