@@ -12,7 +12,6 @@ var gulp = require('gulp');
 var gutil = require('gulp-util');
 var gulpif = require('gulp-if');
 var imagemin = require('gulp-imagemin');
-var plumber = require('gulp-plumber');
 var prefix = require('gulp-autoprefixer');
 var Q = require('q');
 var rename = require('gulp-rename');
@@ -61,7 +60,6 @@ gulp.task('clean', function (cb) {
 // styles
 gulp.task('styles:fabricator', function () {
 	return gulp.src(config.src.styles.fabricator)
-		.pipe(plumber())
 		.pipe(sass({
 			errLogToConsole: true
 		}))
@@ -74,7 +72,6 @@ gulp.task('styles:fabricator', function () {
 
 gulp.task('styles:toolkit', function () {
 	return gulp.src(config.src.styles.toolkit)
-		.pipe(plumber())
 		.pipe(sass({
 			errLogToConsole: true
 		}))
@@ -90,15 +87,18 @@ gulp.task('styles', ['styles:fabricator', 'styles:toolkit']);
 // scripts
 gulp.task('scripts:fabricator', function () {
 	return gulp.src(config.src.scripts.fabricator)
-		.pipe(plumber())
 		.pipe(concat('f.js'))
 		.pipe(gulpif(!config.dev, uglify()))
 		.pipe(gulp.dest(config.dest + '/fabricator/scripts'));
 });
 
 gulp.task('scripts:toolkit', function () {
-	return browserify(config.src.scripts.toolkit).bundle()
-		.pipe(plumber())
+	return browserify(config.src.scripts.toolkit)
+		.bundle()
+		.on('error', function (error) {
+			gutil.log(gutil.colors.red(error));
+			this.emit('end');
+		})
 		.pipe(source('toolkit.js'))
 		.pipe(gulpif(!config.dev, streamify(uglify())))
 		.pipe(gulp.dest(config.dest + '/toolkit/scripts'));
