@@ -68,13 +68,17 @@ var registerHelper = function (item) {
  * @description Repeat a block a given amount of times.
  * @example
  * {{#iterate 20}}
- *   <li>List Item</li>
+ *   <li>List Item {{@index}}</li>
  * {{/iterate}}
  */
 Handlebars.registerHelper('iterate', function (n, block) {
-	var accum = '';
+	var accum = '', data;
 	for (var i = 0; i < n; ++i) {
-		accum += block.fn(i);
+		if (block.data) {
+			data = Handlebars.createFrame(block.data || {});
+			data.index = i;
+		}
+		accum += block.fn(i, {data: data});
 	}
 	return accum;
 });
