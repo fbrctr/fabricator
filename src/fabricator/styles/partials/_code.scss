@@ -2,10 +2,9 @@
  * Github-like theme for Prism.js
  * @author Luke Askew
  */
-
 code,
-code[class*="language-"],
-pre[class*="language-"] {
+code[class*='language-'],
+pre[class*='language-'] {
 	color: #1b1e20;
 	text-align: left;
 	white-space: pre;
@@ -18,8 +17,8 @@ pre[class*="language-"] {
 	cursor: text;
 }
 
-/* Code blocks */
-pre[class*="language-"] {
+// code blocks
+pre[class*='language-'] {
 	overflow: auto;
 	margin: 1em 0;
 	padding: 1em;
@@ -33,25 +32,26 @@ table code {
 	margin: 0;
 	border-radius: 3px;
 	padding-bottom: 2px;
-	border: 1px solid darken($color--light, 7.3%);
+	border: 1px solid darken(map-get($colors, light), 7.3%);
 	font-size: 0.75em !important;
+
 	&:before,
 	&:after {
 		letter-spacing: -0.2em;
-		content: "\00a0";
+		content: '\00a0';
 	}
 }
 
 code,
-:not(pre) > code[class*="language-"],
-pre[class*="language-"] {
-	background: $color--light;
+:not(pre) > code[class*='language-'],
+pre[class*='language-'] {
+	background: map-get($colors, light);
 }
 
-/* Inline code */
-:not(pre) > code[class*="language-"] {
-	padding: .1em;
-	border-radius: .3em;
+// inline code
+:not(pre) > code[class*='language-'] {
+	padding: 0.1em;
+	border-radius: 0.3em;
 }
 
 .token.comment,
@@ -62,57 +62,55 @@ pre[class*="language-"] {
 }
 
 .tag .token.punctuation {
-	color: navy;
+	color: rgb(0, 0, 128);
 }
 
 .namespace {
-	opacity: .7;
+	opacity: 0.7;
 }
 
 .token.property,
 .token.tag {
-	color: navy;
+	color: rgb(0, 0, 128);
 }
 
 .token.boolean,
 .token.number {
-	color: #099;
+	color: rgb(0, 153, 153);
 }
 
 .token.selector,
 .token.attr-name,
 .token.string,
 .token.attr-value .punctuation:first-child {
-	color: teal;
+	color: rgb(0, 153, 153);
 }
-
 
 .token.operator,
 .token.entity,
 .token.url,
 .language-css .token.string,
 .style .token.string {
-	color: #333;
+	color: rgb(51, 51, 51);
 }
 
 .token.atrule,
 .token.attr-value {
-	color: #dd1144;
+	color: rgb(221, 17, 68);
 }
-
 
 .token.keyword {
 	font-weight: 700;
-	color: #333;
+	color: rgb(51, 51, 51);
 }
 
 .token.regex,
 .token.important {
-	color: #009926;
+	color: rgb(0, 153, 38);
 }
 
 .token.important {
-	font-weight: bold;
+	font-weight: 700;
 }
 
 .token.entity {
