@@ -1,4 +1,4 @@
-/* menu */
+// menu
 .f-menu {
 	position: fixed;
 	top: 0;
@@ -8,30 +8,36 @@
 	overflow-y: auto;
 	width: $menu-width;
 	height: 100%;
-	background-color: $color--menu-background;
+	background-color: map-get($colors, menu-background);
 	font-size: 16px !important;
 	font-family: sans-serif !important;
+
 	@media (min-width: 60em) {
 		right: auto;
 		left: 0;
 	}
+
 	.state--menu-active & {
 		visibility: visible;
 		-webkit-overflow-scrolling: touch;
 	}
+
 	ul {
 		margin-top: 0;
 		margin-bottom: 0;
 		padding-left: 0;
 	}
+
 	> ul {
 		margin-bottom: 1em;
+
 		> li {
 			> a {
 				margin-top: 1em;
 			}
 		}
 	}
+
 	li {
 		list-style-type: none;
 		margin-top: 0;
@@ -41,31 +47,38 @@
 	a {
 		display: block;
 		padding: 0.75em 3em;
-		color: $color--menu-heading-text !important;
+		color: map-get($colors, normal) !important;
 		text-decoration: none;
 		font-size: 0.75em;
 		line-height: 1;
-		transition: (background-color 200ms);
+		transition: background-color 200ms;
+
 		&:hover {
-			color: $color--menu-item-hover !important;
+			color: map-get($colors, normal) !important;
 			text-decoration: none;
 			font-weight: 400;
 		}
+
 		&.f-active {
-			box-shadow: inset 3px 0 0 $color--accent;
 			font-weight: 700;
-			color: $color--menu-item-text !important;
+			color: map-get($colors, emphasis) !important;
 		}
 	}
+
 	.f-menu__heading {
 		padding-left: 2em;
-		color: $color--menu-heading-text !important;
+		color: map-get($colors, normal) !important;
 		font-weight: 700;
+
 		&:hover {
-			color: $color--menu-item-text;
+			color: map-get($colors, normal);
 			font-weight: 700;
 		}
 	}
+}
+
+.f-controls-menu {
+	border-top: 1px solid map-get($colors, normal);
 }
 
 .f-menu-bar {
@@ -74,12 +87,14 @@
 
 .f-menu-toggle {
 	float: right;
-	border: none;
+	border: 0;
 	cursor: pointer;
+
 	svg {
 		width: 2em;
 		height: 2em;
 	}
+
 	@media (min-width: 60em) {
 		display: none;
 	}

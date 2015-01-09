@@ -1,33 +1,39 @@
 // colors
+$base-colors: (
+	dark: rgb(30, 30, 30),
+	medium: rgb(160, 160, 160),
+	light: rgb(242, 242, 242)
+);
 
-// `$theme--dark`: (boolean) to toggle "dark" or "light" theme
-$theme--dark: false;
+$theme-dark: (
+	menu-background: lighten(map-get($base-colors, dark), 4%),
+	emphasis: map-get($base-colors, light),
+	normal: map-get($base-colors, medium)
+);
 
-$color--dark: rgb(30,30,30);
-$color--medium: rgb(160,160,160);
-$color--light: rgb(242,242,242);
-$color--accent: rgb(91,216,216);
+$theme-light: (
+	menu-background: rgb(255, 255, 255),
+	emphasis: map-get($base-colors, dark),
+	normal: darken(map-get($base-colors, medium), 10%)
+);
 
-$color--menu-background: if($theme--dark, lighten($color--dark, 4%), rgb(255,255,255));
-$color--menu-heading-text: if($theme--dark, $color--medium, darken($color--medium, 10%));
-$color--menu-heading-border: if($theme--dark, $color--dark, darken($color--light, 4%));
-$color--menu-item-hover: if($theme--dark, $color--light, $color--dark);
-$color--menu-item-text: if($theme--dark, $color--light, $color--dark);
+$theme: $theme-light;
 
+$colors: map-merge($base-colors, $theme);
 
 // menu
 $menu-width: 14rem;
-
 
 // mixins
 @mixin clearfix {
 	&:after {
 		clear: both;
 	}
+
 	&:before,
 	&:after {
 		display: table;
-		content: "";
+		content: ' ';
 	}
 }
 
