@@ -12,7 +12,7 @@ var fs = require('fs');
 var gutil = require('gulp-util');
 var Handlebars = require('handlebars');
 var junk = require('junk');
-var markdown = require('marked');
+var markdown = require('markdown-it')({ langPrefix: 'language-' });
 var mkpath = require('mkpath');
 var path = require('path');
 
@@ -22,12 +22,6 @@ var path = require('path');
  * @type {Object}
  */
 var data;
-
-
-// configure marked
-markdown.setOptions({
-	langPrefix: 'language-'
-});
 
 
 // configure beautifier
@@ -128,7 +122,7 @@ var parse = function (dir) {
 
 		try {
 			var notes = fs.readFileSync('src/toolkit/' + dir + '/' + items[i] + '.md', 'utf8');
-			item.notes = markdown(notes);
+			item.notes = markdown.render(notes);
 		} catch (e) {}
 
 		data[dir][item.id.replace(/-/g, '')] = item;
