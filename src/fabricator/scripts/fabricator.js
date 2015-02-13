@@ -127,7 +127,9 @@ fabricator.setActiveItem = function () {
 		}
 
         // In case the first menu item isn't the index page.
-        if (id === "") { id = "index"; }
+		if (id === '') {
+			id = 'index';
+        }
 
         // find the window id in the items array
 		index = (items.indexOf(id) > -1) ? items.indexOf(id) : 0;
