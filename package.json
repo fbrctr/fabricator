@@ -37,6 +37,7 @@
     "change-case": "^2.1.5",
     "cheerio": "^0.18.0",
     "del": "^1.1.0",
+    "fabricator-assemble": "^0.1.0",
     "gulp": "^3.8.10",
     "gulp-autoprefixer": "^2.0.0",
     "gulp-concat": "^2.4.2",
