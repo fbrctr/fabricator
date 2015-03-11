@@ -154,22 +154,14 @@ fabricator.primaryMenuControls = function () {
 
 	// toggle classes on certain elements
 	var toggleClasses = function () {
-		document.querySelector('html').classList.toggle('state--menu-active');
+		document.querySelector('html').classList.toggle('f-menu-active');
 	};
 
 	// toggle classes on click
 	toggle.addEventListener('click', function () {
 		toggleClasses();
+		this.classList.toggle('f-active');
 	});
-
-	// close menu when clicking on item (for collapsed menu view)
-	var closeMenu = function () {
-		toggleClasses();
-	};
-
-	for (var i = 0; i < fabricator.dom.menuItems.length; i++) {
-		fabricator.dom.menuItems[i].addEventListener('click', closeMenu);
-	}
 
 	return this;
 

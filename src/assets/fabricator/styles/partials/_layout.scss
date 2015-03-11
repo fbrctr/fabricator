@@ -1,0 +1,19 @@
+body {
+	margin: 0;
+	position: relative;
+}
+
+.f-container {
+	@include clearfix;
+	@include border-box;
+	@include transition;
+	position: relative;
+	padding: 1em;
+	z-index: 0;
+
+	@media (min-width: 60em) {
+		.f-menu-active & {
+			margin-left: $menu-width;
+		}
+	}
+}

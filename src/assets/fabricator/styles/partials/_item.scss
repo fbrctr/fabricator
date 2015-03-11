@@ -31,6 +31,7 @@
 	.f-item-toggles {
 		float: right;
 		display: inline-block;
+		text-align: center;
 
 		svg {
 			width: 1em;
@@ -45,8 +46,9 @@
 	}
 
 	.f-toggle {
-		margin-left: 0.2em;
+		margin-left: 1em;
 		cursor: pointer;
+		float: left;
 	}
 }
 
