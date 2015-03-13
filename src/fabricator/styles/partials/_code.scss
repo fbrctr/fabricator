@@ -1,18 +1,33 @@
 /**
  * Github-like theme for Prism.js
- * @author Luke Askew
+ * @author Luke Askew http://github.com/lukeaskew
  */
+
+// color vars
+$code-colors: (
+	blue: #183691,
+	teal: #0086b3,
+	black: #333,
+	purple: #a71d5d,
+	maroon: #a71d5d,
+	green: #63a35c,
+	light-gray: #f7f7f7,
+	dark-gray: #969896
+);
+
+
+// base
 code,
 code[class*='language-'],
 pre[class*='language-'] {
-	color: #1b1e20;
+	color: map-get($code-colors, black);
 	text-align: left;
 	white-space: pre;
 	word-spacing: normal;
 	tab-size: 4;
 	hyphens: none;
-	font-family: Consolas, Monaco, 'Andale Mono', monospace;
-	line-height: 18px;
+	font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+	line-height: 1.4;
 	direction: ltr;
 	cursor: text;
 }
@@ -21,9 +36,9 @@ pre[class*='language-'] {
 pre[class*='language-'] {
 	overflow: auto;
 	margin: 1em 0;
-	padding: 1em;
+	padding: 1.2em;
 	border-radius: 3px;
-	font-size: 0.75em !important;
+	font-size: 85%;
 }
 
 p code,
@@ -31,9 +46,8 @@ li code,
 table code {
 	margin: 0;
 	border-radius: 3px;
-	padding-bottom: 2px;
-	border: 1px solid darken(map-get($colors, light), 7.3%);
-	font-size: 0.75em !important;
+	padding: 0.2em 0;
+	font-size: 85%;
 
 	&:before,
 	&:after {
@@ -45,7 +59,7 @@ table code {
 code,
 :not(pre) > code[class*='language-'],
 pre[class*='language-'] {
-	background: map-get($colors, light);
+	background: map-get($code-colors, light-gray);
 }
 
 // inline code
@@ -54,65 +68,57 @@ pre[class*='language-'] {
 	border-radius: 0.3em;
 }
 
-.token.comment,
-.token.prolog,
-.token.doctype,
-.token.cdata {
-	color: #998;
-}
 
-.tag .token.punctuation {
-	color: rgb(0, 0, 128);
+// token colors
+.token {
+
+	&.comment,
+	&.prolog,
+	&.doctype,
+	&.cdata {
+		color: map-get($code-colors, dark-gray);
+	}
+
+	&.punctuation,
+	&.string,
+	&.atrule,
+	&.attr-value {
+		color: map-get($code-colors, blue);
+	}
+
+	&.property,
+	&.tag {
+		color: map-get($code-colors, green);
+	}
+
+	&.boolean,
+	&.number {
+		color: map-get($code-colors, teal);
+	}
+
+	&.selector,
+	&.attr-name,
+	&.attr-value .punctuation:first-child,
+	&.keyword,
+	&.regex,
+	&.important {
+		color: map-get($code-colors, maroon);
+	}
+
+
+	&.operator,
+	&.entity,
+	&.url,
+	.language-css &.string {
+		color: map-get($code-colors, purple);
+	}
+
+	&.entity {
+		cursor: help;
+	}
+
 }
 
 .namespace {
 	opacity: 0.7;
-}
-
-.token.property,
-.token.tag {
-	color: rgb(0, 0, 128);
-}
-
-.token.boolean,
-.token.number {
-	color: rgb(0, 153, 153);
-}
-
-.token.selector,
-.token.attr-name,
-.token.string,
-.token.attr-value .punctuation:first-child {
-	color: rgb(0, 153, 153);
-}
-
-.token.operator,
-.token.entity,
-.token.url,
-.language-css .token.string,
-.style .token.string {
-	color: rgb(51, 51, 51);
-}
-
-.token.atrule,
-.token.attr-value {
-	color: rgb(221, 17, 68);
-}
-
-.token.keyword {
-	font-weight: 700;
-	color: rgb(51, 51, 51);
-}
-
-.token.regex,
-.token.important {
-	color: rgb(0, 153, 38);
-}
-
-.token.important {
-	font-weight: 700;
-}
-
-.token.entity {
-	cursor: help;
 }
