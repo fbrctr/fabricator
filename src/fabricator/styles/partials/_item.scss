@@ -1,8 +1,11 @@
-/* item */
 .f-item-group {
 	@include clearfix;
 	padding-bottom: 0.5em;
 	margin-bottom: 1.5em;
+}
+
+.f-item-preview {
+	@include clearfix;
 }
 
 .f-item-border-bottom {
