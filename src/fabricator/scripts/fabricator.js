@@ -126,12 +126,12 @@ fabricator.setActiveItem = function () {
 			id = window.location.pathname.split('/').pop().replace(/\.[^/.]+$/, '');
 		}
 
-        // In case the first menu item isn't the index page.
+		// In case the first menu item isn't the index page.
 		if (id === '') {
 			id = 'index';
-        }
+		}
 
-        // find the window id in the items array
+		// find the window id in the items array
 		index = (items.indexOf(id) > -1) ? items.indexOf(id) : 0;
 
 		// set the matched item as active
