@@ -83,7 +83,7 @@ Handlebars.registerHelper('iterate', function (n, block) {
  * @param {Sting} dir The directory that contains .html and .md files to be parsed
  * @return {Function} A stream
  */
-var parse = function (dir) {
+var parse = function (dir, opts) {
 
 	// create key if it doesn't exist
 	if (!data[dir]) {
@@ -106,28 +106,49 @@ var parse = function (dir) {
 	// iterate over each item, parse, add to item object
 	for (var i = 0, length = items.length; i < length; i++) {
 
-		var item = {};
+		var item = {},
+			notes = [];
 
 		item.id = items[i];
 		item.name = changeCase.titleCase(item.id.replace(/-/ig, ' '));
 
 		try {
-			// compile templates
 			var content = fs.readFileSync('src/toolkit/' + dir + '/' + items[i] + '.html', 'utf8').replace(/(\s*(\r?\n|\r))+$/, '');
+
+			//Get comments as notes
+			if (opts.notesFromComments) {
+				var htmlArr = cheerio.parseHTML(content);
+
+				htmlArr.forEach(function(element, index) {
+
+					if (element.type === "comment") {
+						notes.push(element.data);
+
+						//remove comment from string
+						if (opts.stripComments) {
+							content = content.replace(new RegExp("<!--.*" + element.data + ".*-->", 'gi'), '');
+						}
+					}
+				});
+
+				item.notes = notes.join(". <br />");
+			} else {
+
+				//Use .md file for notes
+				notes = fs.readFileSync('src/toolkit/' + dir + '/' + items[i] + '.md', 'utf8');
+				item.notes += markdown(notes);
+			}
+
+			// compile templates
 			var template = Handlebars.compile(content);
 			item.content = beautifyHtml(template(), beautifyOptions);
+
 			// register the helper
 			registerHelper(item);
 		} catch (e) {}
 
-		try {
-			var notes = fs.readFileSync('src/toolkit/' + dir + '/' + items[i] + '.md', 'utf8');
-			item.notes = markdown.render(notes);
-		} catch (e) {}
-
 		data[dir][item.id.replace(/-/g, '')] = item;
 	}
-
 };
 
 
@@ -137,7 +158,7 @@ module.exports = function (opts, cb) {
 
 	// iterate over each "materials" directory
 	for (var i = 0, length = opts.materials.length; i < length; i++) {
-		parse(opts.materials[i]);
+		parse(opts.materials[i], opts);
 	}
 
 	// write the json file
