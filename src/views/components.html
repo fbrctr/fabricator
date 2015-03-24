@@ -6,36 +6,6 @@ fabricator: true
 
 {{#each materials.components.items}}
 
-	<div class="f-item-group" id="{{@key}}">
-
-		<div class="f-item-heading-group" data-f-toggle="details">
-			<a href="#{{@key}}" class="f-item-heading">{{name}}</a>
-			<div class="f-item-toggles">
-				{{#if notes}}<div class="f-toggle" data-f-toggle-control="notes" title="toggle notes">
-					<svg>
-						<use xlink:href="#f-icon-notes" />
-					</svg>
-				</div>{{/if}}
-				<div class="f-toggle" data-f-toggle-control="code" title="toggle code">
-					<svg>
-						<use xlink:href="#f-icon-code" />
-					</svg>
-				</div>
-			</div>
-		</div>
-
-		{{#if notes}}<div class="f-item-notes" data-f-toggle="notes">
-			{{{notes}}}
-		</div>{{/if}}
-
-		<div class="f-item-preview">
-			{{{material @key @root}}}
-		</div>
-
-		<div class="f-item-code f-item-hidden" data-f-toggle="code">
-			<pre><code class="language-markup">{{material @key @root}}</code></pre>
-		</div>
-
-	</div>
+{{> f-item this}}
 
 {{/each}}
