@@ -2,8 +2,8 @@
 $base-colors: (
 	dark: rgb(30, 30, 30),
 	medium: rgb(118, 118, 118),
-	light: rgb(247, 247, 247),
-	accent: red
+	light: rgb(238, 238, 238),
+	accent: #9696b2
 );
 
 $theme-dark: (
@@ -20,8 +20,8 @@ $theme: $theme-light;
 
 $colors: map-merge($base-colors, $theme);
 
-// menu
 $menu-width: 14rem;
+
 
 // mixins
 @mixin clearfix {
@@ -34,10 +34,6 @@ $menu-width: 14rem;
 		display: table;
 		content: ' ';
 	}
-}
-
-@mixin transition {
-	transition: all 350ms cubic-bezier(0.86, 0, 0.07, 1) 0s;
 }
 
 @mixin border-box {

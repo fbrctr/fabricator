@@ -1,20 +1,45 @@
+html {
+	height: 100%;
+
+	&.f-menu-active {
+		overflow: hidden;
+
+		@media (min-width: 60em) {
+			overflow: auto;
+		}
+	}
+}
+
 body {
 	margin: 0;
 	position: relative;
-	min-height: calc(100vh - 3.2rem);
+
+	.f-menu-active & {
+		width:100%;
+		height: 100%;
+		overflow: hidden;
+
+		@media (min-width: 60em) {
+			overflow: auto;
+		}
+	}
 }
 
 .f-container {
 	@include clearfix;
 	@include border-box;
-	@include transition;
 	position: relative;
-	padding: 1em;
+	padding: 0 1em;
 	z-index: 0;
+	min-height: 100vh;
 
-	@media (min-width: 60em) {
-		.f-menu-active & {
+	.f-menu-active & {
+		transform: translate($menu-width, 0);
+
+		@media (min-width: 60em) {
 			margin-left: $menu-width;
+			transform: translate(0, 0);
 		}
 	}
+
 }
