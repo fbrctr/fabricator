@@ -21,6 +21,9 @@ fabricator.options = {
 	mq: '(min-width: 60em)'
 };
 
+// open menu by default if large screen
+fabricator.options.menu = window.matchMedia(fabricator.options.mq).matches;
+
 /**
  * Feature detection
  * @type {Object}
