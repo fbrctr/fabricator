@@ -44,10 +44,18 @@
 	}
 }
 
-.f-menu-toggle {
-	transform: rotate(0);
+.f-control-bar {
+	@include clearfix;
+	padding: 1rem 0;
+}
 
-	.f-menu-active & {
-		transform: rotate(180deg);
+.f-menu-toggle {
+	cursor: pointer;
+	vertical-align: middle;
+
+	svg {
+		display: block;
+		float: left;
+		margin-bottom: -1px;
 	}
 }

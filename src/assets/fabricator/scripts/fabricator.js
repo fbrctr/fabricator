@@ -353,8 +353,6 @@ fabricator.setInitialMenuState = function () {
 		.setActiveItem()
 		.bindCodeAutoSelect();
 
-	fabricator.dom.root.classList.add('f-loaded')
-
 	// syntax highlighting
 	Prism.highlightAll();
 
