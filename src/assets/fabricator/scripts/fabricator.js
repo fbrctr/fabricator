@@ -259,7 +259,7 @@ fabricator.allItemsToggles = function () {
  */
 fabricator.singleItemToggle = function () {
 
-	var itemToggleSingle = document.querySelectorAll('.f-toggle');
+	var itemToggleSingle = document.querySelectorAll('.f-item-group [data-f-toggle-control]');
 
 	// toggle single
 	var toggleSingleItemCode = function (e) {

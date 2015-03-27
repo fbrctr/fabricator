@@ -1,8 +1,7 @@
-// colors
 $base-colors: (
-	dark: rgb(30, 30, 30),
-	medium: rgb(160, 160, 160),
-	light: rgb(242, 242, 242)
+	dark: hsl(0, 0%, 12%),
+	medium: hsl(0, 0%, 46%),
+	light: hsl(0, 0%, 80%)
 );
 
 $theme-dark: (
