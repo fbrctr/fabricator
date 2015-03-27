@@ -1,34 +1,5 @@
 <div class="f-item-group" id="{{@key}}">
 
-<<<<<<< HEAD
-	<div class="f-item-heading-group" data-f-toggle="labels">
-		<a href="#{{@key}}" class="f-item-heading">{{name}}</a>
-		<div class="f-item-toggles">
-			{{#if notes}}<span class="f-control f-icon" data-f-toggle-control="notes" title="Toggle Notes">
-				<svg>
-					<use xlink:href="#f-icon-notes" />
-				</svg>
-			</span>{{/if}}
-			<span class="f-control f-icon" data-f-toggle-control="code" title="Toggle Code">
-				<svg>
-					<use xlink:href="#f-icon-code" />
-				</svg>
-			</span>
-		</div>
-	</div>
-
-	{{#if notes}}<div class="f-item-notes" data-f-toggle="notes">
-		{{{notes}}}
-	</div>{{/if}}
-
-	<div class="f-item-preview">
-		{{{material @key @root}}}
-	</div>
-
-	<div class="f-item-code f-item-hidden" data-f-toggle="code">
-		<pre><code class="language-markup">{{material @key @root}}</code></pre>
-	</div>
-=======
 {{#if items}}
 	<div class="f-item-heading-group">
 		<h2 class="f-item-heading" data-f-toggle="labels">{{name}}</h2>
@@ -47,6 +18,5 @@
 		{{> f-item-controls}}
 	</div>{{> f-item-content this}}
 {{/if}}
->>>>>>> better-partials
 
 </div>

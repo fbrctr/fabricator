@@ -1,10 +1,26 @@
 .f-controls {
 	@include clearfix;
 	@include border-box;
-	border-bottom: 1px solid map-get($colors, light);
 
-	&-right {
-		float: right;
+	.f-control {
+		display: block;
+		float: left;
+		text-align: center;
+		width: percentage(1/3);
+		margin: 0;
+		padding: 1rem 0;
+
+		&.f-active {
+			box-shadow: inset 0 3px 0 0 map-get($colors, accent);
+
+			use {
+				fill: map-get($colors, normal);
+			}
+		}
+
+		svg {
+			vertical-align: middle;
+		}
 	}
 }
 
@@ -12,38 +28,7 @@
 	@include border-box;
 	display: inline-block;
 	cursor: pointer;
-	padding: 1rem 0;
 	margin-left: 0.618rem;
-
-	&:first-child {
-		margin-left: 0;
-	}
-
-		svg {
-			width: 14px;
-			height: 14px;
-			display: inline-block;
-			vertical-align: middle;
-		}
-
-		use {
-			fill: map-get($colors, normal);
-		}
-	}
-}
-
-.f-menu-toggle {
-	transform: rotate(0);
-
-	.f-menu-active & {
-		transform: rotate(180deg);
-	}
-}
-
-.f-control {
-	cursor: pointer;
-	vertical-align: middle;
-	margin-left: 0.75rem;
 
 	&:first-child {
 		margin-left: 0;
@@ -54,7 +39,15 @@
 		height: 14px;
 
 		use {
-			fill: map-get($colors, normal);
+			fill: map-get($colors, light);
 		}
+	}
+}
+
+.f-menu-toggle {
+	transform: rotate(0);
+
+	.f-menu-active & {
+		transform: rotate(180deg);
 	}
 }
