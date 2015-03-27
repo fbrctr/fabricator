@@ -12,7 +12,6 @@ var gutil = require('gulp-util');
 var gulpif = require('gulp-if');
 var imagemin = require('gulp-imagemin');
 var prefix = require('gulp-autoprefixer');
-var Q = require('q');
 var rename = require('gulp-rename');
 var reload = browserSync.reload;
 var runSequence = require('run-sequence');
@@ -126,7 +125,10 @@ gulp.task('assemble', function () {
 
 
 // server
-gulp.task('browser-sync', function () {
+gulp.task('serve', function () {
+
+	var reload = browserSync.reload;
+
 	browserSync({
 		server: {
 			baseDir: config.dest
@@ -134,17 +136,13 @@ gulp.task('browser-sync', function () {
 		notify: false,
 		logPrefix: 'FABRICATOR'
 	});
-});
 
-
-// watch
-gulp.task('watch', ['browser-sync'], function () {
-	gulp.watch('src/**/*.{html,md,json,yml}', ['assemble', browserSync.reload]);
+	gulp.watch('src/**/*.{html,md,json,yml}', ['assemble']).on('change', reload);
 	gulp.watch('src/assets/fabricator/styles/**/*.scss', ['styles:fabricator']);
 	gulp.watch('src/assets/toolkit/styles/**/*.scss', ['styles:toolkit']);
-	gulp.watch('src/assets/fabricator/scripts/**/*.js', ['scripts:fabricator', browserSync.reload]);
-	gulp.watch('src/assets/toolkit/scripts/**/*.js', ['scripts:toolkit', browserSync.reload]);
-	gulp.watch(config.src.images, ['images', browserSync.reload]);
+	gulp.watch('src/assets/fabricator/scripts/**/*.js', ['scripts:fabricator']).on('change', reload);
+	gulp.watch('src/assets/toolkit/scripts/**/*.js', ['scripts:toolkit']).on('change', reload);
+	gulp.watch(config.src.images, ['images']).on('change', reload);
 });
 
 
@@ -162,7 +160,7 @@ gulp.task('default', ['clean'], function () {
 	// run build
 	runSequence(tasks, function () {
 		if (config.dev) {
-			gulp.start('watch');
+			gulp.start('serve');
 		}
 	});
 

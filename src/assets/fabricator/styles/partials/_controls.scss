@@ -19,12 +19,12 @@
 		margin-left: 0;
 	}
 
-	svg {
-		width: 1rem;
-		height: 1rem;
-		margin: 0 auto;
-		display: inline-block;
-		vertical-align: middle;
+		svg {
+			width: 14px;
+			height: 14px;
+			display: inline-block;
+			vertical-align: middle;
+		}
 
 		use {
 			fill: map-get($colors, normal);
@@ -37,5 +37,24 @@
 
 	.f-menu-active & {
 		transform: rotate(180deg);
+	}
+}
+
+.f-control {
+	cursor: pointer;
+	vertical-align: middle;
+	margin-left: 0.75rem;
+
+	&:first-child {
+		margin-left: 0;
+	}
+
+	svg {
+		width: 14px;
+		height: 14px;
+
+		use {
+			fill: map-get($colors, normal);
+		}
 	}
 }

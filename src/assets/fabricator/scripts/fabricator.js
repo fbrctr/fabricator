@@ -132,6 +132,11 @@ fabricator.setActiveItem = function () {
 			id = window.location.pathname.split('/').pop().replace(/\.[^/.]+$/, '');
 		}
 
+		// In case the first menu item isn't the index page.
+		if (id === '') {
+			id = 'index';
+		}
+
 		// find the window id in the items array
 		index = (items.indexOf(id) > -1) ? items.indexOf(id) : 0;
 
@@ -269,7 +274,7 @@ fabricator.allItemsToggles = function () {
  */
 fabricator.singleItemToggle = function () {
 
-	var itemToggleSingle = document.querySelectorAll('.f-item-group .f-control');
+	var itemToggleSingle = document.querySelectorAll('.f-item-group [data-f-toggle-control]');
 
 	// toggle single
 	var toggleSingleItemCode = function (e) {
