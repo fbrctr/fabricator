@@ -61,6 +61,15 @@ fabricator.dom = {
 
 
 /**
+ * Get current option values from session storage
+ * @return {Object}
+ */
+fabricator.getOptions = function () {
+	return (fabricator.test.sessionStorage) ? JSON.parse(sessionStorage.fabricator) : fabricator.options;
+};
+
+
+/**
  * Build color chips
  */
 fabricator.buildColorChips = function () {
@@ -163,7 +172,7 @@ fabricator.menuToggle = function () {
 	// shortcut menu DOM
 	var toggle = fabricator.dom.menuToggle;
 
-	var options = (fabricator.test.sessionStorage) ? JSON.parse(sessionStorage.fabricator) : fabricator.options;
+	var options = fabricator.getOptions();
 
 	// toggle classes on certain elements
 	var toggleClasses = function () {
@@ -210,7 +219,7 @@ fabricator.allItemsToggles = function () {
 
 	var toggleAllControls = document.querySelectorAll('.f-controls [data-f-toggle-control]');
 
-	var options = (fabricator.test.sessionStorage) ? JSON.parse(sessionStorage.fabricator) : fabricator.options;
+	var options = fabricator.getOptions();
 
 	// toggle all
 	var toggleAllItems = function (type, value) {
@@ -315,23 +324,32 @@ fabricator.bindCodeAutoSelect = function () {
 };
 
 
+/**
+ * Open/Close menu based on session var.
+ * Also attach a media query listener to close the menu when resizing to smaller screen.
+ */
 fabricator.setInitialMenuState = function () {
 
 	// root element
 	var root = document.querySelector('html');
 
-	var options = (fabricator.test.sessionStorage) ? JSON.parse(sessionStorage.fabricator) : fabricator.options;
+	var mq = window.matchMedia(fabricator.options.mq);
 
 	// if small screen
-	if (!window.matchMedia(fabricator.options.mq).matches) {
-		root.classList.remove('f-menu-active');
-	} else {
-		if (options.menu) {
-			root.classList.add('f-menu-active');
-		} else {
+	var mediaChangeHandler = function (list) {
+		if (!list.matches) {
 			root.classList.remove('f-menu-active');
+		} else {
+			if (fabricator.getOptions().menu) {
+				root.classList.add('f-menu-active');
+			} else {
+				root.classList.remove('f-menu-active');
+			}
 		}
-	}
+	};
+
+	mq.addListener(mediaChangeHandler);
+	mediaChangeHandler(mq);
 
 	return this;
 
@@ -352,6 +370,7 @@ fabricator.setInitialMenuState = function () {
 		.buildColorChips()
 		.setActiveItem()
 		.bindCodeAutoSelect();
+
 
 	// syntax highlighting
 	Prism.highlightAll();
