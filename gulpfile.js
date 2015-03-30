@@ -119,8 +119,9 @@ gulp.task('favicon', function () {
 
 
 // assemble
-gulp.task('assemble', function () {
-	return assemble();
+gulp.task('assemble', function (done) {
+	assemble();
+	done();
 });
 
 
