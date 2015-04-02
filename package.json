@@ -35,7 +35,7 @@
     "browser-sync": "^2.3.1",
     "browserify": "^9.0.3",
     "del": "^1.1.0",
-    "fabricator-assemble": "^0.1.4",
+    "fabricator-assemble": "^0.1.5",
     "gulp": "^3.8.10",
     "gulp-autoprefixer": "^2.0.0",
     "gulp-concat": "^2.4.2",
