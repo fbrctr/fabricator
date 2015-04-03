@@ -1,6 +1,8 @@
 [![devDependency Status](https://david-dm.org/fbrctr/fabricator/dev-status.svg)](https://david-dm.org/fbrctr/fabricator#info=devDependencies)
 
-![Fabricator](http://resource.github.io/fabricator/fb.jpg)
+<div style="width: 50%; margin: 0 auto;">
+  <img src="http://fbrctr.github.io/assets/toolkit/images/logo.svg" />
+</div>
 
 # Fabricator
 
