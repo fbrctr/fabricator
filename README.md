@@ -1,4 +1,4 @@
-[![devDependency Status](https://david-dm.org/resource/fabricator/dev-status.svg?style=flat)](https://david-dm.org/fbrctr/fabricator#info=devDependencies)
+[![devDependency Status](https://david-dm.org/fbrctr/fabricator/dev-status.svg)](https://david-dm.org/fbrctr/fabricator#info=devDependencies)
 
 ![Fabricator](http://resource.github.io/fabricator/fb.jpg)
 
