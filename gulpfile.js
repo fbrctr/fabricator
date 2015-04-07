@@ -130,7 +130,9 @@ gulp.task('collate', function () {
 
 	var opts = {
 		materials: config.src.materials,
-		dest: config.dest + '/fabricator/data/data.json'
+		dest: config.dest + '/fabricator/data/data.json',
+		notesFromComments: true, //use html comments as notes
+		stripComments: true //remove html comments
 	};
 
 	// run the collate task; resolve deferred when complete
