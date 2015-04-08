@@ -23,7 +23,7 @@ $ npm start
 
 ## Credits
 
-Created by [Luke Askew](http://lukeaskew.com).
+Created by [Luke Askew](http://twitter.com/lukeaskew).
 
 Logo by [Abby Putinski](https://abbyputinski.com/)
 
