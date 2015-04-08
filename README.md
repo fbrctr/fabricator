@@ -8,7 +8,7 @@
 
 > _fabricate_ - to make by assembling parts or sections.
 
-Fabricator is a tool for creating website UI toolkits - _think ["Tiny Bootstraps, for Every Client"](http://daverupert.com/2013/04/responsive-deliverables/#tiny-bootstraps-for-every-client)_
+Fabricator is a tool for building website UI toolkits - _think ["Tiny Bootstraps, for Every Client"](http://daverupert.com/2013/04/responsive-deliverables/#tiny-bootstraps-for-every-client)_
 
 ## Quick Start
 
