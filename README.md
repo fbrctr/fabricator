@@ -1,4 +1,4 @@
-[![Join the chat at https://gitter.im/fbrctr/fabricator](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fbrctr/fabricator?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![devDependency Status](https://david-dm.org/fbrctr/fabricator/dev-status.svg)](https://david-dm.org/fbrctr/fabricator#info=devDependencies)
+[![Build Status](https://travis-ci.org/fbrctr/fabricator.svg)](https://travis-ci.org/fbrctr/fabricator) [![devDependency Status](https://david-dm.org/fbrctr/fabricator/dev-status.svg)](https://david-dm.org/fbrctr/fabricator#info=devDependencies) [![Join the chat at https://gitter.im/fbrctr/fabricator](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fbrctr/fabricator?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 <p align="center">
   <img src="http://fbrctr.github.io/assets/toolkit/images/logo.svg" width="500">
@@ -8,55 +8,45 @@
 
 > _fabricate_ - to make by assembling parts or sections.
 
-Fabricator is a tool for creating modular website toolkits - _think ["Tiny Bootstraps, for Every Client"](http://daverupert.com/2013/04/responsive-deliverables/#tiny-bootstraps-for-every-client)_
+Fabricator is a tool for creating website UI toolkits - _think ["Tiny Bootstraps, for Every Client"](http://daverupert.com/2013/04/responsive-deliverables/#tiny-bootstraps-for-every-client)_
 
-## Usage
-
-### 1. Download
-
-Each toolkit starts with a new instance of Fabricator. Grab the latest:
+## Quick Start
 
 ```shell
 $ curl -L https://github.com/resource/fabricator/archive/master.tar.gz | tar zx --strip 1
-```
-
-Alternatively, you can scaffold a toolkit using the [Yeoman](http://yeoman.io) generator:
-
-```shell
-$ npm install -g generator-fabricator
-$ yo fabricator
-```
-
-### 2. Develop
-
-Start development environment:
-
-```shell
 $ npm start
-```
-
-### 3. Build
-
-When you're ready to ship:
-
-```shell
-$ npm run build
 ```
 
 ## Documentation
 
-[Check out the wiki](https://github.com/resource/fabricator/wiki).
+[Read the docs →](http://fbrctr.github.io/docs)
 
 ## Credits
 
 Created by [Luke Askew](http://lukeaskew.com).
 
-Logo by Tim Vonderloh.
-
-Icons borrowed from [SteadySets](http://dribbble.com/shots/929153-Steady-set-of-icons?list=show) and [Font Awesome](http://fortawesome.github.io/Font-Awesome/).
-
-Code syntax highlighting by [Prism](http://prismjs.com/).
+Logo by [Abby Putinski](https://abbyputinski.com/)
 
 ## License
 
-[Copyright (c) 2014 Resource LLC](https://github.com/resource/fabricator/blob/master/LICENSE.md)
+The MIT License (MIT)
+
+Copyright (c) 2015 Luke Askew
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
