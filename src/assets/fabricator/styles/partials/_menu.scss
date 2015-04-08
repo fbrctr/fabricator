@@ -1,25 +1,21 @@
 // menu
 .f-menu {
+	@include border-box;
 	position: fixed;
 	top: 0;
-	right: 0;
-	z-index: 0;
-	overflow-x: hidden;
-	overflow-y: auto;
+	left: 0;
+	transform: translate(-$menu-width, 0);
 	width: $menu-width;
 	height: 100%;
+	z-index: 1;
 	background-color: map-get($colors, menu-background);
-	font-size: 16px !important;
-	font-family: sans-serif !important;
+	overflow-x: hidden;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
 
-	@media (min-width: 60em) {
-		right: auto;
-		left: 0;
-	}
+	.f-menu-active & {
+		transform: translate(0, 0);
 
-	.state--menu-active & {
-		visibility: visible;
-		-webkit-overflow-scrolling: touch;
 	}
 
 	ul {
@@ -29,12 +25,11 @@
 	}
 
 	> ul {
-		margin-bottom: 1em;
+		margin-top: 0;
+		margin-bottom: 1rem;
 
 		> li {
-			> a {
-				margin-top: 1em;
-			}
+			margin-top: 1rem;
 		}
 	}
 
@@ -46,56 +41,30 @@
 
 	a {
 		display: block;
-		padding: 0.75em 3em;
+		padding: 0.5rem 2rem;
 		color: map-get($colors, normal) !important;
 		text-decoration: none;
-		font-size: 0.75em;
+		font-size: 0.75rem;
 		line-height: 1;
-		transition: background-color 200ms;
 
 		&:hover {
 			color: map-get($colors, normal) !important;
-			text-decoration: none;
-			font-weight: 400;
+			text-decoration: underline;
 		}
 
 		&.f-active {
-			font-weight: 700;
-			color: map-get($colors, emphasis) !important;
+			box-shadow: inset 3px 0 0 0 map-get($colors, accent);
 		}
 	}
 
 	.f-menu__heading {
-		padding-left: 2em;
-		color: map-get($colors, normal) !important;
+		padding-left: 1.5rem;
 		font-weight: 700;
+		font-size: .6875rem;
+		text-transform: uppercase;
 
 		&:hover {
 			color: map-get($colors, normal);
-			font-weight: 700;
 		}
-	}
-}
-
-.f-controls-menu {
-	border-top: 1px solid map-get($colors, normal);
-}
-
-.f-menu-bar {
-	@include clearfix;
-}
-
-.f-menu-toggle {
-	float: right;
-	border: 0;
-	cursor: pointer;
-
-	svg {
-		width: 2em;
-		height: 2em;
-	}
-
-	@media (min-width: 60em) {
-		display: none;
 	}
 }

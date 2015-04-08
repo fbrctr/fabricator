@@ -20,15 +20,7 @@
 		{{> f-icons}}
 		{{> f-menu}}
 		<div class="f-container">
-			<div class="f-main">
-
-				<div class="f-menu-bar">
-					<div class="f-menu-toggle">
-						<svg>
-							<use xlink:href="#f-icon-menu" />
-						</svg>
-					</div>
-				</div>
+			{{> f-control-bar}}
 	{{/if}}
 
 
@@ -36,7 +28,6 @@
 
 
 	{{#if fabricator}}
-			</div>
 		</div>
 	<script src="assets/fabricator/scripts/f.js"></script>
 	{{/if}}

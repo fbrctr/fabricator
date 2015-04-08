@@ -1,27 +1,26 @@
 $base-colors: (
 	dark: hsl(0, 0%, 12%),
 	medium: hsl(0, 0%, 46%),
-	light: hsl(0, 0%, 80%)
+	light: hsl(0, 0%, 80%),
+	accent: hsl(0, 0%, 46%)
 );
 
 $theme-dark: (
 	menu-background: lighten(map-get($base-colors, dark), 4%),
-	emphasis: map-get($base-colors, light),
 	normal: map-get($base-colors, medium)
 );
 
 $theme-light: (
 	menu-background: rgb(255, 255, 255),
-	emphasis: map-get($base-colors, dark),
-	normal: darken(map-get($base-colors, medium), 10%)
+	normal: map-get($base-colors, medium)
 );
 
 $theme: $theme-light;
 
 $colors: map-merge($base-colors, $theme);
 
-// menu
 $menu-width: 14rem;
+
 
 // mixins
 @mixin clearfix {
@@ -36,10 +35,6 @@ $menu-width: 14rem;
 	}
 }
 
-@mixin transition {
-	transition: all 350ms cubic-bezier(0.86, 0, 0.07, 1) 0s;
-}
-
-@mixin borderBox {
+@mixin border-box {
 	box-sizing: border-box;
 }
