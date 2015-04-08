@@ -27,25 +27,19 @@ var config = {
 	src: {
 		scripts: {
 			fabricator: [
-				'./src/assets/fabricator/scripts/prism.js',
-				'./src/assets/fabricator/scripts/fabricator.js'
+				'src/assets/fabricator/scripts/prism.js',
+				'src/assets/fabricator/scripts/fabricator.js'
 			],
 			toolkit: './src/assets/toolkit/scripts/toolkit.js'
 		},
 		styles: {
-			fabricator: './src/assets/fabricator/styles/fabricator.scss',
-			toolkit: './src/assets/toolkit/styles/toolkit.scss'
+			fabricator: 'src/assets/fabricator/styles/fabricator.scss',
+			toolkit: 'src/assets/toolkit/styles/toolkit.scss'
 		},
 		images: 'src/assets/toolkit/images/**/*',
-		views: './src/toolkit/views/*.html',
-		materials: [
-			'components',
-			'structures',
-			'templates',
-			'documentation'
-		]
+		views: 'src/toolkit/views/*.html'
 	},
-	dest: './dist'
+	dest: 'dist'
 };
 
 
