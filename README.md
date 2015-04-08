@@ -19,7 +19,7 @@ $ npm start
 
 ## Documentation
 
-[Read the docs →](http://fbrctr.github.io/docs)
+### [Read the docs →](http://fbrctr.github.io/docs)
 
 ## Credits
 
