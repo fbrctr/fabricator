@@ -14,12 +14,16 @@
 			box-shadow: inset 0 3px 0 0 map-get($colors, accent);
 
 			use {
-				fill: map-get($colors, normal);
+				fill: map-get($colors, menu-text);
 			}
 		}
 
 		svg {
 			vertical-align: middle;
+
+			use {
+				fill: if($theme == $theme-dark, map-get($colors, normal), map-get($colors, light) );
+			}
 		}
 	}
 }

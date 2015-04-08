@@ -6,12 +6,14 @@ $base-colors: (
 );
 
 $theme-dark: (
-	menu-background: lighten(map-get($base-colors, dark), 4%),
+	menu-background: map-get($base-colors, dark),
+	menu-text: map-get($base-colors, light),
 	normal: map-get($base-colors, medium)
 );
 
 $theme-light: (
-	menu-background: rgb(255, 255, 255),
+	menu-background: hsl(0, 0%, 100%),
+	menu-text: map-get($base-colors, medium),
 	normal: map-get($base-colors, medium)
 );
 

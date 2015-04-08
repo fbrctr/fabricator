@@ -42,13 +42,13 @@
 	a {
 		display: block;
 		padding: 0.5rem 2rem;
-		color: map-get($colors, normal) !important;
+		color: map-get($colors, menu-text) !important;
 		text-decoration: none;
 		font-size: 0.75rem;
 		line-height: 1;
 
 		&:hover {
-			color: map-get($colors, normal) !important;
+			color: map-get($colors, menu-text) !important;
 			text-decoration: underline;
 		}
 
