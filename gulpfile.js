@@ -1,10 +1,9 @@
 'use strict';
 
 // modules
+var assemble = require('fabricator-assemble');
 var browserify = require('browserify');
 var browserSync = require('browser-sync');
-var collate = require('./tasks/collate');
-var compile = require('./tasks/compile');
 var concat = require('gulp-concat');
 var csso = require('gulp-csso');
 var del = require('del');
@@ -13,7 +12,6 @@ var gutil = require('gulp-util');
 var gulpif = require('gulp-if');
 var imagemin = require('gulp-imagemin');
 var prefix = require('gulp-autoprefixer');
-var Q = require('q');
 var rename = require('gulp-rename');
 var reload = browserSync.reload;
 var runSequence = require('run-sequence');
@@ -29,16 +27,16 @@ var config = {
 	src: {
 		scripts: {
 			fabricator: [
-				'./src/fabricator/scripts/prism.js',
-				'./src/fabricator/scripts/fabricator.js'
+				'./src/assets/fabricator/scripts/prism.js',
+				'./src/assets/fabricator/scripts/fabricator.js'
 			],
-			toolkit: './src/toolkit/assets/scripts/toolkit.js'
+			toolkit: './src/assets/toolkit/scripts/toolkit.js'
 		},
 		styles: {
-			fabricator: './src/fabricator/styles/fabricator.scss',
-			toolkit: './src/toolkit/assets/styles/toolkit.scss'
+			fabricator: './src/assets/fabricator/styles/fabricator.scss',
+			toolkit: './src/assets/toolkit/styles/toolkit.scss'
 		},
-		images: 'src/toolkit/assets/images/**/*',
+		images: 'src/assets/toolkit/images/**/*',
 		views: './src/toolkit/views/*.html',
 		materials: [
 			'components',
@@ -66,7 +64,7 @@ gulp.task('styles:fabricator', function () {
 		.pipe(prefix('last 1 version'))
 		.pipe(gulpif(!config.dev, csso()))
 		.pipe(rename('f.css'))
-		.pipe(gulp.dest(config.dest + '/fabricator/styles'))
+		.pipe(gulp.dest(config.dest + '/assets/fabricator/styles'))
 		.pipe(gulpif(config.dev, reload({stream:true})));
 });
 
@@ -77,7 +75,7 @@ gulp.task('styles:toolkit', function () {
 		}))
 		.pipe(prefix('last 1 version'))
 		.pipe(gulpif(!config.dev, csso()))
-		.pipe(gulp.dest(config.dest + '/toolkit/styles'))
+		.pipe(gulp.dest(config.dest + '/assets/toolkit/styles'))
 		.pipe(gulpif(config.dev, reload({stream:true})));
 });
 
@@ -89,7 +87,7 @@ gulp.task('scripts:fabricator', function () {
 	return gulp.src(config.src.scripts.fabricator)
 		.pipe(concat('f.js'))
 		.pipe(gulpif(!config.dev, uglify()))
-		.pipe(gulp.dest(config.dest + '/fabricator/scripts'));
+		.pipe(gulp.dest(config.dest + '/assets/fabricator/scripts'));
 });
 
 gulp.task('scripts:toolkit', function () {
@@ -101,7 +99,7 @@ gulp.task('scripts:toolkit', function () {
 		})
 		.pipe(source('toolkit.js'))
 		.pipe(gulpif(!config.dev, streamify(uglify())))
-		.pipe(gulp.dest(config.dest + '/toolkit/scripts'));
+		.pipe(gulp.dest(config.dest + '/assets/toolkit/scripts'));
 });
 
 gulp.task('scripts', ['scripts:fabricator', 'scripts:toolkit']);
@@ -111,7 +109,7 @@ gulp.task('scripts', ['scripts:fabricator', 'scripts:toolkit']);
 gulp.task('images', ['favicon'], function () {
 	return gulp.src(config.src.images)
 		.pipe(imagemin())
-		.pipe(gulp.dest(config.dest + '/toolkit/images'));
+		.pipe(gulp.dest(config.dest + '/assets/toolkit/images'));
 });
 
 gulp.task('favicon', function () {
@@ -120,58 +118,18 @@ gulp.task('favicon', function () {
 });
 
 
-// collate
-gulp.task('collate', function () {
-
-	// 'collate' is a little different -
-	// it returns a promise instead of a stream
-
-	var deferred = Q.defer();
-
-	var opts = {
-		materials: config.src.materials,
-		dest: config.dest + '/fabricator/data/data.json'
-	};
-
-	// run the collate task; resolve deferred when complete
-	collate(opts, deferred.resolve);
-
-	return deferred.promise;
-
-});
-
-// assembly
-gulp.task('assemble:fabricator', function () {
-	var opts = {
-		data: config.dest + '/fabricator/data/data.json',
-		template: false
-	};
-
-	return gulp.src(config.src.views)
-		.pipe(compile(opts))
-		.pipe(gulp.dest(config.dest));
-});
-
-gulp.task('assemble:templates', function () {
-	var opts = {
-		data: config.dest + '/fabricator/data/data.json',
-		template: true
-	};
-	return gulp.src('./src/toolkit/templates/*.html')
-		.pipe(compile(opts))
-		.pipe(rename({
-			prefix: 'template-'
-		}))
-		.pipe(gulp.dest(config.dest));
-});
-
-gulp.task('assemble', ['collate'], function () {
-	gulp.start('assemble:fabricator', 'assemble:templates');
+// assemble
+gulp.task('assemble', function (done) {
+	assemble();
+	done();
 });
 
 
 // server
-gulp.task('browser-sync', function () {
+gulp.task('serve', function () {
+
+	var reload = browserSync.reload;
+
 	browserSync({
 		server: {
 			baseDir: config.dest
@@ -179,17 +137,13 @@ gulp.task('browser-sync', function () {
 		notify: false,
 		logPrefix: 'FABRICATOR'
 	});
-});
 
-
-// watch
-gulp.task('watch', ['browser-sync'], function () {
-	gulp.watch('src/toolkit/{components,structures,templates,documentation,views}/**/*.{html,md}', ['assemble', browserSync.reload]);
-	gulp.watch('src/fabricator/styles/**/*.scss', ['styles:fabricator']);
-	gulp.watch('src/toolkit/assets/styles/**/*.scss', ['styles:toolkit']);
-	gulp.watch('src/fabricator/scripts/**/*.js', ['scripts:fabricator', browserSync.reload]);
-	gulp.watch('src/toolkit/assets/scripts/**/*.js', ['scripts:toolkit', browserSync.reload]);
-	gulp.watch(config.src.images, ['images', browserSync.reload]);
+	gulp.watch('src/**/*.{html,md,json,yml}', ['assemble']).on('change', reload);
+	gulp.watch('src/assets/fabricator/styles/**/*.scss', ['styles:fabricator']);
+	gulp.watch('src/assets/toolkit/styles/**/*.scss', ['styles:toolkit']);
+	gulp.watch('src/assets/fabricator/scripts/**/*.js', ['scripts:fabricator']).on('change', reload);
+	gulp.watch('src/assets/toolkit/scripts/**/*.js', ['scripts:toolkit']).on('change', reload);
+	gulp.watch(config.src.images, ['images']).on('change', reload);
 });
 
 
@@ -207,7 +161,7 @@ gulp.task('default', ['clean'], function () {
 	// run build
 	runSequence(tasks, function () {
 		if (config.dev) {
-			gulp.start('watch');
+			gulp.start('serve');
 		}
 	});
 

@@ -1,0 +1,60 @@
+.f-controls {
+	@include clearfix;
+
+	.f-icon {
+		box-sizing: border-box;
+		width: 33.333333333%;
+		padding: 0.75em 0;
+		text-align: center;
+		float: left;
+		cursor: pointer;
+
+		&:hover:not(.f-active) {
+			use {
+				fill: map-get($colors, normal);
+			}
+		}
+
+		&:last-child {
+			border-right: 0;
+		}
+
+		svg {
+			width: 14px;
+			height: 14px;
+			display: inline-block;
+			vertical-align: middle;
+		}
+
+		use {
+			fill: map-get($colors, normal);
+		}
+	}
+
+	.f-active {
+		box-shadow: inset 0 3px 0 map-get($colors, emphasis);
+
+		use {
+			fill: map-get($colors, emphasis);
+		}
+	}
+}
+
+.f-control {
+	cursor: pointer;
+	vertical-align: middle;
+	margin-left: 0.75rem;
+
+	&:first-child {
+		margin-left: 0;
+	}
+
+	svg {
+		width: 14px;
+		height: 14px;
+
+		use {
+			fill: map-get($colors, normal);
+		}
+	}
+}
