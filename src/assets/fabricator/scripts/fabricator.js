@@ -371,8 +371,4 @@ fabricator.setInitialMenuState = function () {
 		.setActiveItem()
 		.bindCodeAutoSelect();
 
-
-	// syntax highlighting
-	Prism.highlightAll();
-
 }());
