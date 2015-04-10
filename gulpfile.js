@@ -86,7 +86,9 @@ gulp.task('scripts:fabricator', function () {
 
 gulp.task('scripts:toolkit', function (done) {
 	webpackCompiler.run(function (error, result) {
-		if (error) gutil.log(gutil.colors.red(error));
+		if (error) {
+			gutil.log(gutil.colors.red(error));
+		}
 		result = result.toJson();
 		if (result.errors.length) {
 			return result.errors.forEach(function (error) {
