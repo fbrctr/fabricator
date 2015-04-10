@@ -15,8 +15,6 @@ var rename = require('gulp-rename');
 var reload = browserSync.reload;
 var runSequence = require('run-sequence');
 var sass = require('gulp-sass');
-var source = require('vinyl-source-stream');
-var streamify = require('gulp-streamify');
 var uglify = require('gulp-uglify');
 var webpack = require('webpack');
 
