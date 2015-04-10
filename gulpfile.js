@@ -25,10 +25,10 @@ var config = {
 	src: {
 		scripts: {
 			fabricator: [
-				'src/assets/fabricator/scripts/prism.js',
-				'src/assets/fabricator/scripts/fabricator.js'
+				'./src/assets/fabricator/scripts/prism.js',
+				'./src/assets/fabricator/scripts/fabricator.js'
 			],
-			toolkit: 'src/assets/toolkit/scripts/toolkit.js'
+			toolkit: './src/assets/toolkit/scripts/toolkit.js'
 		},
 		styles: {
 			fabricator: 'src/assets/fabricator/styles/fabricator.scss',
@@ -39,6 +39,11 @@ var config = {
 	},
 	dest: 'dist'
 };
+
+
+// webpack
+var webpackCompiler = webpack(require('./webpack.config')(config));
+
 
 // clean
 gulp.task('clean', function (cb) {
@@ -74,17 +79,7 @@ gulp.task('styles', ['styles:fabricator', 'styles:toolkit']);
 
 
 // scripts
-var webpackCompiler = webpack(require('./webpack.config')(config));
-
-
-gulp.task('scripts:fabricator', function () {
-	return gulp.src(config.src.scripts.fabricator)
-		.pipe(concat('f.js'))
-		.pipe(gulpif(!config.dev, uglify()))
-		.pipe(gulp.dest(config.dest + '/assets/fabricator/scripts'));
-});
-
-gulp.task('scripts:toolkit', function (done) {
+gulp.task('scripts', function (done) {
 	webpackCompiler.run(function (error, result) {
 		if (error) {
 			gutil.log(gutil.colors.red(error));
@@ -98,8 +93,6 @@ gulp.task('scripts:toolkit', function (done) {
 		done();
 	});
 });
-
-gulp.task('scripts', ['scripts:fabricator', 'scripts:toolkit']);
 
 
 // images
@@ -138,8 +131,8 @@ gulp.task('serve', function () {
 	gulp.watch('src/**/*.{html,md,json,yml}', ['assemble']).on('change', reload);
 	gulp.watch('src/assets/fabricator/styles/**/*.scss', ['styles:fabricator']);
 	gulp.watch('src/assets/toolkit/styles/**/*.scss', ['styles:toolkit']);
-	gulp.watch('src/assets/fabricator/scripts/**/*.js', ['scripts:fabricator']).on('change', reload);
-	gulp.watch('src/assets/toolkit/scripts/**/*.js', ['scripts:toolkit']).on('change', reload);
+	gulp.watch('src/assets/fabricator/scripts/**/*.js', ['scripts']).on('change', reload);
+	gulp.watch('src/assets/toolkit/scripts/**/*.js', ['scripts']).on('change', reload);
 	gulp.watch(config.src.images, ['images']).on('change', reload);
 });
 
