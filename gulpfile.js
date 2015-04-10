@@ -2,7 +2,6 @@
 
 // modules
 var assemble = require('fabricator-assemble');
-var browserify = require('browserify');
 var browserSync = require('browser-sync');
 var concat = require('gulp-concat');
 var csso = require('gulp-csso');
@@ -19,6 +18,7 @@ var sass = require('gulp-sass');
 var source = require('vinyl-source-stream');
 var streamify = require('gulp-streamify');
 var uglify = require('gulp-uglify');
+var webpack = require('webpack');
 
 
 // configuration
@@ -30,7 +30,7 @@ var config = {
 				'src/assets/fabricator/scripts/prism.js',
 				'src/assets/fabricator/scripts/fabricator.js'
 			],
-			toolkit: './src/assets/toolkit/scripts/toolkit.js'
+			toolkit: 'src/assets/toolkit/scripts/toolkit.js'
 		},
 		styles: {
 			fabricator: 'src/assets/fabricator/styles/fabricator.scss',
@@ -41,7 +41,6 @@ var config = {
 	},
 	dest: 'dist'
 };
-
 
 // clean
 gulp.task('clean', function (cb) {
@@ -77,6 +76,9 @@ gulp.task('styles', ['styles:fabricator', 'styles:toolkit']);
 
 
 // scripts
+var webpackCompiler = webpack(require('./webpack.config')(config));
+
+
 gulp.task('scripts:fabricator', function () {
 	return gulp.src(config.src.scripts.fabricator)
 		.pipe(concat('f.js'))
@@ -84,16 +86,17 @@ gulp.task('scripts:fabricator', function () {
 		.pipe(gulp.dest(config.dest + '/assets/fabricator/scripts'));
 });
 
-gulp.task('scripts:toolkit', function () {
-	return browserify(config.src.scripts.toolkit)
-		.bundle()
-		.on('error', function (error) {
-			gutil.log(gutil.colors.red(error));
-			this.emit('end');
-		})
-		.pipe(source('toolkit.js'))
-		.pipe(gulpif(!config.dev, streamify(uglify())))
-		.pipe(gulp.dest(config.dest + '/assets/toolkit/scripts'));
+gulp.task('scripts:toolkit', function (done) {
+	webpackCompiler.run(function (error, result) {
+		if (error) gutil.log(gutil.colors.red(error));
+		result = result.toJson();
+		if (result.errors.length) {
+			return result.errors.forEach(function (error) {
+				gutil.log(gutil.colors.red(error));
+			});
+		}
+		done();
+	});
 });
 
 gulp.task('scripts', ['scripts:fabricator', 'scripts:toolkit']);
