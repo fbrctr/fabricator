@@ -87,7 +87,7 @@ gulp.task('scripts', function (done) {
 		}
 		result = result.toJson();
 		if (result.errors.length) {
-			return result.errors.forEach(function (error) {
+			result.errors.forEach(function (error) {
 				gutil.log(gutil.colors.red(error));
 			});
 		}
