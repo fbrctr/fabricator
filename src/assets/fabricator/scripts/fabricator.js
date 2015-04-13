@@ -1,5 +1,7 @@
 'use strict';
 
+require('./prism');
+
 /**
  * Global `fabricator` object
  * @namespace
