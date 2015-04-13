@@ -30,6 +30,8 @@
     "npm": ">=2.0.0"
   },
   "devDependencies": {
+    "babel-core": "5.1.5",
+    "babel-loader": "5.0.0",
     "browser-sync": "^2.5.3",
     "del": "^1.1.1",
     "fabricator-assemble": "^1.0.2",
