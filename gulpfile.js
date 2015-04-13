@@ -2,9 +2,7 @@
 
 // modules
 var assemble = require('fabricator-assemble');
-var browserify = require('browserify');
 var browserSync = require('browser-sync');
-var concat = require('gulp-concat');
 var csso = require('gulp-csso');
 var del = require('del');
 var gulp = require('gulp');
@@ -16,9 +14,7 @@ var rename = require('gulp-rename');
 var reload = browserSync.reload;
 var runSequence = require('run-sequence');
 var sass = require('gulp-sass');
-var source = require('vinyl-source-stream');
-var streamify = require('gulp-streamify');
-var uglify = require('gulp-uglify');
+var webpack = require('webpack');
 
 
 // configuration
@@ -27,8 +23,8 @@ var config = {
 	src: {
 		scripts: {
 			fabricator: [
-				'src/assets/fabricator/scripts/prism.js',
-				'src/assets/fabricator/scripts/fabricator.js'
+				'./src/assets/fabricator/scripts/prism.js',
+				'./src/assets/fabricator/scripts/fabricator.js'
 			],
 			toolkit: './src/assets/toolkit/scripts/toolkit.js'
 		},
@@ -41,6 +37,11 @@ var config = {
 	},
 	dest: 'dist'
 };
+
+
+// webpack
+var webpackConfig = require('./webpack.config')(config);
+var webpackCompiler = webpack(webpackConfig);
 
 
 // clean
@@ -77,26 +78,20 @@ gulp.task('styles', ['styles:fabricator', 'styles:toolkit']);
 
 
 // scripts
-gulp.task('scripts:fabricator', function () {
-	return gulp.src(config.src.scripts.fabricator)
-		.pipe(concat('f.js'))
-		.pipe(gulpif(!config.dev, uglify()))
-		.pipe(gulp.dest(config.dest + '/assets/fabricator/scripts'));
-});
-
-gulp.task('scripts:toolkit', function () {
-	return browserify(config.src.scripts.toolkit)
-		.bundle()
-		.on('error', function (error) {
+gulp.task('scripts', function (done) {
+	webpackCompiler.run(function (error, result) {
+		if (error) {
 			gutil.log(gutil.colors.red(error));
-			this.emit('end');
-		})
-		.pipe(source('toolkit.js'))
-		.pipe(gulpif(!config.dev, streamify(uglify())))
-		.pipe(gulp.dest(config.dest + '/assets/toolkit/scripts'));
+		}
+		result = result.toJson();
+		if (result.errors.length) {
+			result.errors.forEach(function (error) {
+				gutil.log(gutil.colors.red(error));
+			});
+		}
+		done();
+	});
 });
-
-gulp.task('scripts', ['scripts:fabricator', 'scripts:toolkit']);
 
 
 // images
@@ -122,8 +117,6 @@ gulp.task('assemble', function (done) {
 // server
 gulp.task('serve', function () {
 
-	var reload = browserSync.reload;
-
 	browserSync({
 		server: {
 			baseDir: config.dest
@@ -132,12 +125,40 @@ gulp.task('serve', function () {
 		logPrefix: 'FABRICATOR'
 	});
 
-	gulp.watch('src/**/*.{html,md,json,yml}', ['assemble']).on('change', reload);
-	gulp.watch('src/assets/fabricator/styles/**/*.scss', ['styles:fabricator']);
-	gulp.watch('src/assets/toolkit/styles/**/*.scss', ['styles:toolkit']);
-	gulp.watch('src/assets/fabricator/scripts/**/*.js', ['scripts:fabricator']).on('change', reload);
-	gulp.watch('src/assets/toolkit/scripts/**/*.js', ['scripts:toolkit']).on('change', reload);
-	gulp.watch(config.src.images, ['images']).on('change', reload);
+	/**
+	 * Because webpackCompiler.watch() isn't being used
+	 * manually remove the changed file path from the cache
+	 */
+	function webpackCache(e) {
+		var keys = Object.keys(webpackConfig.cache);
+		var key, matchedKey;
+		for (var keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+			key = keys[keyIndex];
+			if (key.indexOf(e.path) !== -1) {
+				matchedKey = key;
+				break;
+			}
+		}
+		if (matchedKey) {
+			delete webpackConfig.cache[matchedKey];
+		}
+	}
+
+	gulp.task('assemble:watch', ['assemble'], reload);
+	gulp.watch('src/**/*.{html,md,json,yml}', ['assemble:watch']);
+	
+	gulp.task('styles:fabricator:watch', ['styles:fabricator'], reload);
+	gulp.watch('src/assets/fabricator/styles/**/*.scss', ['styles:fabricator:watch']);
+	
+	gulp.task('styles:toolkit:watch', ['styles:toolkit'], reload);
+	gulp.watch('src/assets/toolkit/styles/**/*.scss', ['styles:toolkit:watch']);
+	
+	gulp.task('scripts:watch', ['scripts'], reload);
+	gulp.watch('src/assets/{fabricator,toolkit}/scripts/**/*.js', ['scripts:watch']).on('change', webpackCache);
+	
+	gulp.task('images:watch', ['images'], reload);
+	gulp.watch(config.src.images, ['images:watch']);
+
 });
 
 
