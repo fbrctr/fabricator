@@ -22,10 +22,7 @@ var config = {
 	dev: gutil.env.dev,
 	src: {
 		scripts: {
-			fabricator: [
-				'./src/assets/fabricator/scripts/prism.js',
-				'./src/assets/fabricator/scripts/fabricator.js'
-			],
+			fabricator: './src/assets/fabricator/scripts/fabricator.js',
 			toolkit: './src/assets/toolkit/scripts/toolkit.js'
 		},
 		styles: {
