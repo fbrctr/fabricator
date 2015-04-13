@@ -12,7 +12,8 @@ module.exports = function(fabricatorConfig) {
 			path: path.resolve(__dirname, fabricatorConfig.dest, 'assets'),
 			filename: '[name].js'
 		},
-		plugins: []
+		plugins: [],
+		cache: {}
 	};
 
 	// If "vendor" scripts are found, assume they aren't commonjs compatible

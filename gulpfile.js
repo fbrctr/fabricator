@@ -42,7 +42,8 @@ var config = {
 
 
 // webpack
-var webpackCompiler = webpack(require('./webpack.config')(config));
+var webpackConfig = require('./webpack.config')(config);
+var webpackCompiler = webpack(webpackConfig);
 
 
 // clean
@@ -118,8 +119,6 @@ gulp.task('assemble', function (done) {
 // server
 gulp.task('serve', function () {
 
-	var reload = browserSync.reload;
-
 	browserSync({
 		server: {
 			baseDir: config.dest
@@ -128,12 +127,39 @@ gulp.task('serve', function () {
 		logPrefix: 'FABRICATOR'
 	});
 
-	gulp.watch('src/**/*.{html,md,json,yml}', ['assemble']).on('change', reload);
-	gulp.watch('src/assets/fabricator/styles/**/*.scss', ['styles:fabricator']);
-	gulp.watch('src/assets/toolkit/styles/**/*.scss', ['styles:toolkit']);
-	gulp.watch('src/assets/fabricator/scripts/**/*.js', ['scripts']).on('change', reload);
-	gulp.watch('src/assets/toolkit/scripts/**/*.js', ['scripts']).on('change', reload);
-	gulp.watch(config.src.images, ['images']).on('change', reload);
+	/**
+	 * Because webpackCompiler.watch() isn't being used
+	 * manually remove the changed file path from the cache
+	 */
+	function webpackCache(e) {
+		var keys = Object.keys(webpackConfig.cache);
+		var key, matchedKey;
+		for (var keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+			key = keys[keyIndex];
+			if (key.indexOf(e.path) !== -1) {
+				matchedKey = key;
+				break;
+			}
+		}
+		if (matchedKey) {
+			delete webpackConfig.cache[matchedKey];
+		}
+	}
+
+	gulp.task('assemble:watch', ['assemble'], reload);
+	gulp.watch('src/**/*.{html,md,json,yml}', ['assemble:watch']);
+	
+	gulp.task('styles:fabricator:watch', ['styles:fabricator'], reload);
+	gulp.watch('src/assets/fabricator/styles/**/*.scss', ['styles:fabricator:watch']);
+	
+	gulp.task('styles:toolkit:watch', ['styles:fabricator'], reload);
+	gulp.watch('src/assets/toolkit/styles/**/*.scss', ['styles:toolkit:watch']);
+	
+	gulp.task('scripts:watch', ['scripts'], reload);
+	gulp.watch('src/assets/{fabricator,toolkit}/scripts/**/*.js', ['scripts:watch']).on('change', webpackCache)
+	gulp.task('images:watch', ['images'], reload);
+	gulp.watch(config.src.images, ['images:watch']);
+
 });
 
 
