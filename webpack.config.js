@@ -3,6 +3,8 @@ var webpack = require('webpack');
 
 module.exports = function(fabricatorConfig) {
 
+	"use strict";
+
 	var config = {
 		entry: {
 			'fabricator/scripts/f': fabricatorConfig.src.scripts.fabricator,

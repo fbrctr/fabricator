@@ -3,7 +3,6 @@
 // modules
 var assemble = require('fabricator-assemble');
 var browserSync = require('browser-sync');
-var concat = require('gulp-concat');
 var csso = require('gulp-csso');
 var del = require('del');
 var gulp = require('gulp');
@@ -15,7 +14,6 @@ var rename = require('gulp-rename');
 var reload = browserSync.reload;
 var runSequence = require('run-sequence');
 var sass = require('gulp-sass');
-var uglify = require('gulp-uglify');
 var webpack = require('webpack');
 
 
@@ -156,7 +154,7 @@ gulp.task('serve', function () {
 	gulp.watch('src/assets/toolkit/styles/**/*.scss', ['styles:toolkit:watch']);
 	
 	gulp.task('scripts:watch', ['scripts'], reload);
-	gulp.watch('src/assets/{fabricator,toolkit}/scripts/**/*.js', ['scripts:watch']).on('change', webpackCache)
+	gulp.watch('src/assets/{fabricator,toolkit}/scripts/**/*.js', ['scripts:watch']).on('change', webpackCache);
 	
 	gulp.task('images:watch', ['images'], reload);
 	gulp.watch(config.src.images, ['images:watch']);
