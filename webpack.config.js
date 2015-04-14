@@ -14,6 +14,15 @@ module.exports = function(fabricatorConfig) {
 			path: path.resolve(__dirname, fabricatorConfig.dest, 'assets'),
 			filename: '[name].js'
 		},
+		module: {
+			loaders: [
+				{
+					test: /\.js$/,
+					exclude: /node_modules/,
+					loaders: ['babel-loader']
+				}
+			]
+		},
 		plugins: [],
 		cache: {}
 	};
