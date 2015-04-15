@@ -1,6 +1,6 @@
 {
   "name": "fabricator",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A tool for building website UI toolkits",
   "homepage": "http://fbrctr.github.io/",
   "main": "README.md",
