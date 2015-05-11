@@ -50,9 +50,7 @@ gulp.task('clean', function (cb) {
 // styles
 gulp.task('styles:fabricator', function () {
 	return gulp.src(config.src.styles.fabricator)
-		.pipe(sass({
-			errLogToConsole: true
-		}))
+		.pipe(sass().on('error', sass.logError))
 		.pipe(prefix('last 1 version'))
 		.pipe(gulpif(!config.dev, csso()))
 		.pipe(rename('f.css'))
@@ -62,9 +60,7 @@ gulp.task('styles:fabricator', function () {
 
 gulp.task('styles:toolkit', function () {
 	return gulp.src(config.src.styles.toolkit)
-		.pipe(sass({
-			errLogToConsole: true
-		}))
+		.pipe(sass().on('error', sass.logError))
 		.pipe(prefix('last 1 version'))
 		.pipe(gulpif(!config.dev, csso()))
 		.pipe(gulp.dest(config.dest + '/assets/toolkit/styles'))
@@ -143,16 +139,16 @@ gulp.task('serve', function () {
 
 	gulp.task('assemble:watch', ['assemble'], reload);
 	gulp.watch('src/**/*.{html,md,json,yml}', ['assemble:watch']);
-	
+
 	gulp.task('styles:fabricator:watch', ['styles:fabricator'], reload);
 	gulp.watch('src/assets/fabricator/styles/**/*.scss', ['styles:fabricator:watch']);
-	
+
 	gulp.task('styles:toolkit:watch', ['styles:toolkit'], reload);
 	gulp.watch('src/assets/toolkit/styles/**/*.scss', ['styles:toolkit:watch']);
-	
+
 	gulp.task('scripts:watch', ['scripts'], reload);
 	gulp.watch('src/assets/{fabricator,toolkit}/scripts/**/*.js', ['scripts:watch']).on('change', webpackCache);
-	
+
 	gulp.task('images:watch', ['images'], reload);
 	gulp.watch(config.src.images, ['images:watch']);
 
