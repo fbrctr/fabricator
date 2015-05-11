@@ -102,7 +102,9 @@ gulp.task('favicon', function () {
 
 // assemble
 gulp.task('assemble', function (done) {
-	assemble();
+	assemble({
+		logErrors: config.dev
+	});
 	done();
 });
 
