@@ -145,7 +145,7 @@ gulp.task('serve', function () {
 	gulp.task('styles:fabricator:watch', ['styles:fabricator'], reload);
 	gulp.watch('src/assets/fabricator/styles/**/*.scss', ['styles:fabricator:watch']);
 
-	gulp.task('styles:toolkit:watch', ['styles:toolkit'], reload);
+	gulp.task('styles:toolkit:watch', ['styles:toolkit']);
 	gulp.watch('src/assets/toolkit/styles/**/*.scss', ['styles:toolkit:watch']);
 
 	gulp.task('scripts:watch', ['scripts'], reload);
