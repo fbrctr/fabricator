@@ -142,10 +142,10 @@ gulp.task('serve', function () {
 	gulp.task('assemble:watch', ['assemble'], reload);
 	gulp.watch('src/**/*.{html,md,json,yml}', ['assemble:watch']);
 
-	gulp.task('styles:fabricator:watch', ['styles:fabricator'], reload);
+	gulp.task('styles:fabricator:watch', ['styles:fabricator']);
 	gulp.watch('src/assets/fabricator/styles/**/*.scss', ['styles:fabricator:watch']);
 
-	gulp.task('styles:toolkit:watch', ['styles:toolkit'], reload);
+	gulp.task('styles:toolkit:watch', ['styles:toolkit']);
 	gulp.watch('src/assets/toolkit/styles/**/*.scss', ['styles:toolkit:watch']);
 
 	gulp.task('scripts:watch', ['scripts'], reload);
