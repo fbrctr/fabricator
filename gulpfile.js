@@ -49,7 +49,7 @@ gulp.task('clean', function (cb) {
 
 // styles
 gulp.task('styles:fabricator', function () {
-	return gulp.src(config.src.styles.fabricator)
+	gulp.src(config.src.styles.fabricator)
 		.pipe(sass().on('error', sass.logError))
 		.pipe(prefix('last 1 version'))
 		.pipe(gulpif(!config.dev, csso()))
@@ -59,7 +59,7 @@ gulp.task('styles:fabricator', function () {
 });
 
 gulp.task('styles:toolkit', function () {
-	return gulp.src(config.src.styles.toolkit)
+	gulp.src(config.src.styles.toolkit)
 		.pipe(sass().on('error', sass.logError))
 		.pipe(prefix('last 1 version'))
 		.pipe(gulpif(!config.dev, csso()))
