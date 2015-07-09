@@ -14,6 +14,7 @@ var rename = require('gulp-rename');
 var reload = browserSync.reload;
 var runSequence = require('run-sequence');
 var sass = require('gulp-sass');
+var sourcemaps = require('gulp-sourcemaps');
 var webpack = require('webpack');
 
 
@@ -50,19 +51,23 @@ gulp.task('clean', function (cb) {
 // styles
 gulp.task('styles:fabricator', function () {
 	gulp.src(config.src.styles.fabricator)
+		.pipe(sourcemaps.init())
 		.pipe(sass().on('error', sass.logError))
 		.pipe(prefix('last 1 version'))
 		.pipe(gulpif(!config.dev, csso()))
 		.pipe(rename('f.css'))
+		.pipe(sourcemaps.write('./'))
 		.pipe(gulp.dest(config.dest + '/assets/fabricator/styles'))
 		.pipe(gulpif(config.dev, reload({stream:true})));
 });
 
 gulp.task('styles:toolkit', function () {
 	gulp.src(config.src.styles.toolkit)
+		.pipe(sourcemaps.init())
 		.pipe(sass().on('error', sass.logError))
 		.pipe(prefix('last 1 version'))
 		.pipe(gulpif(!config.dev, csso()))
+		.pipe(sourcemaps.write('./'))
 		.pipe(gulp.dest(config.dest + '/assets/toolkit/styles'))
 		.pipe(gulpif(config.dev, reload({stream:true})));
 });
