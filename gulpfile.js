@@ -56,7 +56,7 @@ gulp.task('styles:fabricator', function () {
 		.pipe(prefix('last 1 version'))
 		.pipe(gulpif(!config.dev, csso()))
 		.pipe(rename('f.css'))
-		.pipe(sourcemaps.write('./'))
+		.pipe(sourcemaps.write())
 		.pipe(gulp.dest(config.dest + '/assets/fabricator/styles'))
 		.pipe(gulpif(config.dev, reload({stream:true})));
 });
@@ -67,7 +67,7 @@ gulp.task('styles:toolkit', function () {
 		.pipe(sass().on('error', sass.logError))
 		.pipe(prefix('last 1 version'))
 		.pipe(gulpif(!config.dev, csso()))
-		.pipe(sourcemaps.write('./'))
+		.pipe(sourcemaps.write())
 		.pipe(gulp.dest(config.dest + '/assets/toolkit/styles'))
 		.pipe(gulpif(config.dev, reload({stream:true})));
 });
