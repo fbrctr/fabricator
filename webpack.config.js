@@ -18,7 +18,7 @@ module.exports = function(fabricatorConfig) {
 			loaders: [
 				{
 					test: /\.js$/,
-					exclude: /node_modules/,
+					exclude: /(node_modules|prism\.js)/,
 					loaders: ['babel-loader']
 				}
 			]
@@ -32,7 +32,7 @@ module.exports = function(fabricatorConfig) {
 			new webpack.optimize.UglifyJsPlugin()
 		);
 	}
-	
+
 	return config;
 
 };
