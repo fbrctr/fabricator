@@ -1,40 +1,29 @@
 'use strict';
 
 // modules
-var assemble = require('fabricator-assemble');
-var browserSync = require('browser-sync');
-var csso = require('gulp-csso');
-var del = require('del');
-var gulp = require('gulp');
-var gutil = require('gulp-util');
-var gulpif = require('gulp-if');
-var imagemin = require('gulp-imagemin');
-var prefix = require('gulp-autoprefixer');
-var rename = require('gulp-rename');
-var reload = browserSync.reload;
-var runSequence = require('run-sequence');
-var sass = require('gulp-sass');
-var sourcemaps = require('gulp-sourcemaps');
-var webpack = require('webpack');
+var assemble    = require('fabricator-assemble'),
+	browserSync = require('browser-sync'),
+	csso        = require('gulp-csso'),
+	del         = require('del'),
+	gulp        = require('gulp'),
+	gutil       = require('gulp-util'),
+	gulpif      = require('gulp-if'),
+	imagemin    = require('gulp-imagemin'),
+	lodash      = require('lodash'),
+	minimist    = require('minimist'),
+	prefix      = require('gulp-autoprefixer'),
+	rename      = require('gulp-rename'),
+	reload      = browserSync.reload,
+	runSequence = require('run-sequence'),
+	sass        = require('gulp-sass'),
+	sourcemaps  = require('gulp-sourcemaps'),
+	webpack     = require('webpack');
 
 
 // configuration
-var config = {
-	dev: gutil.env.dev,
-	src: {
-		scripts: {
-			fabricator: './src/assets/fabricator/scripts/fabricator.js',
-			toolkit: './src/assets/toolkit/scripts/toolkit.js'
-		},
-		styles: {
-			fabricator: 'src/assets/fabricator/styles/fabricator.scss',
-			toolkit: 'src/assets/toolkit/styles/toolkit.scss'
-		},
-		images: 'src/assets/toolkit/images/**/*',
-		views: 'src/toolkit/views/*.html'
-	},
-	dest: 'dist'
-};
+var args   = minimist(process.argv.slice(2));
+var config = lodash.merge({}, require('./fabricator.config.json'), args.config ? require(args.config) : {});
+config.dev = gutil.env.dev;
 
 
 // webpack
@@ -108,7 +97,8 @@ gulp.task('favicon', function () {
 // assemble
 gulp.task('assemble', function (done) {
 	assemble({
-		logErrors: config.dev
+		logErrors: config.dev,
+		data: ['src/data/**/*.{json,yml}', config.package]
 	});
 	done();
 });

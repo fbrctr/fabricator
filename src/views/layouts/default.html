@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>{{title}}</title>
+	<title>{{#if title}}{{title}}{{else}}{{package.name}} v{{package.version}}{{/if}}</title>
 
 	{{#if fabricator}}<link rel="stylesheet" href="{{baseurl}}/assets/fabricator/styles/f.css">{{/if}}
 
