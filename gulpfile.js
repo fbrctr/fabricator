@@ -29,12 +29,12 @@ var config = lodash.merge({}, require('./fabricatorConfig.json'), args.config ? 
 config.dev = gutil.env.dev;
 config.data.push(config.package);
 
-setupPaths(config);
-setupBuildConfig(args, config);
-setupBuildConfigInfo(config);
-setupPages(config);
+setupPaths();
+setupPages();
+setupBuildConfig(true);
+setupBuildConfigInfo(true);
 
-function setupPaths(config) {
+function setupPaths() {
 	config.src = {
 		"fabricator": {
 			"scripts": "./src/assets/fabricator/scripts/fabricator.js",
@@ -50,39 +50,45 @@ function setupPaths(config) {
 }
 
 /**
+ * Pages are included into the views, but when using fabricator as a builder, the calling project
+ * will set the pages sources. So if, then we exclude our own pages, and include the ones provided.
+ * REMARK: Will be run before the actual assemble, as for watchers.
+ */
+function setupPages() {
+	if (config.pages) {
+		config.views.push('!./src/views/pages{,/**}');
+		config.views = lodash.union(config.views, config.pages);
+	}
+}
+
+/**
  * A buildConfig file is used to add data and fill in placeholders, for example in sass files.
  * If a buildConfig argument is given to the script, we'll use that, otherwise we'll use ours.
+ * REMARK: Will be run before the actual assemble, as for watchers.
  */
-function setupBuildConfig(args, config) {
-	fs.writeFileSync('./buildConfig.json', JSON.stringify(require(args.buildConfig || './configs/fabricator.json')));
-	config.data.push('./buildConfig.json');
+function setupBuildConfig(firstTime) {
+	var buildConfigFile = args.buildConfig || './configs/fabricator.json';
+	delete require.cache[require.resolve(buildConfigFile)];  // This changes by the user!
+	fs.writeFileSync('./buildConfig.json', JSON.stringify(require(buildConfigFile)));
+	if (firstTime) { config.data.push('./buildConfig.json'); }
 }
 
 /**
  * Besides the use of buildConfig, it's possible to list info about these configurations on a
  * separate page. When buildConfigInfo is filled into the config file, we'll add this page.
+ * REMARK: Will be run before the actual assemble, as for watchers.
  */
-function setupBuildConfigInfo(config) {
-	config.views.push((config.buildConfigInfo ? '' : '!') + './src/views/configuration.html');
+function setupBuildConfigInfo(firstTime) {
+	if (firstTime) { config.views.push((config.buildConfigInfo ? '' : '!') + './src/views/configuration.html'); }
 	if (config.buildConfigInfo) {
+		delete  require.cache[require.resolve(config.buildConfigInfo)];  // This changes by the user!
 		fs.writeFileSync('./buildConfigInfo.json', JSON.stringify(require(config.buildConfigInfo)));
-		config.data.push('./buildConfigInfo.json');
-	}
-}
-
-/**
- * Pages are included into the views, but when using fabricator as a builder, the calling project
- * will set the pages sources. So if, then we exclude our own pages, and include the ones provided.
- */
-function setupPages(config) {
-	if (config.pages) {
-		config.views.unshift('!src/views/pages');
-		config.views.unshift('!src/views/pages/**');
-		config.views = lodash.union(config.views, config.pages);
+		if (firstTime) { config.data.push('./buildConfigInfo.json'); }
 	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 // webpack
 var webpackConfig = require('./webpack.config')(config);
@@ -154,6 +160,9 @@ gulp.task('favicon', function () {
 
 // assemble
 gulp.task('assemble', function (done) {
+	setupBuildConfig(false);
+	setupBuildConfigInfo(false);
+
 	assemble({
 		logErrors: config.dev,
 		views    : config.views,
@@ -195,20 +204,38 @@ gulp.task('serve', function () {
 	}
 
 	gulp.task('assemble:watch', ['assemble'], reload);
-	gulp.watch('src/**/*.{html,md,json,yml}', ['assemble:watch']);
+	gulp.watch(constructAssembleSourcesToWatch(), ['assemble:watch']);
 
 	gulp.task('styles:fabricator:watch', ['styles:fabricator']);
-	gulp.watch('src/assets/fabricator/styles/**/*.scss', ['styles:fabricator:watch']);
+	gulp.watch(config.src.fabricator.styles, ['styles:fabricator:watch']);
 
 	gulp.task('styles:toolkit:watch', ['styles:toolkit']);
-	gulp.watch('src/assets/toolkit/styles/**/*.scss', ['styles:toolkit:watch']);
+	gulp.watch(config.src.toolkit.styles, ['styles:toolkit:watch']);
 
 	gulp.task('scripts:watch', ['scripts'], reload);
-	gulp.watch('src/assets/{fabricator,toolkit}/scripts/**/*.js', ['scripts:watch']).on('change', webpackCache);
+	gulp.watch(lodash.union(config.src.fabricator.scripts, config.src.toolkit.scripts), ['scripts:watch'])
+		.on('change', webpackCache);
 
 	gulp.task('images:watch', ['images'], reload);
 	gulp.watch(config.src.toolkit.images, ['images:watch']);
 
+	function constructAssembleSourcesToWatch() {
+		if (args.config) {
+			// Or we use fabricator from another project.
+			var assembleSources = [];
+			if (args.config.package)         { assembleSources.push(config.package); }
+			if (args.config.views)           { assembleSources.push(config.views); }
+			if (args.config.pages)           { assembleSources.push(config.pages); }
+			if (args.config.materials)       { assembleSources.push(config.materials); }
+			if (args.config.data)            { assembleSources.push(config.data); }
+			if (args.config.buildConfigInfo) { assembleSources.push(args.config.buildConfigInfo); }
+			if (args.buildConfig)            { assembleSources.push(args.buildConfig); }
+			return assembleSources;
+		} else {
+			// Or we use fabricator on itself.
+			return ['src/**/*.{html,md,json,yml}'];
+		}
+	}
 });
 
 
