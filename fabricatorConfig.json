@@ -1,19 +1,9 @@
 {
   "package"  : "./package.json",
-  "views"    : ["src/views/**/*", "!src/views/+(layouts)/**"],
-  "materials": ["src/materials/**/*"],
-  "data"     : ["src/data/**/*.{json,yml}"],
-
-  "src": {
-    "scripts": {
-      "fabricator": "./src/assets/fabricator/scripts/fabricator.js",
-      "toolkit": "./src/assets/toolkit/scripts/toolkit.js"
-    },
-    "styles": {
-      "fabricator": "src/assets/fabricator/styles/fabricator.scss",
-      "toolkit": "src/assets/toolkit/styles/toolkit.scss"
-    },
-    "images": "src/assets/toolkit/images/**/*"
-  },
-  "dest": "dist"
+  "views"    : ["./src/views/**/*", "!./src/views/+(layouts)/**"],
+  "materials": ["./src/materials/**/*"],
+  "data"     : ["./src/data/**/*.{json,yml}"],
+  "scripts"  : "./src/assets/toolkit/scripts/toolkit.js",
+  "styles"   : "./src/assets/toolkit/styles/toolkit.scss",
+  "images"   : "./src/assets/toolkit/images/**/*"
 }

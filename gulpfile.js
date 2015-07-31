@@ -24,14 +24,30 @@ var assemble    = require('fabricator-assemble'),
 
 // configuration ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-var args = minimist(process.argv.slice(2));
+var args   = minimist(process.argv.slice(2));
 var config = lodash.merge({}, require('./fabricatorConfig.json'), args.config ? require(args.config) : {});
 config.dev = gutil.env.dev;
 config.data.push(config.package);
 
-setupPages(config);
+setupPaths(config);
 setupBuildConfig(args, config);
 setupBuildConfigInfo(config);
+setupPages(config);
+
+function setupPaths(config) {
+	config.src = {
+		"fabricator": {
+			"scripts": "./src/assets/fabricator/scripts/fabricator.js",
+			"styles" : "./src/assets/fabricator/styles/fabricator.scss"
+		},
+		"toolkit": {
+			"scripts": config.scripts,
+			"styles" : config.styles,
+			"images" : config.images
+		}
+	};
+	config.dest = "dist";
+}
 
 /**
  * A buildConfig file is used to add data and fill in placeholders, for example in sass files.
@@ -60,7 +76,8 @@ function setupBuildConfigInfo(config) {
  */
 function setupPages(config) {
 	if (config.pages) {
-		config.views.push('!src/views/pages{,/**}');
+		config.views.unshift('!src/views/pages');
+		config.views.unshift('!src/views/pages/**');
 		config.views = lodash.union(config.views, config.pages);
 	}
 }
@@ -80,7 +97,7 @@ gulp.task('clean', function (cb) {
 
 // styles
 gulp.task('styles:fabricator', function () {
-	gulp.src(config.src.styles.fabricator)
+	gulp.src(config.src.fabricator.styles)
 		.pipe(sourcemaps.init())
 		.pipe(sass().on('error', sass.logError))
 		.pipe(prefix('last 1 version'))
@@ -92,7 +109,7 @@ gulp.task('styles:fabricator', function () {
 });
 
 gulp.task('styles:toolkit', function () {
-	gulp.src(config.src.styles.toolkit)
+	gulp.src(config.src.toolkit.styles)
 		.pipe(sourcemaps.init())
 		.pipe(sass().on('error', sass.logError))
 		.pipe(prefix('last 1 version'))
@@ -124,7 +141,7 @@ gulp.task('scripts', function (done) {
 
 // images
 gulp.task('images', ['favicon'], function () {
-	return gulp.src(config.src.images)
+	return gulp.src(config.src.toolkit.images)
 		.pipe(imagemin())
 		.pipe(gulp.dest(config.dest + '/assets/toolkit/images'));
 });
@@ -190,7 +207,7 @@ gulp.task('serve', function () {
 	gulp.watch('src/assets/{fabricator,toolkit}/scripts/**/*.js', ['scripts:watch']).on('change', webpackCache);
 
 	gulp.task('images:watch', ['images'], reload);
-	gulp.watch(config.src.images, ['images:watch']);
+	gulp.watch(config.src.toolkit.images, ['images:watch']);
 
 });
 
