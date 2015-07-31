@@ -45,7 +45,8 @@ function setupPaths() {
 		"toolkit": {
 			"scripts": config.scripts,
 			"styles" : config.styles,
-			"images" : config.images
+			"images" : lodash.map(config.images, function (src) {
+				return src.replace('%s', config.buildConfig.split('/').pop(-1).slice(0, -5)); })
 		}
 	};
 	config.dest = "dist";
