@@ -1,5 +1,9 @@
 {
   "package": "./package.json",
+  "views": [
+    "src/views/**/*",
+    "!src/views/+(layouts)/**"
+  ],
   "src": {
     "scripts": {
       "fabricator": "./src/assets/fabricator/scripts/fabricator.js",
@@ -9,8 +13,7 @@
       "fabricator": "src/assets/fabricator/styles/fabricator.scss",
       "toolkit": "src/assets/toolkit/styles/toolkit.scss"
     },
-    "images": "src/assets/toolkit/images/**/*",
-    "views": "src/toolkit/views/*.html"
+    "images": "src/assets/toolkit/images/**/*"
   },
   "dest": "dist"
 }

@@ -98,6 +98,7 @@ gulp.task('favicon', function () {
 gulp.task('assemble', function (done) {
 	assemble({
 		logErrors: config.dev,
+		views: lodash.union(config.views, config.extraViews || []),
 		data: ['src/data/**/*.{json,yml}', config.package]
 	});
 	done();
