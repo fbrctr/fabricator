@@ -49,6 +49,14 @@ function setupPaths() {
 				return src.replace('%s', config.buildConfig.split('/').pop(-1).slice(0, -5)); })
 		}
 	};
+	config.watch = {
+		"fabricator": {
+			"styles" : "./src/assets/fabricator/styles/**/*.scss"
+		},
+		"toolkit": {
+			"styles" : config.watchStyles
+		}
+	};
 	config.dest = "dist";
 }
 
@@ -228,10 +236,10 @@ gulp.task('serve', function () {
 	gulp.watch(constructAssembleSourcesToWatch(), ['assemble:watch']);
 
 	gulp.task('styles:fabricator:watch', ['styles:fabricator']);
-	gulp.watch(config.src.fabricator.styles, ['styles:fabricator:watch']);
+	gulp.watch(config.watch.fabricator.styles, ['styles:fabricator:watch']);
 
 	gulp.task('styles:toolkit:watch', ['styles:toolkit']);
-	gulp.watch(config.src.toolkit.styles, ['styles:toolkit:watch']);
+	gulp.watch(config.watch.toolkit.styles, ['styles:toolkit:watch']);
 
 	gulp.task('scripts:watch', ['scripts'], reload);
 	gulp.watch(lodash.union(config.src.fabricator.scripts, config.src.toolkit.scripts), ['scripts:watch'])
