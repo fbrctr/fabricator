@@ -16,6 +16,7 @@ var assemble    = require('fabricator-assemble'),
 	prefix      = require('gulp-autoprefixer'),
 	rename      = require('gulp-rename'),
 	reload      = browserSync.reload,
+	replace     = require('gulp-replace-task'),
 	runSequence = require('run-sequence'),
 	sass        = require('gulp-sass'),
 	sourcemaps  = require('gulp-sourcemaps'),
@@ -27,6 +28,7 @@ var assemble    = require('fabricator-assemble'),
 var args   = minimist(process.argv.slice(2));
 var config = lodash.merge({}, require('./fabricatorConfig.json'), args.config ? require(args.config) : {});
 config.dev = gutil.env.dev;
+config.buildConfig = args.buildConfig || './configs/fabricator.json';
 config.data.push(config.package);
 
 setupPaths();
@@ -67,9 +69,8 @@ function setupPages() {
  * REMARK: Will be run before the actual assemble, as for watchers.
  */
 function setupBuildConfig(firstTime) {
-	var buildConfigFile = args.buildConfig || './configs/fabricator.json';
-	delete require.cache[require.resolve(buildConfigFile)];  // This changes by the user!
-	fs.writeFileSync('./buildConfig.json', JSON.stringify(require(buildConfigFile)));
+	delete require.cache[require.resolve(config.buildConfig)];  // This changes by the user!
+	fs.writeFileSync('./buildConfig.json', JSON.stringify(require(config.buildConfig)));
 	if (firstTime) { config.data.push('./buildConfig.json'); }
 }
 
@@ -117,6 +118,7 @@ gulp.task('styles:fabricator', function () {
 gulp.task('styles:toolkit', function () {
 	gulp.src(config.src.toolkit.styles)
 		.pipe(sourcemaps.init())
+		.pipe(replace({patterns: [{json: createStyleReplacementsFromConfig()}], usePrefix: false}))
 		.pipe(sass().on('error', sass.logError))
 		.pipe(prefix('last 1 version'))
 		.pipe(gulpif(!config.dev, csso()))
@@ -126,6 +128,19 @@ gulp.task('styles:toolkit', function () {
 });
 
 gulp.task('styles', ['styles:fabricator', 'styles:toolkit']);
+
+function createStyleReplacementsFromConfig() {
+	var replacements = {};
+	fillReplacementsWithOwn(replacements, require(config.buildConfig));
+	return replacements;
+
+	function fillReplacementsWithOwn(replacements, data) {
+		lodash.forOwn(data, function (value, key) {
+			if (lodash.isObject(value)) { fillReplacementsWithOwn(replacements, value); }
+			else { replacements['/* ' + key + ' */'] = key + ': ' + value + ' !default;'; }
+		});
+	}
+}
 
 
 // scripts
@@ -160,9 +175,7 @@ gulp.task('favicon', function () {
 
 // assemble
 gulp.task('assemble', function (done) {
-	setupBuildConfig(false);
 	setupBuildConfigInfo(false);
-
 	assemble({
 		logErrors: config.dev,
 		views    : config.views,
@@ -170,6 +183,13 @@ gulp.task('assemble', function (done) {
 		data     : config.data
 	});
 	done();
+});
+
+
+// buildConfigChanged
+gulp.task('buildConfigChanged', function () {
+	setupBuildConfig(false);
+	runSequence(['styles:toolkit', 'assemble']);
 });
 
 
@@ -219,6 +239,9 @@ gulp.task('serve', function () {
 	gulp.task('images:watch', ['images'], reload);
 	gulp.watch(config.src.toolkit.images, ['images:watch']);
 
+	gulp.task('buildConfig:watch', ['buildConfigChanged'], reload);
+	gulp.watch(config.buildConfig, ['buildConfig:watch']);
+
 	function constructAssembleSourcesToWatch() {
 		if (args.config) {
 			// Or we use fabricator from another project.
@@ -229,7 +252,6 @@ gulp.task('serve', function () {
 			if (args.config.materials)       { assembleSources.push(config.materials); }
 			if (args.config.data)            { assembleSources.push(config.data); }
 			if (args.config.buildConfigInfo) { assembleSources.push(args.config.buildConfigInfo); }
-			if (args.buildConfig)            { assembleSources.push(args.buildConfig); }
 			return assembleSources;
 		} else {
 			// Or we use fabricator on itself.
