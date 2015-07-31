@@ -29,9 +29,9 @@ var config = lodash.merge({}, require('./fabricatorConfig.json'), args.config ? 
 config.dev = gutil.env.dev;
 config.data.push(config.package);
 
+setupPages(config);
 setupBuildConfig(args, config);
 setupBuildConfigInfo(config);
-setupPages(config);
 
 /**
  * A buildConfig file is used to add data and fill in placeholders, for example in sass files.
@@ -60,7 +60,7 @@ function setupBuildConfigInfo(config) {
  */
 function setupPages(config) {
 	if (config.pages) {
-		config.views.push('!src/views/+(pages)/**');
+		config.views.push('!src/views/pages{,/**}');
 		config.views = lodash.union(config.views, config.pages);
 	}
 }
