@@ -96,63 +96,30 @@ fabricator.buildColorChips = function () {
 fabricator.setActiveItem = function () {
 
 	/**
-	 * @return {Array} Sorted array of menu item 'ids'
-	 */
-	var parsedItems = function () {
-
-		var items = [],
-			id, href;
-
-		for (var i = fabricator.dom.menuItems.length - 1; i >= 0; i--) {
-
-			// remove active class from items
-			fabricator.dom.menuItems[i].classList.remove('f-active');
-
-			// get item href
-			href = fabricator.dom.menuItems[i].getAttribute('href');
-
-			// get id
-			if (href.indexOf('#') > -1) {
-				id = href.split('#').pop();
-			} else {
-				id = href.split('/').pop().replace(/\.[^/.]+$/, '');
-			}
-
-			items.push(id);
-
-		}
-
-		return items.reverse();
-
-	};
-
-
-	/**
-	 * Match the 'id' in the window location with the menu item, set menu item as active
+	 * Match the window location with the menu item, set menu item as active
 	 */
 	var setActive = function () {
 
-		var href = window.location.href,
-			items = parsedItems(),
-			id, index;
+		// get current file and hash without first slash
+		var current = (window.location.pathname + window.location.hash).replace(/^\//g, ''),
+			href;
 
-		// get window 'id'
-		if (href.indexOf('#') > -1) {
-			id = window.location.hash.replace('#', '');
-		} else {
-			id = window.location.pathname.split('/').pop().replace(/\.[^/.]+$/, '');
+		// find the current section in the items array
+		for (var i = fabricator.dom.menuItems.length - 1; i >= 0; i--) {
+
+			var item = fabricator.dom.menuItems[i];
+
+			// get item href without first slash
+			href = item.getAttribute('href').replace(/^\//g, '');
+
+			if (href === current) {
+				item.classList.add('f-active');
+			}
+			else {
+				item.classList.remove('f-active');
+			}
+
 		}
-
-		// In case the first menu item isn't the index page.
-		if (id === '') {
-			id = 'index';
-		}
-
-		// find the window id in the items array
-		index = (items.indexOf(id) > -1) ? items.indexOf(id) : 0;
-
-		// set the matched item as active
-		fabricator.dom.menuItems[index].classList.add('f-active');
 
 	};
 
