@@ -1,4 +1,7 @@
 node_modules
+npm-debug.log
 dist
 .sass-cache
 .idea
+buildConfig.json
+buildConfigInfo.json

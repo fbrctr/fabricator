@@ -6,6 +6,7 @@ var assemble    = require('fabricator-assemble'),
 	browserSync = require('browser-sync'),
 	csso        = require('gulp-csso'),
 	del         = require('del'),
+	fs          = require('fs'),
 	gulp        = require('gulp'),
 	gutil       = require('gulp-util'),
 	gulpif      = require('gulp-if'),
@@ -23,23 +24,46 @@ var assemble    = require('fabricator-assemble'),
 
 // configuration ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Get all script arguments.
-var args   = minimist(process.argv.slice(2));
-
-// Merge the specified config in our own config, if given.
-var config = lodash.merge({}, require('./fabricator.config.json'), args.config ? require(args.config) : {});
-
-// Setting dev mode.
+var args = minimist(process.argv.slice(2));
+var config = lodash.merge({}, require('./fabricatorConfig.json'), args.config ? require(args.config) : {});
 config.dev = gutil.env.dev;
-
-// Include/Exclude the configuration page.
-config.views.push((config.configuration ? '' : '!') + 'src/views/configuration.html');
-
-// Add the package as data to be used in pages.
 config.data.push(config.package);
 
-// Add the configuration file as data, if specified.
-if (config.configuration) { config.data.push(config.configuration); }
+setupBuildConfig(args, config);
+setupBuildConfigInfo(config);
+setupPages(config);
+
+/**
+ * A buildConfig file is used to add data and fill in placeholders, for example in sass files.
+ * If a buildConfig argument is given to the script, we'll use that, otherwise we'll use ours.
+ */
+function setupBuildConfig(args, config) {
+	fs.writeFileSync('./buildConfig.json', JSON.stringify(require(args.buildConfig || './configs/fabricator.json')));
+	config.data.push('./buildConfig.json');
+}
+
+/**
+ * Besides the use of buildConfig, it's possible to list info about these configurations on a
+ * separate page. When buildConfigInfo is filled into the config file, we'll add this page.
+ */
+function setupBuildConfigInfo(config) {
+	config.views.push((config.buildConfigInfo ? '' : '!') + './src/views/configuration.html');
+	if (config.buildConfigInfo) {
+		fs.writeFileSync('./buildConfigInfo.json', JSON.stringify(require(config.buildConfigInfo)));
+		config.data.push('./buildConfigInfo.json');
+	}
+}
+
+/**
+ * Pages are included into the views, but when using fabricator as a builder, the calling project
+ * will set the pages sources. So if, then we exclude our own pages, and include the ones provided.
+ */
+function setupPages(config) {
+	if (config.pages) {
+		config.views.push('!src/views/+(pages)/**');
+		config.views = lodash.union(config.views, config.pages);
+	}
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -116,6 +140,7 @@ gulp.task('assemble', function (done) {
 	assemble({
 		logErrors: config.dev,
 		views    : config.views,
+		materials: config.materials,
 		data     : config.data
 	});
 	done();
