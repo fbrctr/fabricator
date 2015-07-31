@@ -1,0 +1,17 @@
+---
+fabricator: true
+---
+
+<h1>Configuration</h1>
+
+<p>This page lists all variables that can be set to create a custom build.</p>
+
+{{#each configuration}}
+	<h2>{{@key}}</h2>
+	<dl>
+		{{#each this}}
+			<dt>{{@key}}</dt>
+			<dd>{{this}}</dd>
+		{{/each}}
+	</dl>
+{{/each}}

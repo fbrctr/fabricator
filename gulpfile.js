@@ -1,6 +1,7 @@
 'use strict';
 
-// modules
+// modules /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 var assemble    = require('fabricator-assemble'),
 	browserSync = require('browser-sync'),
 	csso        = require('gulp-csso'),
@@ -20,11 +21,27 @@ var assemble    = require('fabricator-assemble'),
 	webpack     = require('webpack');
 
 
-// configuration
+// configuration ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Get all script arguments.
 var args   = minimist(process.argv.slice(2));
+
+// Merge the specified config in our own config, if given.
 var config = lodash.merge({}, require('./fabricator.config.json'), args.config ? require(args.config) : {});
+
+// Setting dev mode.
 config.dev = gutil.env.dev;
 
+// Include/Exclude the configuration page.
+config.views.push((config.configuration ? '' : '!') + 'src/views/configuration.html');
+
+// Add the package as data to be used in pages.
+config.data.push(config.package);
+
+// Add the configuration file as data, if specified.
+if (config.configuration) { config.data.push(config.configuration); }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // webpack
 var webpackConfig = require('./webpack.config')(config);
@@ -98,7 +115,8 @@ gulp.task('favicon', function () {
 gulp.task('assemble', function (done) {
 	assemble({
 		logErrors: config.dev,
-		data: ['src/data/**/*.{json,yml}', config.package]
+		views    : config.views,
+		data     : config.data
 	});
 	done();
 });

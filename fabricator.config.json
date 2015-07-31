@@ -1,5 +1,12 @@
 {
   "package": "./package.json",
+  "views": [
+    "src/views/**/*",
+    "!src/views/+(layouts)/**"
+  ],
+  "data": [
+    "src/data/**/*.{json,yml}"
+  ],
   "src": {
     "scripts": {
       "fabricator": "./src/assets/fabricator/scripts/fabricator.js",
