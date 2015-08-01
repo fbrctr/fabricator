@@ -38,24 +38,25 @@ setupBuildConfigInfo(true);
 
 function setupPaths() {
 	config.src = {
-		"fabricator": {
-			"scripts": "./src/assets/fabricator/scripts/fabricator.js",
-			"styles" : "./src/assets/fabricator/styles/fabricator.scss"
+		fabricator: {
+			scripts: "./src/assets/fabricator/scripts/fabricator.js",
+			styles : "./src/assets/fabricator/styles/fabricator.scss"
 		},
-		"toolkit": {
-			"scripts": config.scripts,
-			"styles" : config.styles,
-			"images" : lodash.map(config.images, function (src) {
+		toolkit: {
+			scripts: config.scripts,
+			styles : config.styles,
+			images : lodash.map(config.images, function (src) {
 				return src.replace('%s', config.buildConfig.split('/').pop(-1).slice(0, -5)); })
 		}
 	};
 	config.watch = {
-		"fabricator": {
-			"styles" : "./src/assets/fabricator/styles/**/*.scss"
+		fabricator: {
+			styles : "./src/assets/fabricator/styles/**/*.scss"
 		},
-		"toolkit": {
-			"styles" : config.watchStyles
-		}
+		toolkit: {
+			styles : config.watchStyles
+		},
+		assemble: constructAssembleSourcesToWatch()
 	};
 	config.dest = "dist";
 }
@@ -94,6 +95,27 @@ function setupBuildConfigInfo(firstTime) {
 		delete  require.cache[require.resolve(config.buildConfigInfo)];  // This changes by the user!
 		fs.writeFileSync('./buildConfigInfo.json', JSON.stringify(require(config.buildConfigInfo)));
 		if (firstTime) { config.data.push('./buildConfigInfo.json'); }
+	}
+}
+
+/**
+ * If this is used from another project, we'll have to set up correct watches.
+ */
+function constructAssembleSourcesToWatch() {
+	if (args.config) {
+		var argsConfig = require(args.config);
+		// Or we use fabricator from another project.
+		var assembleSources = [];
+		if (argsConfig.package)         { assembleSources.push(config.package); }
+		if (argsConfig.views)           { assembleSources = lodash.union(assembleSources, config.views); }
+		if (argsConfig.pages)           { assembleSources = lodash.union(assembleSources, config.pages); }
+		if (argsConfig.materials)       { assembleSources = lodash.union(assembleSources, config.materials); }
+		if (argsConfig.data)            { assembleSources = lodash.union(assembleSources, config.data); }
+		if (argsConfig.buildConfigInfo) { assembleSources.push(argsConfig.buildConfigInfo); }
+		return assembleSources;
+	} else {
+		// Or we use fabricator on itself.
+		return ['src/**/*.{html,md,json,yml}'];
 	}
 }
 
@@ -233,7 +255,7 @@ gulp.task('serve', function () {
 	}
 
 	gulp.task('assemble:watch', ['assemble'], reload);
-	gulp.watch(constructAssembleSourcesToWatch(), ['assemble:watch']);
+	gulp.watch(config.watch.assemble, ['assemble:watch']);
 
 	gulp.task('styles:fabricator:watch', ['styles:fabricator']);
 	gulp.watch(config.watch.fabricator.styles, ['styles:fabricator:watch']);
@@ -250,23 +272,6 @@ gulp.task('serve', function () {
 
 	gulp.task('buildConfig:watch', ['buildConfigChanged'], reload);
 	gulp.watch(config.buildConfig, ['buildConfig:watch']);
-
-	function constructAssembleSourcesToWatch() {
-		if (args.config) {
-			// Or we use fabricator from another project.
-			var assembleSources = [];
-			if (args.config.package)         { assembleSources.push(config.package); }
-			if (args.config.views)           { assembleSources.push(config.views); }
-			if (args.config.pages)           { assembleSources.push(config.pages); }
-			if (args.config.materials)       { assembleSources.push(config.materials); }
-			if (args.config.data)            { assembleSources.push(config.data); }
-			if (args.config.buildConfigInfo) { assembleSources.push(args.config.buildConfigInfo); }
-			return assembleSources;
-		} else {
-			// Or we use fabricator on itself.
-			return ['src/**/*.{html,md,json,yml}'];
-		}
-	}
 });
 
 
