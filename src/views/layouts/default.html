@@ -7,10 +7,10 @@
 
 	<title>{{#if title}}{{title}}{{else}}{{package.name}} v{{package.version}}{{/if}}</title>
 
-	{{#if fabricator}}<link rel="stylesheet" href="{{baseurl}}/assets/fabricator/styles/f.css">{{/if}}
+	{{#if fabricator}}<link rel="stylesheet" href="./{{baseurl}}/assets/fabricator/styles/f.css">{{/if}}
 
 	<!-- toolkit styles -->
-	<link rel="stylesheet" href="{{baseurl}}/assets/toolkit/styles/toolkit.css">
+	<link rel="stylesheet" href="./{{baseurl}}/assets/toolkit/styles/toolkit.css">
 	<!-- /toolkit styles -->
 
 </head>
@@ -29,11 +29,11 @@
 
 	{{#if fabricator}}
 		</div>
-	<script src="{{baseurl}}/assets/fabricator/scripts/f.js"></script>
+	<script src="./{{baseurl}}/assets/fabricator/scripts/f.js"></script>
 	{{/if}}
 
 	<!-- toolkit scripts -->
-	<script src="{{baseurl}}/assets/toolkit/scripts/toolkit.js"></script>
+	<script src="./{{baseurl}}/assets/toolkit/scripts/toolkit.js"></script>
 	<!-- /toolkit scripts -->
 
 </body>
