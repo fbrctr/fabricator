@@ -29,6 +29,7 @@ var args   = minimist(process.argv.slice(2));
 var config = lodash.merge({}, require('./fabricatorConfig.json'), args.config ? require(args.config) : {});
 config.dev = gutil.env.dev;
 config.buildConfig = args.buildConfig || './configs/fabricator.json';
+config.buildConfigName = config.buildConfig.split('/').pop(-1).slice(0, -5);
 config.data.push(config.package);
 
 setupPaths();
@@ -45,20 +46,15 @@ function setupPaths() {
 		toolkit: {
 			scripts: config.scripts,
 			styles : config.styles,
-			images : lodash.map(config.images, function (src) {
-				return src.replace('%s', config.buildConfig.split('/').pop(-1).slice(0, -5)); })
+			images : lodash.map(config.images, function (src) { return src.replace('%s', config.buildConfigName); })
 		}
 	};
 	config.watch = {
-		fabricator: {
-			styles : "./src/assets/fabricator/styles/**/*.scss"
-		},
-		toolkit: {
-			styles : config.watchStyles
-		},
-		assemble: constructAssembleSourcesToWatch()
+		fabricator: { styles : "./src/assets/fabricator/styles/**/*.scss" },
+		toolkit   : { styles : config.watchStyles },
+		assemble  : constructAssembleSourcesToWatch()
 	};
-	config.dest = "dist";
+	config.dest = !config.dev && config.buildDest ? config.buildDest.replace('%s', config.buildConfigName) : "dist";
 }
 
 /**
@@ -129,7 +125,7 @@ var webpackCompiler = webpack(webpackConfig);
 
 // clean
 gulp.task('clean', function (cb) {
-	del([config.dest], cb);
+	del([config.dest], {force: true}, cb);
 });
 
 
@@ -204,6 +200,13 @@ gulp.task('favicon', function () {
 });
 
 
+// samples
+gulp.task('samples', function () {
+	return gulp.src(config.samples)
+		.pipe(gulp.dest(config.dest + '/assets/samples'));
+});
+
+
 // assemble
 gulp.task('assemble', function (done) {
 	setupBuildConfigInfo(false);
@@ -211,7 +214,8 @@ gulp.task('assemble', function (done) {
 		logErrors: config.dev,
 		views    : config.views,
 		materials: config.materials,
-		data     : config.data
+		data     : config.data,
+		dest     : config.dest
 	});
 	done();
 });
@@ -270,6 +274,9 @@ gulp.task('serve', function () {
 	gulp.task('images:watch', ['images'], reload);
 	gulp.watch(config.src.toolkit.images, ['images:watch']);
 
+	gulp.task('samples:watch', ['samples'], reload);
+	gulp.watch(config.samples, ['samples:watch']);
+
 	gulp.task('buildConfig:watch', ['buildConfigChanged'], reload);
 	gulp.watch(config.buildConfig, ['buildConfig:watch']);
 });
@@ -283,6 +290,7 @@ gulp.task('default', ['clean'], function () {
 		'styles',
 		'scripts',
 		'images',
+		'samples',
 		'assemble'
 	];
 
