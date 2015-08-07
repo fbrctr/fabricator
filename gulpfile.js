@@ -54,7 +54,7 @@ function setupPaths() {
 		toolkit   : { styles : config.watchStyles },
 		assemble  : constructAssembleSourcesToWatch()
 	};
-	config.dest = !config.dev && config.buildDest ? config.buildDest.replace('%s', config.buildConfigName) : "dist";
+	config.dest = (!config.dev && config.buildDest) ? config.buildDest.replace('%s', config.buildConfigName) : "dist";
 }
 
 /**
@@ -215,6 +215,7 @@ gulp.task('assemble', function (done) {
 		views    : config.views,
 		materials: config.materials,
 		data     : config.data,
+		docs     : config.docs,
 		dest     : config.dest
 	});
 	done();

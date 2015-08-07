@@ -4,6 +4,7 @@
   "materials"  : ["./src/materials/**/*"],
   "data"       : ["./src/data/**/*.{json,yml}"],
   "samples"    : ["./src/samples/**/*"],
+  "docs"       : ["./src/docs/**/*.md"],
   "scripts"    : ["./src/assets/toolkit/scripts/toolkit.js"],
   "styles"     : ["./src/assets/toolkit/styles/toolkit.scss"],
   "images"     : ["./src/assets/toolkit/images/**/*"],
