@@ -107,6 +107,7 @@ function constructAssembleSourcesToWatch() {
 		if (argsConfig.pages)           { assembleSources = lodash.union(assembleSources, config.pages); }
 		if (argsConfig.materials)       { assembleSources = lodash.union(assembleSources, config.materials); }
 		if (argsConfig.data)            { assembleSources = lodash.union(assembleSources, config.data); }
+		if (argsConfig.docs)            { assembleSources = lodash.union(assembleSources, config.docs); }
 		if (argsConfig.buildConfigInfo) { assembleSources.push(argsConfig.buildConfigInfo); }
 		return assembleSources;
 	} else {
