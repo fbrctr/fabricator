@@ -143,7 +143,7 @@ gulp.task('styles:fabricator', function () {
 		.pipe(gulpif(config.dev, reload({stream:true})));
 });
 
-gulp.task('styles:toolkit', function () {
+gulp.task('styles:toolkit', ['fonts'], function () {
 	gulp.src(config.src.toolkit.styles)
 		.pipe(sourcemaps.init())
 		.pipe(replace({patterns: [{json: createStyleReplacementsFromConfig()}], usePrefix: false}))
@@ -205,6 +205,13 @@ gulp.task('favicon', function () {
 gulp.task('samples', function () {
 	return gulp.src(config.samples)
 		.pipe(gulp.dest(config.dest + '/assets/samples'));
+});
+
+
+// fonts
+gulp.task('fonts', function () {
+	return gulp.src(config.fonts)
+		.pipe(gulp.dest(config.dest + '/assets/toolkit/fonts'));
 });
 
 

@@ -6,6 +6,7 @@
   "samples"    : ["./src/samples/**/*"],
   "docs"       : ["./src/docs/**/*.md"],
   "scripts"    : ["./src/assets/toolkit/scripts/toolkit.js"],
+  "fonts"      : ["./src/assets/toolkit/fonts/**/*"],
   "styles"     : ["./src/assets/toolkit/styles/toolkit.scss"],
   "images"     : ["./src/assets/toolkit/images/**/*"],
   "watchStyles": ["./src/assets/toolkit/styles/**/*.scss"]
