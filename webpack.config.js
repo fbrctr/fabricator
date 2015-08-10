@@ -23,7 +23,12 @@ module.exports = function(fabricatorConfig) {
 				}
 			]
 		},
-		plugins: [],
+		plugins: [
+			new webpack.ProvidePlugin({
+				$: 'jQuery',
+				jQuery: 'jQuery'
+			})
+		],
 		cache: {}
 	};
 
