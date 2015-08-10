@@ -40,7 +40,7 @@ setupBuildConfigInfo(true);
 function setupPaths() {
 	config.src = {
 		fabricator: {
-			scripts: "./src/assets/fabricator/scripts/fabricator.js",
+			scripts: addPossibleDependencies(["./src/assets/fabricator/scripts/fabricator.js"]),
 			styles : "./src/assets/fabricator/styles/fabricator.scss"
 		},
 		toolkit: {
@@ -55,6 +55,14 @@ function setupPaths() {
 		assemble  : constructAssembleSourcesToWatch()
 	};
 	config.dest = (!config.dev && config.buildDest) ? config.buildDest.replace('%s', config.buildConfigName) : "dist";
+
+	function addPossibleDependencies(fabricatorScripts) {
+		if (config.dependencies) {
+			return lodash.union(fabricatorScripts, config.dependencies);
+		} else {
+			return fabricatorScripts;
+		}
+	}
 }
 
 /**
