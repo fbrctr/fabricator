@@ -199,9 +199,13 @@ gulp.task('scripts', function (done) {
 		});
 	} else {
 		return merge(
-			createScriptStream(config.src.fabricator.scripts, config.dest + '/assets/fabricator/scripts', 'f.js'),
+			createScriptStream(constructFabricatorScriptSrc(), config.dest + '/assets/fabricator/scripts', 'f.js'),
 			createScriptStream(config.src.toolkit.scripts, config.dest + '/assets/toolkit/scripts', 'toolkit.js')
 		);
+	}
+
+	function constructFabricatorScriptSrc() {
+		return lodash.union(['./src/assets/fabricator/scripts/prism.js'], config.src.fabricator.scripts);
 	}
 
 	function createScriptStream(src, dest, fileName) {

@@ -1,6 +1,6 @@
 'use strict';
 
-require('./prism');
+if (typeof require !== 'undefined') { require('./prism'); }
 
 /**
  * Global `fabricator` object
