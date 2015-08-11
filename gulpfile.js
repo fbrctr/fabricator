@@ -4,6 +4,7 @@
 
 var assemble    = require('fabricator-assemble'),
 	browserSync = require('browser-sync'),
+	concat      = require('gulp-concat'),
 	csso        = require('gulp-csso'),
 	del         = require('del'),
 	fs          = require('fs'),
@@ -12,6 +13,7 @@ var assemble    = require('fabricator-assemble'),
 	gulpif      = require('gulp-if'),
 	imagemin    = require('gulp-imagemin'),
 	lodash      = require('lodash'),
+	merge       = require('merge2'),
 	minimist    = require('minimist'),
 	prefix      = require('gulp-autoprefixer'),
 	rename      = require('gulp-rename'),
@@ -20,6 +22,7 @@ var assemble    = require('fabricator-assemble'),
 	runSequence = require('run-sequence'),
 	sass        = require('gulp-sass'),
 	sourcemaps  = require('gulp-sourcemaps'),
+	uglify      = require('gulp-uglify'),
 	webpack     = require('webpack');
 
 
@@ -181,18 +184,32 @@ function createStyleReplacementsFromConfig() {
 
 // scripts
 gulp.task('scripts', function (done) {
-	webpackCompiler.run(function (error, result) {
-		if (error) {
-			gutil.log(gutil.colors.red(error));
-		}
-		result = result.toJson();
-		if (result.errors.length) {
-			result.errors.forEach(function (error) {
+	if (config.useWebpack) {
+		webpackCompiler.run(function (error, result) {
+			if (error) {
 				gutil.log(gutil.colors.red(error));
-			});
-		}
-		done();
-	});
+			}
+			result = result.toJson();
+			if (result.errors.length) {
+				result.errors.forEach(function (error) {
+					gutil.log(gutil.colors.red(error));
+				});
+			}
+			done();
+		});
+	} else {
+		return merge(
+			createScriptStream(config.src.fabricator.scripts, config.dest + '/assets/fabricator/scripts', 'f.js'),
+			createScriptStream(config.src.toolkit.scripts, config.dest + '/assets/toolkit/scripts', 'toolkit.js')
+		);
+	}
+
+	function createScriptStream(src, dest, fileName) {
+		return gulp.src(src)
+			.pipe(gulpif(!config.dev, uglify()))
+			.pipe(concat(fileName))
+			.pipe(gulp.dest(dest));
+	}
 });
 
 

@@ -1,4 +1,5 @@
 {
+  "useWebpack" : true,
   "package"    : "./package.json",
   "views"      : ["./src/views/**/*", "!./src/views/+(layouts)/**"],
   "materials"  : ["./src/materials/**/*"],
