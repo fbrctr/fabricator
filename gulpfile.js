@@ -25,7 +25,7 @@ var assemble    = require('fabricator-assemble'),
 
 var args            = minimist(process.argv.slice(2)),
 	buildConfigFile = lodash.get(args, 'buildConfig', './configs/fabricator.json'),
-	config          = createConfig(getProjectConfig(args), getBuildName(buildConfigFile)),
+	config          = createConfig(getProjectConfig(args), getFileName(buildConfigFile)),
 	webpackConfig   = require('./webpack.config')(config),
 	webpackCompiler = webpack(webpackConfig);
 
@@ -217,14 +217,13 @@ gulp.task('serve', function () {
 //
 //	"buildConfigInfo":  ''   // A file with buildConfigInfo.
 //  "pages"          : ['']  // If you use your own pages (from another project).
+//	"ngApp"          :  ''   // A js file which is the app for your toolkit, added to f.js.
 //	"buildDest"      :  ''   // A custom folder to build production to, %s will be replaced by build name.
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 function getProjectConfig(args) { return args.config ? require(args.config) : {}; }
-
-function getBuildName(buildConfigFile) { return buildConfigFile.split('/').pop(-1).slice(0, -5); }
 
 function createConfig(projectFabricatorConfig, build) {
 	var development = gutil.env.dev;
@@ -258,6 +257,11 @@ function createConfig(projectFabricatorConfig, build) {
 
 	var pages = lodash.get(fabricatorConfig, 'pages', []);
 	if (lodash.size(pages) > 0) { config.paths.pages = fabricatorConfig.pages; }
+
+	var ngAppFile = lodash.get(fabricatorConfig, 'ngApp', '');
+	if (ngAppFile !== '') {
+		config.ngAppFile = ngAppFile;
+		config.paths.toolkit.scripts['toolkit-test-app'] = [ngAppFile];	}
 
 	return config;
 }
@@ -313,12 +317,19 @@ function initializeBuildConfig() {
 	// REMARK: Will be run before the actual assemble, as for watchers.
 
 	delete require.cache[require.resolve(buildConfigFile)];  // This changes by the user!
-	fs.writeFileSync('./buildConfig.json', JSON.stringify(
-		lodash.chain(require(buildConfigFile))
+	fs.writeFileSync('./buildConfig.json', JSON.stringify(createBuildConfigData()));
+
+	function createBuildConfigData() {
+		var buildConfigData = lodash.chain(require(buildConfigFile))
 			.set('toolkitScripts', lodash.keys(config.paths.toolkit.scripts))
-			.set('toolkitStyles', lodash.keys(config.paths.toolkit.scripts))
-			.value()
-	));
+			.set('toolkitStyles', lodash.keys(config.paths.toolkit.styles))
+			.value();
+
+		var ngAppFile = lodash.get(config, 'ngAppFile', '');
+		if (ngAppFile !== '') { buildConfigData.ngAppName = getFileName(ngAppFile); }
+
+		return buildConfigData;
+	}
 }
 
 function initializeBuildConfigInfo() {
@@ -371,4 +382,10 @@ function constructScriptSourcesToWatch() {
 	lodash.forOwn(config.paths.toolkit.scripts, function (src) {
 		scriptsToWatch = lodash.union(scriptsToWatch, src); });
 	return scriptsToWatch;
+}
+
+function getFileName(filePath) {
+	return lodash.reduce(
+		filePath.split('/').pop(-1).split('.').slice(0, -1),
+		function (result, piece) { return result + '.' + piece; });
 }

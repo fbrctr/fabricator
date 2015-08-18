@@ -1,6 +1,6 @@
 <!doctype html>
 <html>
-<head>
+<head {{#if buildConfig.ngAppName}}data-ng-app="{{buildConfig.ngAppName}}"{{/if}}>
 
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -41,6 +41,8 @@
 		<script src="./{{baseurl}}/assets/toolkit/scripts/{{this}}.js"></script>
 	{{/each}}
 	<!-- /toolkit scripts -->
+
+
 
 </body>
 </html>
