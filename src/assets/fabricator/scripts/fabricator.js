@@ -58,7 +58,8 @@ fabricator.dom = {
 	root: document.querySelector('html'),
 	primaryMenu: document.querySelector('.f-menu'),
 	menuItems: document.querySelectorAll('.f-menu li a'),
-	menuToggle: document.querySelector('.f-menu-toggle')
+	menuToggle: document.querySelector('.f-menu-toggle'),
+	menuAccordions: document.querySelectorAll('.f-menu_accordion_toggle')
 };
 
 
@@ -153,6 +154,13 @@ fabricator.setActiveItem = function () {
 
 		// set the matched item as active
 		fabricator.dom.menuItems[index].classList.add('f-active');
+
+		//close other accordions
+		for(var i = 0; i < fabricator.dom.menuAccordions.length; i++) {
+			if(id != fabricator.dom.menuAccordions[i].getElementsByTagName('a')[0].getAttribute('href').split('#').pop() && fabricator.dom.menuAccordions[i]) {
+				fabricator.dom.menuAccordions[i].classList.remove('is-open');
+			}
+		}
 
 	};
 
@@ -357,6 +365,27 @@ fabricator.setInitialMenuState = function () {
 
 };
 
+/** 
+ * Open/Close menu accordions on click
+ */
+fabricator.accordions = function() {
+	
+	for(var i = 0; i < fabricator.dom.menuAccordions.length; i++) {
+
+		fabricator.dom.menuAccordions[i].addEventListener('click', function (e) {
+			var classList = e.currentTarget.classList;
+
+			if(classList.toString().indexOf('is-open') > 0) {
+				e.currentTarget.classList.remove('is-open');
+			} else {
+				e.currentTarget.classList.add('is-open');
+			}
+		});
+	}
+
+	return this;
+};
+
 
 /**
  * Initialization
@@ -365,6 +394,7 @@ fabricator.setInitialMenuState = function () {
 
 	// invoke
 	fabricator
+		.accordions()
 		.setInitialMenuState()
 		.menuToggle()
 		.allItemsToggles()
