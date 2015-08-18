@@ -12,7 +12,9 @@
 	<link rel="icon" type="image/x-icon" href="./{{baseurl}}/assets/toolkit/images/favicon.ico"/>
 
 	<!-- toolkit styles -->
-	<link rel="stylesheet" href="./{{baseurl}}/assets/toolkit/styles/toolkit.css">
+	{{#each buildConfig.toolkitStyles}}
+		<link rel="stylesheet" href="./{{baseurl}}/assets/toolkit/styles/{{this}}.css">
+	{{/each}}
 	<!-- /toolkit styles -->
 
 </head>
@@ -35,7 +37,9 @@
 	{{/if}}
 
 	<!-- toolkit scripts -->
-	<script src="./{{baseurl}}/assets/toolkit/scripts/toolkit.js"></script>
+	{{#each buildConfig.toolkitScripts}}
+		<script src="./{{baseurl}}/assets/toolkit/scripts/{{this}}.js"></script>
+	{{/each}}
 	<!-- /toolkit scripts -->
 
 </body>

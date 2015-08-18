@@ -313,7 +313,12 @@ function initializeBuildConfig() {
 	// REMARK: Will be run before the actual assemble, as for watchers.
 
 	delete require.cache[require.resolve(buildConfigFile)];  // This changes by the user!
-	fs.writeFileSync('./buildConfig.json', JSON.stringify(require(buildConfigFile)));
+	fs.writeFileSync('./buildConfig.json', JSON.stringify(
+		lodash.chain(require(buildConfigFile))
+			.set('toolkitScripts', lodash.keys(config.paths.toolkit.scripts))
+			.set('toolkitStyles', lodash.keys(config.paths.toolkit.scripts))
+			.value()
+	));
 }
 
 function initializeBuildConfigInfo() {
