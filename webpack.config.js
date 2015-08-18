@@ -1,17 +1,15 @@
-var path = require('path');
-var webpack = require('webpack');
+var path    = require('path'),
+	webpack = require('webpack'),
+	lodash  = require('lodash');
 
 module.exports = function(fabricatorConfig) {
 
 	"use strict";
 
 	var config = {
-		entry: {
-			'fabricator/scripts/f': fabricatorConfig.src.fabricator.scripts,
-			'toolkit/scripts/toolkit': fabricatorConfig.src.toolkit.scripts
-		},
+		entry: createWebpackConfigEntry(fabricatorConfig),
 		output: {
-			path: path.resolve(__dirname, fabricatorConfig.dest, 'assets'),
+			path: path.resolve(__dirname, fabricatorConfig.paths.dest, 'assets'),
 			filename: '[name].js'
 		},
 		module: {
@@ -32,12 +30,15 @@ module.exports = function(fabricatorConfig) {
 		cache: {}
 	};
 
-	if (!fabricatorConfig.dev) {
-		config.plugins.push(
-			new webpack.optimize.UglifyJsPlugin()
-		);
-	}
+	if (!fabricatorConfig.dev) { config.plugins.push(new webpack.optimize.UglifyJsPlugin()); }
 
 	return config;
 
+	function createWebpackConfigEntry(fabricatorConfig) {
+		return lodash.set(
+			lodash.mapKeys(fabricatorConfig.paths.toolkit.scripts,
+				function (value, key) { return 'toolkit/scripts/' + key; }),
+			'fabricator/scripts/f', fabricatorConfig.paths.fabricator.scripts
+		);
+	}
 };
