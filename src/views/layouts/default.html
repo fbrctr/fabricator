@@ -1,7 +1,6 @@
 <!doctype html>
 <html {{#if buildConfig.ngAppName}}data-ng-app="{{buildConfig.ngAppName}}"{{/if}}>
 <head>
-
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -11,15 +10,12 @@
 
 	<link rel="icon" type="image/x-icon" href="./{{baseurl}}/assets/toolkit/images/favicon.ico"/>
 
-	<!-- toolkit styles -->
 	{{#each buildConfig.toolkitStyles}}
-		<link rel="stylesheet" href="./{{baseurl}}/assets/toolkit/styles/{{this}}.css">
+		<link rel="stylesheet" href="./{{../baseurl}}/assets/toolkit/styles/{{this}}.css">
 	{{/each}}
-	<!-- /toolkit styles -->
-
 </head>
 <body>
-
+<h1>{{baseurl}}</h1>
 	{{#if fabricator}}
 		{{> f-icons}}
 		{{> f-menu}}
@@ -27,22 +23,15 @@
 			{{> f-control-bar}}
 	{{/if}}
 
-
 	{% body %}
-
 
 	{{#if fabricator}}
 		</div>
 	<script src="./{{baseurl}}/assets/fabricator/scripts/f.js"></script>
 	{{/if}}
 
-	<!-- toolkit scripts -->
 	{{#each buildConfig.toolkitScripts}}
-		<script src="./{{baseurl}}/assets/toolkit/scripts/{{this}}.js"></script>
+		<script src="./{{../baseurl}}/assets/toolkit/scripts/{{this}}.js"></script>
 	{{/each}}
-	<!-- /toolkit scripts -->
-
-
-
 </body>
 </html>
