@@ -16,10 +16,11 @@
 				{{#each items}}
 					{{#if this.[data]}}
 						<li>
-					{{else}}
-						<li class="f-menu_accordion_toggle">
-					{{/if}}
 						<a href="{{@../key}}.html#{{@key}}">{{name}}</a>
+					{{else}}
+						<li class="f-menu_accordion_group">
+						<a class="f-menu_accordion_toggle" href="{{@../key}}.html#{{@key}}">{{name}}</a>
+					{{/if}}
 
 						{{#unless this.[data]}}
 							<ul class="f-menu_accordion">

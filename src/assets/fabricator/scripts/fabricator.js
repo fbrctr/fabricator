@@ -157,14 +157,14 @@ fabricator.setActiveItem = function () {
 
 		//modify other accordions
 		for(var i = 0; i < fabricator.dom.menuAccordions.length; i++) {
-			var thisID = fabricator.dom.menuAccordions[i].getElementsByTagName('a')[0].getAttribute('href').split('#').pop();
+			var thisID = fabricator.dom.menuAccordions[i].getAttribute('href').split('#').pop();
 			// if it's not the same item
 			if(id != thisID && fabricator.dom.menuAccordions[i]) {
-				fabricator.dom.menuAccordions[i].classList.remove('is-open');
+				fabricator.dom.menuAccordions[i].parentNode.classList.remove('is-open');
 			}
 			// if it is the same item - i.e. the window loaded on a hash
 			if(id == thisID && fabricator.dom.menuAccordions[i]) {
-				fabricator.dom.menuAccordions[i].classList.add('is-open');
+				fabricator.dom.menuAccordions[i].parentNode.classList.add('is-open');
 			}
 		}
 
@@ -382,9 +382,9 @@ fabricator.accordions = function() {
 			var classList = e.currentTarget.classList;
 
 			if(classList.toString().indexOf('is-open') > 0) {
-				e.currentTarget.classList.remove('is-open');
+				e.currentTarget.parentNode.classList.remove('is-open');
 			} else {
-				e.currentTarget.classList.add('is-open');
+				e.currentTarget.parentNode.classList.add('is-open');
 			}
 		});
 	}
