@@ -122,7 +122,7 @@ gulp.task('images:favicon', function () {
 
 gulp.task('images', ['images:favicon'], function () {
 	return gulp.src(config.paths.toolkit.images)
-		.pipe(imagemin())
+		//.pipe(imagemin())  >> svg files and ico files didn't came with it.
 		.pipe(gulp.dest(config.paths.dest + '/assets/toolkit/images'));
 });
 
