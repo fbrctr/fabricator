@@ -21,7 +21,6 @@ var assemble    = require('fabricator-assemble'),
 	sass        = require('gulp-sass'),
 	sourcemaps  = require('gulp-sourcemaps'),
 	uglify      = require('gulp-uglify'),
-	urlencode   = require('gulp-css-urlencode-inline-svgs'),
 	webpack     = require('webpack');
 
 var args            = minimist(process.argv.slice(2)),
@@ -70,7 +69,6 @@ gulp.task('styles:toolkit', ['styles:toolkit:fonts'], function () {
 			.pipe(replace({patterns: [{json: styleReplacements}], usePrefix: false}))
 			.pipe(sass().on('error', sass.logError))
 			.pipe(prefix('last 1 version'))
-			.pipe(urlencode())
 			.pipe(gulpif(!config.dev, csso()))
 			.pipe(concat(namedSrc[0] + '.css'))
 			.pipe(sourcemaps.write())
