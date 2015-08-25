@@ -81,21 +81,27 @@
 	}
 
 	.f-menu_accordion_group {
-		&:after {
-			font-size: .75rem;
-			font-weight: bold;
-			content: '+';
-			display: block;
+		.control {
 			position: absolute;
 			left: 10px;
 			top: 8px;
-			color: map-get($colors, menu-text) !important;
 			cursor: pointer;
+			width: 10px;
+			height: 10px;
+			&:after {
+				font-size: .75rem;
+				font-weight: bold;
+				content: '+';
+				display: block;
+				color: map-get($colors, menu-text) !important;
+			}
 		}
 		&.is-open {
-			&:after {
-				content: '-';
+			.control {
 				left: 12px;
+				&:after {
+					content: '-';
+				}
 			}
 			.f-menu_accordion {
 				max-height: 1200px;

@@ -375,18 +375,25 @@ fabricator.accordions = function() {
 	for(var i = 0; i < fabricator.dom.menuAccordions.length; i++) {
 
 		fabricator.dom.menuAccordions[i].addEventListener('click', function (e) {
-			var classList = e.currentTarget.parentNode.classList;
-
-			if(classList.toString().indexOf('is-open') > 0) {
-				e.currentTarget.parentNode.classList.remove('is-open');
-			} else {
-				for(var a = 0; a < fabricator.dom.menuAccordions.length; a++) {
-					fabricator.dom.menuAccordions[a].parentNode.classList.remove('is-open');
-				}
-				e.currentTarget.parentNode.classList.add('is-open');
-			}
+			setActiveAccordion(e);
+		});
+		fabricator.dom.menuAccordions[i].parentNode.querySelectorAll('.control')[0].addEventListener('click', function(e) {
+			setActiveAccordion(e);
 		});
 	}
+
+	var setActiveAccordion = function(which) {
+		var classList = which.currentTarget.parentNode.classList;
+
+		if(classList.toString().indexOf('is-open') > 0) {
+			which.currentTarget.parentNode.classList.remove('is-open');
+		} else {
+			for(var a = 0; a < fabricator.dom.menuAccordions.length; a++) {
+				fabricator.dom.menuAccordions[a].parentNode.classList.remove('is-open');
+			}
+			which.currentTarget.parentNode.classList.add('is-open');
+		}
+	};
 
 	return this;
 };
