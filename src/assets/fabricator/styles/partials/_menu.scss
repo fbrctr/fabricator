@@ -79,18 +79,20 @@
 
 	.f-menu_accordion_group {
 		&:after {
-			font-size: .5rem;
-			content: '▼';
-			transform: rotate(-90deg);
+			font-size: .75rem;
+			font-weight: bold;
+			content: '+';
 			display: block;
 			position: absolute;
 			left: 10px;
 			top: 8px;
 			color: map-get($colors, menu-text) !important;
+			cursor: pointer;
 		}
 		&.is-open {
 			&:after {
-				transform: rotate(0deg);
+				content: '-';
+				left: 12px;
 			}
 			.f-menu_accordion {
 				max-height: 1200px;
