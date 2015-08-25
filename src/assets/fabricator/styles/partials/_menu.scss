@@ -70,7 +70,10 @@
 	}
 
 	.f-menu_accordion {
-		padding-left: .7rem;
+		li a {
+			padding-left: 2.7rem;
+			box-sizing: border-box
+		}
 		max-height: 0px;
 		overflow: hidden;
 		transition: max-height 0.3s ease;

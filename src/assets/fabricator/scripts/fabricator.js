@@ -90,7 +90,6 @@ fabricator.buildColorChips = function () {
 
 };
 
-
 /**
  * Add `f-active` class to active menu item
  */
@@ -158,12 +157,9 @@ fabricator.setActiveItem = function () {
 		//modify other accordions
 		for(var i = 0; i < fabricator.dom.menuAccordions.length; i++) {
 			var thisID = fabricator.dom.menuAccordions[i].getAttribute('href').split('#').pop();
-			// if it's not the same item
-			if(id != thisID && fabricator.dom.menuAccordions[i]) {
-				fabricator.dom.menuAccordions[i].parentNode.classList.remove('is-open');
-			}
+
 			// if it is the same item - i.e. the window loaded on a hash
-			if(id == thisID && fabricator.dom.menuAccordions[i]) {
+			if(id.indexOf(thisID) > -1 && fabricator.dom.menuAccordions[i]) {
 				fabricator.dom.menuAccordions[i].parentNode.classList.add('is-open');
 			}
 		}
@@ -379,11 +375,14 @@ fabricator.accordions = function() {
 	for(var i = 0; i < fabricator.dom.menuAccordions.length; i++) {
 
 		fabricator.dom.menuAccordions[i].addEventListener('click', function (e) {
-			var classList = e.currentTarget.classList;
+			var classList = e.currentTarget.parentNode.classList;
 
 			if(classList.toString().indexOf('is-open') > 0) {
 				e.currentTarget.parentNode.classList.remove('is-open');
 			} else {
+				for(var a = 0; a < fabricator.dom.menuAccordions.length; a++) {
+					fabricator.dom.menuAccordions[a].parentNode.classList.remove('is-open');
+				}
 				e.currentTarget.parentNode.classList.add('is-open');
 			}
 		});
