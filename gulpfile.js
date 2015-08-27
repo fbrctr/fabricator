@@ -13,6 +13,7 @@ var assemble    = require('fabricator-assemble'),
 	lodash      = require('lodash'),
 	merge       = require('merge2'),
 	minimist    = require('minimist'),
+	ngAnnotate  = require('gulp-ng-annotate'),
 	prefix      = require('gulp-autoprefixer'),
 	rename      = require('gulp-rename'),
 	reload      = browserSync.reload,
@@ -107,6 +108,7 @@ gulp.task('scripts', function (done) {
 
 	function createScriptStream(src, dest, fileName) {
 		return gulp.src(src)
+			.pipe(ngAnnotate({add: true, single_quotes: true}))
 			.pipe(gulpif(!config.dev, uglify()))
 			.pipe(concat(fileName))
 			.pipe(gulp.dest(config.paths.dest + dest));

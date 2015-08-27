@@ -41,6 +41,7 @@
     "gulp-csso": "^1.0.0",
     "gulp-if": "^1.2.5",
     "gulp-imagemin": "^2.2.1",
+    "gulp-ng-annotate": "^1.1.0",
     "gulp-rename": "^1.2.2",
     "gulp-replace-task": "^0.2.1",
     "gulp-sass": "^2.0.0",
