@@ -97,7 +97,11 @@ gulp.task('scripts', function (done) {
 	}
 
 	function constructFabricatorScriptSrc() {
-		return lodash.union(['./src/assets/fabricator/scripts/prism.js'], config.paths.fabricator.scripts);
+		return lodash.union([
+			'./node_modules/match-media/matchMedia.js',
+			'./node_modules/match-media/matchMedia.addListener.js',
+			'./src/assets/fabricator/scripts/prism.js'
+			], config.paths.fabricator.scripts);
 	}
 
 	function createToolkitScriptStreams(src, dest) {

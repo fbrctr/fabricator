@@ -50,6 +50,7 @@
     "gulp-util": "^3.0.4",
     "imports-loader": "^0.6.3",
     "lodash": "^3.10.0",
+    "match-media": "^0.2.0",
     "merge2": "^0.3.6",
     "minimist": "^1.1.2",
     "run-sequence": "^1.0.2",

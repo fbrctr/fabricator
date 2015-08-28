@@ -106,7 +106,8 @@ fabricator.setActiveItem = function () {
 		for (var i = fabricator.dom.menuItems.length - 1; i >= 0; i--) {
 
 			// remove active class from items
-			fabricator.dom.menuItems[i].classList.remove('f-active');
+			fabricator.dom.menuItems[i].className =
+				fabricator.dom.menuItems[i].className.replace(' f-active', '').replace('f-active', '');
 
 			// get item href
 			href = fabricator.dom.menuItems[i].getAttribute('href');
@@ -152,8 +153,8 @@ fabricator.setActiveItem = function () {
 		index = (items.indexOf(id) > -1) ? items.indexOf(id) : 0;
 
 		// set the matched item as active
-		fabricator.dom.menuItems[index].classList.add('f-active');
-
+		fabricator.dom.menuItems[index].className =
+			fabricator.dom.menuItems[index].className + ' f-active';
 	};
 
 	window.addEventListener('hashchange', setActive);
@@ -178,8 +179,14 @@ fabricator.menuToggle = function () {
 
 	// toggle classes on certain elements
 	var toggleClasses = function () {
-		options.menu = !fabricator.dom.root.classList.contains('f-menu-active');
-		fabricator.dom.root.classList.toggle('f-menu-active');
+		options.menu = !fabricator.dom.root.className.indexOf('f-menu-active') > -1;
+		if (options.menu) {
+			fabricator.dom.root.className =
+				fabricator.dom.root.className.replace(' f-menu-active', '').replace('f-menu-active', '');
+		} else {
+			fabricator.dom.root.className =
+				fabricator.dom.root.className + ' f-menu-active';
+		}
 
 		if (fabricator.test.sessionStorage) {
 			sessionStorage.setItem('fabricator', JSON.stringify(options));
@@ -231,17 +238,17 @@ fabricator.allItemsToggles = function () {
 
 		for (var i = 0; i < _items.length; i++) {
 			if (value) {
-				_items[i].classList.remove('f-item-hidden');
+				_items[i].className =  _items[i].className.replace(' f-item-hidden', '').replace('f-item-hidden', '');
 			} else {
-				_items[i].classList.add('f-item-hidden');
+				_items[i].className = _items[i].className + ' f-item-hidden';
 			}
 		}
 
 		// toggle styles
 		if (value) {
-			button.classList.add('f-active');
+			button.className = button.className + ' f-active';
 		} else {
-			button.classList.remove('f-active');
+			button.className = button.className.replace(' f-active', '').replace('f-active', '');
 		}
 
 		// update options
@@ -292,7 +299,14 @@ fabricator.singleItemToggle = function () {
 		var group = this.parentNode.parentNode.parentNode,
 			type = e.currentTarget.getAttribute('data-f-toggle-control');
 
-		group.querySelector('[data-f-toggle=' + type + ']').classList.toggle('f-item-hidden');
+		if (group.querySelector('[data-f-toggle=' + type + ']').className.indexOf('f-item-hidden') > -1) {
+			group.querySelector('[data-f-toggle=' + type + ']').className =
+				group.querySelector('[data-f-toggle=' + type + ']').className
+					.replace(' f-item-hidden', '').replace('f-item-hidden', '');
+		} else {
+			group.querySelector('[data-f-toggle=' + type + ']').className =
+				group.querySelector('[data-f-toggle=' + type + ']').className + ' f-item-hidden';
+		}
 	};
 
 	for (var i = 0; i < itemToggleSingle.length; i++) {
@@ -340,12 +354,12 @@ fabricator.setInitialMenuState = function () {
 	// if small screen
 	var mediaChangeHandler = function (list) {
 		if (!list.matches) {
-			root.classList.remove('f-menu-active');
+			root.className = root.className.replace(' f-menu-active', '').replace('f-menu-active', '');
 		} else {
 			if (fabricator.getOptions().menu) {
-				root.classList.add('f-menu-active');
+				root.className = root.className + ' f-menu-active';
 			} else {
-				root.classList.remove('f-menu-active');
+				root.className = root.className.replace(' f-menu-active', '').replace('f-menu-active', '');
 			}
 		}
 	};
