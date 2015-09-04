@@ -2,6 +2,7 @@
   "name": "fabricator",
   "version": "1.2.2",
   "description": "A tool for building website UI toolkits",
+  "license": "MIT",
   "homepage": "http://fbrctr.github.io/",
   "main": "README.md",
   "scripts": {
@@ -30,23 +31,23 @@
     "npm": ">=2.0.0"
   },
   "devDependencies": {
-    "babel-core": "^5.2.17",
-    "babel-loader": "5.0.0",
-    "browser-sync": "^2.7.1",
-    "del": "^1.1.1",
-    "fabricator-assemble": "^1.1.8",
-    "gulp": "^3.8.11",
-    "gulp-autoprefixer": "^2.2.0",
+    "babel-core": "^5.8.23",
+    "babel-loader": "^5.3.2",
+    "browser-sync": "^2.9.1",
+    "del": "^2.0.1",
+    "fabricator-assemble": "^1.1.9",
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^2.3.1",
     "gulp-csso": "^1.0.0",
     "gulp-if": "^1.2.5",
-    "gulp-imagemin": "^2.2.1",
+    "gulp-imagemin": "^2.3.0",
     "gulp-rename": "^1.2.2",
-    "gulp-sass": "^2.0.0",
+    "gulp-sass": "^2.0.4",
     "gulp-sourcemaps": "^1.5.2",
-    "gulp-util": "^3.0.4",
-    "imports-loader": "^0.6.3",
-    "run-sequence": "^1.0.2",
+    "gulp-util": "^3.0.6",
+    "imports-loader": "^0.6.4",
+    "run-sequence": "^1.1.2",
     "script-loader": "^0.6.1",
-    "webpack": "^1.8.11"
+    "webpack": "^1.12.1"
   }
 }
