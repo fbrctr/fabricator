@@ -43,8 +43,8 @@ var webpackCompiler = webpack(webpackConfig);
 
 
 // clean
-gulp.task('clean', function (cb) {
-	del([config.dest]).then(cb);
+gulp.task('clean', function () {
+	return del([config.dest]);
 });
 
 
