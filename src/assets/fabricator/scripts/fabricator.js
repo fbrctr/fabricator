@@ -58,7 +58,8 @@ fabricator.dom = {
 	root: document.querySelector('html'),
 	primaryMenu: document.querySelector('.f-menu'),
 	menuItems: document.querySelectorAll('.f-menu li a'),
-	menuToggle: document.querySelector('.f-menu-toggle')
+	menuToggle: document.querySelector('.f-menu-toggle'),
+	menuAccordions: document.querySelectorAll('.f-menu_accordion_toggle')
 };
 
 
@@ -88,7 +89,6 @@ fabricator.buildColorChips = function () {
 	return this;
 
 };
-
 
 /**
  * Add `f-active` class to active menu item
@@ -153,6 +153,16 @@ fabricator.setActiveItem = function () {
 
 		// set the matched item as active
 		fabricator.dom.menuItems[index].classList.add('f-active');
+
+		//modify other accordions
+		for(var i = 0; i < fabricator.dom.menuAccordions.length; i++) {
+			var thisID = fabricator.dom.menuAccordions[i].getAttribute('href').split('#').pop();
+
+			// if it is the same item - i.e. the window loaded on a hash
+			if(id.indexOf(thisID) > -1 && fabricator.dom.menuAccordions[i]) {
+				fabricator.dom.menuAccordions[i].parentNode.classList.add('is-open');
+			}
+		}
 
 	};
 
@@ -357,6 +367,37 @@ fabricator.setInitialMenuState = function () {
 
 };
 
+/** 
+ * Open/Close menu accordions on click
+ */
+fabricator.accordions = function() {
+	
+	for(var i = 0; i < fabricator.dom.menuAccordions.length; i++) {
+
+		fabricator.dom.menuAccordions[i].addEventListener('click', function (e) {
+			setActiveAccordion(e);
+		});
+		fabricator.dom.menuAccordions[i].parentNode.querySelectorAll('.control')[0].addEventListener('click', function(e) {
+			setActiveAccordion(e);
+		});
+	}
+
+	var setActiveAccordion = function(which) {
+		var classList = which.currentTarget.parentNode.classList;
+
+		if(classList.toString().indexOf('is-open') > 0) {
+			which.currentTarget.parentNode.classList.remove('is-open');
+		} else {
+			for(var a = 0; a < fabricator.dom.menuAccordions.length; a++) {
+				fabricator.dom.menuAccordions[a].parentNode.classList.remove('is-open');
+			}
+			which.currentTarget.parentNode.classList.add('is-open');
+		}
+	};
+
+	return this;
+};
+
 
 /**
  * Initialization
@@ -365,6 +406,7 @@ fabricator.setInitialMenuState = function () {
 
 	// invoke
 	fabricator
+		.accordions()
 		.setInitialMenuState()
 		.menuToggle()
 		.allItemsToggles()
