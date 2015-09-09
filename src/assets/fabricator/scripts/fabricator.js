@@ -101,7 +101,10 @@ fabricator.setActiveItem = function () {
 	var setActive = function () {
 
 		// get current file and hash without first slash
-		var current = (window.location.pathname + window.location.hash).replace(/^\//g, ''),
+		var current = (window.location.pathname + window.location.hash).replace(/(^\/)(.+?)(#[\w\-\.]+)?$/ig, function (match, slash, file, hash) {
+		    	hash = hash || '';
+		    	return file + hash.split('.')[0];
+			}) || 'index.html',
 			href;
 
 		// find the current section in the items array
@@ -114,8 +117,7 @@ fabricator.setActiveItem = function () {
 
 			if (href === current) {
 				item.classList.add('f-active');
-			}
-			else {
+			} else {
 				item.classList.remove('f-active');
 			}
 
