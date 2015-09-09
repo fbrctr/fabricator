@@ -101,8 +101,9 @@ fabricator.setActiveItem = function () {
 	var setActive = function () {
 
 		// get current file and hash without first slash
-		var current = (window.location.pathname + window.location.hash).replace(/(^\/)(.+?)(#[\w\-\.]+)?$/ig, function (match, slash, file, hash) {
+		var current = (window.location.pathname + window.location.hash).replace(/(^\/)([^#]+)?(#[\w\-\.]+)?$/ig, function (match, slash, file, hash) {
 		    	hash = hash || '';
+		    	file = file || '';
 		    	return file + hash.split('.')[0];
 			}) || 'index.html',
 			href;
