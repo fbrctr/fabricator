@@ -27,7 +27,7 @@
     "url": "https://github.com/fbrctr/fabricator.git"
   },
   "engines": {
-    "node": ">=0.10.0",
+    "node": ">=0.12.0",
     "npm": ">=2.0.0"
   },
   "devDependencies": {
