@@ -37,7 +37,7 @@
     "del": "^2.0.1",
     "fabricator-assemble": "^1.1.9",
     "gulp": "^3.9.0",
-    "gulp-autoprefixer": "^2.3.1",
+    "gulp-autoprefixer": "^3.0.1",
     "gulp-csso": "^1.0.0",
     "gulp-if": "^1.2.5",
     "gulp-imagemin": "^2.3.0",
