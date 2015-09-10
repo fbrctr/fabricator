@@ -11,10 +11,10 @@
 		padding: 1rem 0;
 
 		&.f-active {
-			box-shadow: inset 0 3px 0 0 map-get($colors, accent);
+			box-shadow: inset 0 0.25rem 0 0 color(accent);
 
 			use {
-				fill: map-get($colors, menu-text);
+				fill: color(menu-text);
 			}
 		}
 
@@ -22,7 +22,7 @@
 			vertical-align: middle;
 
 			use {
-				fill: if($theme == $theme-dark, map-get($colors, normal), map-get($colors, light) );
+				fill: if($theme == $theme-dark, color(normal), color(light) );
 			}
 		}
 	}
@@ -32,18 +32,18 @@
 	@include border-box;
 	display: inline-block;
 	cursor: pointer;
-	margin-left: 0.618rem;
+	margin-left: 0.66rem;
 
 	&:first-child {
 		margin-left: 0;
 	}
 
 	svg {
-		width: 14px;
-		height: 14px;
+		width: 0.875rem;
+		height: 0.875rem;
 
 		use {
-			fill: map-get($colors, light);
+			fill: color(light);
 		}
 	}
 }

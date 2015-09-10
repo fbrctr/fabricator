@@ -4,6 +4,12 @@
  * Class selectors are namespaced with "f-"
  */
 
+$settings: (
+	theme: light,
+	accent: hsl(0, 0%, 46%),
+	menu-width: 14rem
+);
+
 @import 'partials/variables';
 @import 'partials/code';
 @import 'partials/color-chips';

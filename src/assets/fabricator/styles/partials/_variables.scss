@@ -2,7 +2,7 @@ $base-colors: (
 	dark: hsl(0, 0%, 12%),
 	medium: hsl(0, 0%, 46%),
 	light: hsl(0, 0%, 80%),
-	accent: hsl(0, 0%, 46%)
+	accent: map-get($settings, accent)
 );
 
 $theme-dark: (
@@ -17,11 +17,21 @@ $theme-light: (
 	normal: map-get($base-colors, medium)
 );
 
-$theme: $theme-light;
+$theme: $theme-light !default;
+
+@if (map-get($settings, theme) == 'dark') {
+	$theme: $theme-dark;
+}
 
 $colors: map-merge($base-colors, $theme);
 
-$menu-width: 14rem;
+$menu-width: map-get($settings, menu-width);
+
+
+// functions
+@function color($color) {
+    @return map-get($colors, $color);
+}
 
 
 // mixins

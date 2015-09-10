@@ -8,14 +8,13 @@
 	width: $menu-width;
 	height: 100%;
 	z-index: 1;
-	background-color: map-get($colors, menu-background);
+	background-color: color(menu-background);
 	overflow-x: hidden;
 	overflow-y: auto;
 	-webkit-overflow-scrolling: touch;
 
 	.f-menu-active & {
 		transform: translate(0, 0);
-
 	}
 
 	ul {
@@ -41,30 +40,29 @@
 
 	a {
 		display: block;
-		padding: 0.5rem 2rem;
-		color: map-get($colors, menu-text) !important;
+		padding: 0.33rem 2rem;
+		color: color(menu-text) !important;
 		text-decoration: none;
-		font-size: 0.75rem;
-		line-height: 1;
+		font-size: 0.875rem;
+		line-height: 1.5;
 
 		&:hover {
-			color: map-get($colors, menu-text) !important;
+			color: color(menu-text) !important;
 			text-decoration: underline;
 		}
 
 		&.f-active {
-			box-shadow: inset 3px 0 0 0 map-get($colors, accent);
+			box-shadow: inset 0.25rem 0 0 0 color(accent);
 		}
 	}
 
 	.f-menu__heading {
 		padding-left: 1.5rem;
 		font-weight: 700;
-		font-size: .6875rem;
-		text-transform: uppercase;
+		font-size: 0.875rem;
 
 		&:hover {
-			color: map-get($colors, normal);
+			color: color(normal);
 		}
 	}
 }

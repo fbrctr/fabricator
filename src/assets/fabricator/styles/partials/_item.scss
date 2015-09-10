@@ -3,7 +3,7 @@
 	margin-top: 3rem;
 	margin-bottom: 3rem;
 	padding-bottom: 3rem;
-	border-bottom: 1px solid map-get($colors, light);
+	border-bottom: 1px solid color(light);
 
 	&:last-child {
 		border-bottom: 0;
@@ -39,7 +39,7 @@
 }
 
 .f-item-border-bottom {
-	border-bottom: 1px solid map-get($colors, light);
+	border-bottom: 1px solid color(light);
 }
 
 .f-item-heading-group {
@@ -63,19 +63,19 @@
 	margin-left: 0.5rem;
 
 	.f-control {
-		width: 14px;
-		height: 14px;
+		width: 0.875rem;
+		height: 0.875rem;
 		display: block;
 		float: left;
 
 		&:hover {
 			use {
-				fill: map-get($colors, normal);
+				fill: color(normal);
 			}
 		}
 
 		use {
-			fill: map-get($colors, light);
+			fill: color(light);
 		}
 	}
 }
