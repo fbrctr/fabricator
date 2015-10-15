@@ -1,8 +1,8 @@
 {
-  "name": "fabricator",
-  "version": "1.2.2",
+  "name": "fabricator-builder",
+  "version": "0.0.1",
   "description": "A tool for building website UI toolkits",
-  "homepage": "http://fbrctr.github.io/",
+  "homepage": "https://github.com/dietergeerts/fabricator",
   "main": "README.md",
   "scripts": {
     "gulp": "gulp",
@@ -23,7 +23,7 @@
   "licenses": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fbrctr/fabricator.git"
+    "url": "https://github.com/dietergeerts/fabricator.git"
   },
   "engines": {
     "node": ">=0.12.0",

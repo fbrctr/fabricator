@@ -5,6 +5,15 @@
   <img src="http://fbrctr.github.io/assets/toolkit/images/logo.svg" width="500">
 </p>
 
+# In Development!
+
+I forked this from the fabricator project and transformed it so it can be used to build toolkits.
+So you can build your toolkit through configuration, and this project will then build it for you.
+I waited to see if I could merge my changes into the original project, but it appears that won't happen.
+So I'm making it a different project that will do the same as the original, but as a builder, and try to keep it
+in sync with the features of the original.
+The rest of this readme is still from the original though, I'll update everything asap.
+
 # Fabricator
 
 > _fabricate_ - to make by assembling parts or sections.
