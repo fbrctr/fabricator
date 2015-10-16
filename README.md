@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/dietergeerts/fabricator/tree/master/logo.svg" width="500">
+  <img src="https://github.com/dietergeerts/fabricator/blob/master/logo.svg" width="500">
 </p>
 
 # REMARK: In Development!
