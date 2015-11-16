@@ -30,7 +30,7 @@ $menu-width: map-get($settings, menu-width);
 
 // functions
 @function color($color) {
-    @return map-get($colors, $color);
+	@return map-get($colors, $color);
 }
 
 
