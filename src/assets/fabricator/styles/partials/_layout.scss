@@ -29,6 +29,7 @@ body {
 .f-container {
 	@include clearfix;
 	@include border-box;
+	@include transition;
 	position: relative;
 	padding: 0 1em;
 	z-index: 0;

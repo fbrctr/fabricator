@@ -1,6 +1,7 @@
 // menu
 .f-menu {
 	@include border-box;
+	@include transition;
 	position: fixed;
 	top: 0;
 	left: 0;
