@@ -2,7 +2,13 @@
  * Toolkit styles
  */
 
+@import "./functions";
+@import "../../../data/toolkit.yml";
 
 body {
 	font-family: sans-serif;
+}
+
+.f-menu a:hover {
+    color: data($toolkit, colors, primary, Dark) !important;
 }
