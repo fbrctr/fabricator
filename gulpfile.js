@@ -9,6 +9,7 @@ var gulp = require('gulp');
 var gutil = require('gulp-util');
 var gulpif = require('gulp-if');
 var imagemin = require('gulp-imagemin');
+var importOnce = require('node-sass-import-once');
 var prefix = require('gulp-autoprefixer');
 var rename = require('gulp-rename');
 var reload = browserSync.reload;
@@ -64,7 +65,14 @@ gulp.task('styles:fabricator', function () {
 gulp.task('styles:toolkit', function () {
 	gulp.src(config.src.styles.toolkit)
 		.pipe(gulpif(config.dev, sourcemaps.init()))
-		.pipe(sass().on('error', sass.logError))
+		.pipe(sass({
+            importer: importOnce,
+            importOnce: {
+                index: true,
+                css: true,
+                bower: true
+            }
+           }).on('error', sass.logError))
 		.pipe(prefix('last 1 version'))
 		.pipe(gulpif(!config.dev, csso()))
 		.pipe(gulpif(config.dev, sourcemaps.write()))
