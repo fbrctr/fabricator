@@ -156,6 +156,14 @@ fabricator.menuToggle = function () {
 		}
 	};
 
+	// toggle classes on ctrl + m press
+	document.onkeydown = function (e) {
+	  e = e || event
+	  if (e.ctrlKey && e.keyCode == 'M'.charCodeAt(0)) {
+		toggleClasses();
+	  }
+	}
+
 	// toggle classes on click
 	toggle.addEventListener('click', function () {
 		toggleClasses();
