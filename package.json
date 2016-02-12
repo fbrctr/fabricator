@@ -35,7 +35,7 @@
     "babel-loader": "^5.3.2",
     "browser-sync": "^2",
     "del": "^2",
-    "fabricator-assemble": "^1.1.9",
+    "fabricator-assemble": "^1.1.10",
     "gulp": "^3",
     "gulp-autoprefixer": "^3",
     "gulp-csso": "^1",
