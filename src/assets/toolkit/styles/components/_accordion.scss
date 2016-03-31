@@ -1,0 +1,25 @@
+.accordion {
+
+  .accordion-content {
+    display: none;
+  }
+
+  &.is-active {
+    .accordion-preview {
+    }
+    .accordion-content {
+      display: block;
+      margin-bottom: 40px;
+    }
+    .accordion-control {
+    	transform: rotate(90deg);
+    }
+  }
+  
+  .accordion-control, .title {
+    display: inline-block;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
+}

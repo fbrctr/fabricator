@@ -1,0 +1,8 @@
+---
+  accordions: 
+    - 
+      title: "1 accordion"
+      content: "i am a cute little accordion"
+    - 
+      title: "2 accordion"
+      content: "2 accordions walk into a bar...."
