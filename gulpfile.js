@@ -1,4 +1,4 @@
-const assemble = require('fabricator-assemble');
+const assembler = require('fabricator-assemble');
 const browserSync = require('browser-sync');
 const csso = require('gulp-csso');
 const del = require('del');
@@ -121,9 +121,9 @@ gulp.task('favicon', () => {
 });
 
 
-// assemble
-gulp.task('assemble', (done) => {
-  assemble({
+// assembler
+gulp.task('assembler', (done) => {
+  assembler({
     logErrors: config.dev,
     dest: config.dest,
   });
@@ -165,7 +165,7 @@ gulp.task('default', ['clean'], () => {
     'styles',
     'scripts',
     'images',
-    'assemble',
+    'assembler',
   ];
 
   // run build
