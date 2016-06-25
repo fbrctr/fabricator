@@ -1,184 +1,176 @@
-'use strict';
-
-// modules
-var assemble = require('fabricator-assemble');
-var browserSync = require('browser-sync');
-var csso = require('gulp-csso');
-var del = require('del');
-var gulp = require('gulp');
-var gutil = require('gulp-util');
-var gulpif = require('gulp-if');
-var imagemin = require('gulp-imagemin');
-var prefix = require('gulp-autoprefixer');
-var rename = require('gulp-rename');
-var reload = browserSync.reload;
-var runSequence = require('run-sequence');
-var sass = require('gulp-sass');
-var sourcemaps = require('gulp-sourcemaps');
-var webpack = require('webpack');
-
+const assemble = require('fabricator-assemble');
+const browserSync = require('browser-sync');
+const csso = require('gulp-csso');
+const del = require('del');
+const gulp = require('gulp');
+const gutil = require('gulp-util');
+const gulpif = require('gulp-if');
+const imagemin = require('gulp-imagemin');
+const prefix = require('gulp-autoprefixer');
+const rename = require('gulp-rename');
+const reload = browserSync.reload;
+const runSequence = require('run-sequence');
+const sass = require('gulp-sass');
+const sourcemaps = require('gulp-sourcemaps');
+const webpack = require('webpack');
 
 // configuration
-var config = {
-	dev: gutil.env.dev,
-	src: {
-		scripts: {
-			fabricator: './src/assets/fabricator/scripts/fabricator.js',
-			toolkit: './src/assets/toolkit/scripts/toolkit.js'
-		},
-		styles: {
-			fabricator: 'src/assets/fabricator/styles/fabricator.scss',
-			toolkit: 'src/assets/toolkit/styles/toolkit.scss'
-		},
-		images: 'src/assets/toolkit/images/**/*',
-		views: 'src/toolkit/views/*.html'
-	},
-	dest: 'dist'
+const config = {
+  dev: gutil.env.dev,
+  styles: {
+    browsers: 'last 1 version',
+    fabricator: {
+      src: 'src/assets/fabricator/styles/fabricator.scss',
+      dest: 'dist/assets/fabricator/styles',
+      watch: 'src/assets/fabricator/styles/**/*.scss',
+    },
+    toolkit: {
+      src: 'src/assets/toolkit/styles/toolkit.scss',
+      dest: 'dist/assets/toolkit/styles',
+      watch: 'src/assets/toolkit/styles/**/*.scss',
+    },
+  },
+  scripts: {
+    fabricator: {
+      src: './src/assets/fabricator/scripts/fabricator.js',
+      dest: 'dist/assets/fabricator/scripts',
+      watch: 'src/assets/fabricator/scripts/**/*',
+    },
+    toolkit: {
+      src: './src/assets/toolkit/scripts/toolkit.js',
+      dest: 'dist/assets/toolkit/scripts',
+      watch: 'src/assets/toolkit/scripts/**/*',
+    },
+  },
+  images: {
+    toolkit: {
+      src: ['src/assets/toolkit/images/**/*', 'src/favicon.ico'],
+      dest: 'dist/assets/toolkit/images',
+      watch: 'src/assets/toolkit/images/**/*',
+    },
+  },
+  templates: {
+    watch: 'src/**/*.{html,md,json,yml}',
+  },
+  dest: 'dist',
 };
 
 
-// webpack
-var webpackConfig = require('./webpack.config')(config);
-var webpackCompiler = webpack(webpackConfig);
-
-
 // clean
-gulp.task('clean', function () {
-	return del([config.dest]);
-});
+gulp.task('clean', del.bind(null, [config.dest]));
 
 
 // styles
-gulp.task('styles:fabricator', function () {
-	gulp.src(config.src.styles.fabricator)
-		.pipe(sourcemaps.init())
-		.pipe(sass().on('error', sass.logError))
-		.pipe(prefix('last 1 version'))
-		.pipe(gulpif(!config.dev, csso()))
-		.pipe(rename('f.css'))
-		.pipe(sourcemaps.write())
-		.pipe(gulp.dest(config.dest + '/assets/fabricator/styles'))
-		.pipe(gulpif(config.dev, reload({stream:true})));
+gulp.task('styles:fabricator', () => {
+  gulp.src(config.styles.fabricator.src)
+  .pipe(sourcemaps.init())
+  .pipe(sass().on('error', sass.logError))
+  .pipe(prefix('last 1 version'))
+  .pipe(gulpif(!config.dev, csso()))
+  .pipe(rename('f.css'))
+  .pipe(sourcemaps.write())
+  .pipe(gulp.dest(config.styles.fabricator.dest))
+  .pipe(gulpif(config.dev, reload({ stream: true })));
 });
 
-gulp.task('styles:toolkit', function () {
-	gulp.src(config.src.styles.toolkit)
-		.pipe(gulpif(config.dev, sourcemaps.init()))
-		.pipe(sass().on('error', sass.logError))
-		.pipe(prefix('last 1 version'))
-		.pipe(gulpif(!config.dev, csso()))
-		.pipe(gulpif(config.dev, sourcemaps.write()))
-		.pipe(gulp.dest(config.dest + '/assets/toolkit/styles'))
-		.pipe(gulpif(config.dev, reload({stream:true})));
+gulp.task('styles:toolkit', () => {
+  gulp.src(config.styles.toolkit.src)
+  .pipe(gulpif(config.dev, sourcemaps.init()))
+  .pipe(sass().on('error', sass.logError))
+  .pipe(prefix('last 1 version'))
+  .pipe(gulpif(!config.dev, csso()))
+  .pipe(gulpif(config.dev, sourcemaps.write()))
+  .pipe(gulp.dest(config.styles.toolkit.dest))
+  .pipe(gulpif(config.dev, reload({ stream: true })));
 });
 
 gulp.task('styles', ['styles:fabricator', 'styles:toolkit']);
 
 
 // scripts
-gulp.task('scripts', function (done) {
-	webpackCompiler.run(function (error, result) {
-		if (error) {
-			gutil.log(gutil.colors.red(error));
-		}
-		result = result.toJson();
-		if (result.errors.length) {
-			result.errors.forEach(function (error) {
-				gutil.log(gutil.colors.red(error));
-			});
-		}
-		done();
-	});
+const webpackConfig = require('./webpack.config')(config);
+
+gulp.task('scripts', (done) => {
+  webpack(webpackConfig, (err, stats) => {
+    if (err) {
+      gutil.log(gutil.colors.red(err()));
+    }
+    const result = stats.toJson();
+    if (result.errors.length) {
+      result.errors.forEach((error) => {
+        gutil.log(gutil.colors.red(error));
+      });
+    }
+    done();
+  });
 });
 
 
 // images
-gulp.task('images', ['favicon'], function () {
-	return gulp.src(config.src.images)
-		.pipe(imagemin())
-		.pipe(gulp.dest(config.dest + '/assets/toolkit/images'));
+gulp.task('images', ['favicon'], () => {
+  return gulp.src(config.images.toolkit.src)
+    .pipe(imagemin())
+    .pipe(gulp.dest(config.images.toolkit.dest));
 });
 
-gulp.task('favicon', function () {
-	return gulp.src('./src/favicon.ico')
-		.pipe(gulp.dest(config.dest));
+gulp.task('favicon', () => {
+  return gulp.src('src/favicon.ico')
+  .pipe(gulp.dest(config.dest));
 });
 
 
 // assemble
-gulp.task('assemble', function (done) {
-	assemble({
-		logErrors: config.dev,
-		dest: config.dest
-	});
-	done();
+gulp.task('assemble', (done) => {
+  assemble({
+    logErrors: config.dev,
+    dest: config.dest,
+  });
+  done();
 });
 
 
 // server
-gulp.task('serve', function () {
+gulp.task('serve', () => {
 
-	browserSync({
-		server: {
-			baseDir: config.dest
-		},
-		notify: false,
-		logPrefix: 'FABRICATOR'
-	});
+  browserSync({
+    server: {
+      baseDir: config.dest,
+    },
+    notify: false,
+    logPrefix: 'FABRICATOR',
+  });
 
-	/**
-	 * Because webpackCompiler.watch() isn't being used
-	 * manually remove the changed file path from the cache
-	 */
-	function webpackCache(e) {
-		var keys = Object.keys(webpackConfig.cache);
-		var key, matchedKey;
-		for (var keyIndex = 0; keyIndex < keys.length; keyIndex++) {
-			key = keys[keyIndex];
-			if (key.indexOf(e.path) !== -1) {
-				matchedKey = key;
-				break;
-			}
-		}
-		if (matchedKey) {
-			delete webpackConfig.cache[matchedKey];
-		}
-	}
+  gulp.task('assembler:watch', ['assembler'], browserSync.reload);
+  gulp.watch(config.templates.watch, ['assembler:watch']);
 
-	gulp.task('assemble:watch', ['assemble'], reload);
-	gulp.watch('src/**/*.{html,md,json,yml}', ['assemble:watch']);
+  gulp.task('styles:watch', ['styles']);
+  gulp.watch([config.styles.fabricator.watch, config.styles.toolkit.watch], ['styles:watch']);
 
-	gulp.task('styles:fabricator:watch', ['styles:fabricator']);
-	gulp.watch('src/assets/fabricator/styles/**/*.scss', ['styles:fabricator:watch']);
+  gulp.task('scripts:watch', ['scripts'], browserSync.reload);
+  gulp.watch([config.scripts.fabricator.watch, config.scripts.toolkit.watch], ['scripts:watch']);
 
-	gulp.task('styles:toolkit:watch', ['styles:toolkit']);
-	gulp.watch('src/assets/toolkit/styles/**/*.scss', ['styles:toolkit:watch']);
-
-	gulp.task('scripts:watch', ['scripts'], reload);
-	gulp.watch('src/assets/{fabricator,toolkit}/scripts/**/*.js', ['scripts:watch']).on('change', webpackCache);
-
-	gulp.task('images:watch', ['images'], reload);
-	gulp.watch(config.src.images, ['images:watch']);
+  gulp.task('images:watch', ['images'], browserSync.reload);
+  gulp.watch(config.images.toolkit.watch, ['images:watch']);
 
 });
 
 
 // default build task
-gulp.task('default', ['clean'], function () {
+gulp.task('default', ['clean'], () => {
 
-	// define build tasks
-	var tasks = [
-		'styles',
-		'scripts',
-		'images',
-		'assemble'
-	];
+  // define build tasks
+  const tasks = [
+    'styles',
+    'scripts',
+    'images',
+    'assemble',
+  ];
 
-	// run build
-	runSequence(tasks, function () {
-		if (config.dev) {
-			gulp.start('serve');
-		}
-	});
+  // run build
+  runSequence(tasks, () => {
+    if (config.dev) {
+      gulp.start('serve');
+    }
+  });
 
 });

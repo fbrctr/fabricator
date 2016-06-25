@@ -1,39 +1,77 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
 
-module.exports = function(fabricatorConfig) {
 
-	"use strict";
+/**
+ * Define plugins based on environment
+ * @param {boolean} isDev If in development mode
+ * @return {Array}
+ */
+function getPlugins(isDev) {
 
-	var config = {
-		entry: {
-			'fabricator/scripts/f': fabricatorConfig.src.scripts.fabricator,
-			'toolkit/scripts/toolkit': fabricatorConfig.src.scripts.toolkit
-		},
-		output: {
-			path: path.resolve(__dirname, fabricatorConfig.dest, 'assets'),
-			filename: '[name].js'
-		},
-		module: {
-			loaders: [
-				{
-					test: /\.js$/,
-					exclude: /(node_modules|prism\.js)/,
-					loaders: ['babel'],
-					presets: ['es2015', 'stage-2']
-				}
-			]
-		},
-		plugins: [],
-		cache: {}
-	};
+  const plugins = [
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.DefinePlugin({}),
+  ];
 
-	if (!fabricatorConfig.dev) {
-		config.plugins.push(
-			new webpack.optimize.UglifyJsPlugin()
-		);
-	}
+  if (isDev) {
+    plugins.push(new webpack.NoErrorsPlugin());
+  } else {
+    plugins.push(new webpack.optimize.DedupePlugin());
+    plugins.push(new webpack.optimize.UglifyJsPlugin({
+      minimize: true,
+      sourceMap: false,
+      compress: {
+        warnings: false,
+      },
+    }));
+  }
 
-	return config;
+  return plugins;
 
+}
+
+
+/**
+ * Define loaders
+ * @return {Array}
+ */
+function getLoaders() {
+
+  const loaders = [{
+    test: /(\.js)/,
+    exclude: /(node_modules)/,
+    loaders: ['babel'],
+  }, {
+    test: /(\.jpg|\.png)$/,
+    loader: 'url-loader?limit=10000',
+  }, {
+    test: /\.json/,
+    loader: 'json-loader',
+  }];
+
+  return loaders;
+
+}
+
+
+module.exports = (config) => {
+  return {
+    entry: {
+      'fabricator/scripts/f': config.scripts.fabricator.src,
+      'toolkit/scripts/toolkit': config.scripts.toolkit.src,
+    },
+    output: {
+      path: path.resolve(__dirname, config.dest, 'assets'),
+      filename: '[name].js',
+    },
+    devtool: 'source-map',
+    resolve: {
+      extensions: ['', '.js'],
+    },
+    plugins: getPlugins(config.dev),
+    module: {
+      loaders: getLoaders(),
+    },
+  };
 };
