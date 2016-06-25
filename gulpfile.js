@@ -76,7 +76,9 @@ gulp.task('styles:fabricator', () => {
 gulp.task('styles:toolkit', () => {
   gulp.src(config.styles.toolkit.src)
   .pipe(gulpif(config.dev, sourcemaps.init()))
-  .pipe(sass().on('error', sass.logError))
+  .pipe(sass({
+    includePaths: './node_modules',
+  }).on('error', sass.logError))
   .pipe(prefix('last 1 version'))
   .pipe(gulpif(!config.dev, csso()))
   .pipe(gulpif(config.dev, sourcemaps.write()))
