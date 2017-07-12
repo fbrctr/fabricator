@@ -10,7 +10,6 @@ const webpack = require('webpack');
 function getPlugins(isDev) {
 
   const plugins = [
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({}),
   ];
 
@@ -37,21 +36,25 @@ function getPlugins(isDev) {
  * @return {Array}
  */
 function getLoaders() {
-
   const loaders = [{
     test: /(\.js)/,
     exclude: /(node_modules)/,
-    loaders: ['babel'],
+    use: {
+      loader: 'babel-loader',
+    },
   }, {
     test: /(\.jpg|\.png)$/,
-    loader: 'url-loader?limit=10000',
+    use: {
+      loader: 'url-loader?limit=10000',
+    },
   }, {
     test: /\.json/,
-    loader: 'json-loader',
+    use: {
+      loader: 'json-loader',
+    },
   }];
 
   return loaders;
-
 }
 
 
@@ -67,11 +70,11 @@ module.exports = (config) => {
     },
     devtool: 'source-map',
     resolve: {
-      extensions: ['', '.js'],
+      extensions: ['.js'],
     },
     plugins: getPlugins(config.dev),
     module: {
-      loaders: getLoaders(),
+      rules: getLoaders(),
     },
   };
 };
