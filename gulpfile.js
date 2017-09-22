@@ -65,7 +65,7 @@ gulp.task('styles:fabricator', () => {
   gulp.src(config.styles.fabricator.src)
   .pipe(sourcemaps.init())
   .pipe(sass().on('error', sass.logError))
-  .pipe(prefix('last 1 version'))
+  .pipe(prefix(config.styles.browsers))
   .pipe(gulpif(!config.dev, csso()))
   .pipe(rename('f.css'))
   .pipe(sourcemaps.write())
@@ -79,7 +79,7 @@ gulp.task('styles:toolkit', () => {
   .pipe(sass({
     includePaths: './node_modules',
   }).on('error', sass.logError))
-  .pipe(prefix('last 1 version'))
+  .pipe(prefix(config.styles.browsers))
   .pipe(gulpif(!config.dev, csso()))
   .pipe(gulpif(config.dev, sourcemaps.write()))
   .pipe(gulp.dest(config.styles.toolkit.dest))
