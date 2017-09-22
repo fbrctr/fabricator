@@ -12,9 +12,10 @@
 Fabricator is a tool for building website UI toolkits - _think ["Tiny Bootstraps, for Every Client"](http://daverupert.com/2013/04/responsive-deliverables/#tiny-bootstraps-for-every-client)_
 
 ## Quick Start
-
+First we need to install the [Git](https://git-scm.com/downloads) and [Node.js](https://git-scm.com/downloads).
 ```shell
-$ curl -L https://github.com/fbrctr/fabricator/archive/master.tar.gz | tar zx --strip 1
+$ curl -L https://github.com/fbrctr/fabricator/archive/master.tar.gz | tar zx --strip 1 or git clone https://github.com/fbrctr/fabricator.git
+$ cd fabricator
 $ npm start
 ```
 
