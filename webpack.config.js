@@ -1,62 +1,39 @@
 const path = require('path');
-const webpack = require('webpack');
-
-
-/**
- * Define plugins based on environment
- * @param {boolean} isDev If in development mode
- * @return {Array}
- */
-function getPlugins(isDev) {
-
-  const plugins = [
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.DefinePlugin({}),
-  ];
-
-  if (isDev) {
-    plugins.push(new webpack.NoErrorsPlugin());
-  } else {
-    plugins.push(new webpack.optimize.DedupePlugin());
-    plugins.push(new webpack.optimize.UglifyJsPlugin({
-      minimize: true,
-      sourceMap: false,
-      compress: {
-        warnings: false,
-      },
-    }));
-  }
-
-  return plugins;
-
-}
-
 
 /**
  * Define loaders
  * @return {Array}
  */
-function getLoaders() {
-
-  const loaders = [{
-    test: /(\.js)/,
-    exclude: /(node_modules)/,
-    loaders: ['babel'],
-  }, {
-    test: /(\.jpg|\.png)$/,
-    loader: 'url-loader?limit=10000',
-  }, {
-    test: /\.json/,
-    loader: 'json-loader',
-  }];
-
-  return loaders;
-
+function getRules() {
+  return [
+    {
+      test: /(\.js)/,
+      exclude: /(node_modules)/,
+      use: {
+        loader: 'babel-loader',
+      },
+    },
+    {
+      test: /(\.jpg|\.png)$/,
+      use: [
+        {
+          loader: 'url-loader',
+          options: {
+            limit: 10000,
+          },
+        },
+      ],
+    },
+    {
+      test: /\.json/,
+      loader: 'json-loader',
+    },
+  ];
 }
 
-
-module.exports = (config) => {
+module.exports = config => {
   return {
+    mode: config.dev ? 'development' : 'production',
     entry: {
       'fabricator/scripts/f': config.scripts.fabricator.src,
       'toolkit/scripts/toolkit': config.scripts.toolkit.src,
@@ -64,14 +41,11 @@ module.exports = (config) => {
     output: {
       path: path.resolve(__dirname, config.dest, 'assets'),
       filename: '[name].js',
+      pathinfo: config.dev,
     },
-    devtool: 'source-map',
-    resolve: {
-      extensions: ['', '.js'],
-    },
-    plugins: getPlugins(config.dev),
+    devtool: config.dev ? 'cheap-module-eval-source-map' : false,
     module: {
-      loaders: getLoaders(),
+      rules: getRules(),
     },
   };
 };
