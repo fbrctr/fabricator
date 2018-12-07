@@ -1,11 +1,6 @@
 {
-  "extends": "airbnb-base",
+  "extends": ["airbnb-base", "plugin:prettier/recommended"],
   "rules": {
-    "padded-blocks": 0,
-    "no-console": 0,
-    "arrow-body-style": 0,
-    "quote-props": ["error", "consistent-as-needed"],
-    "comma-dangle": ["error", "always-multiline"],
-    "max-len": 0,
+    "arrow-body-style": 0
   }
 }
