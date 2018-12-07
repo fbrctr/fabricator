@@ -34,8 +34,8 @@
     "url": "https://github.com/fbrctr/fabricator.git"
   },
   "engines": {
-    "node": ">=4.0",
-    "npm": ">=2.0.0"
+    "node": ">=8.14",
+    "npm": ">=6.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
