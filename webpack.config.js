@@ -31,19 +31,26 @@ function getRules() {
   ];
 }
 
-module.exports = config => {
+module.exports = ({
+  dev,
+  scripts: {
+    fabricator: { src: fabSrc },
+    toolkit: { src: scriptSrc },
+  },
+  dest,
+}) => {
   return {
-    mode: config.dev ? 'development' : 'production',
+    mode: dev ? 'development' : 'production',
     entry: {
-      'fabricator/scripts/f': config.scripts.fabricator.src,
-      'toolkit/scripts/toolkit': config.scripts.toolkit.src,
+      'fabricator/scripts/f': fabSrc,
+      'toolkit/scripts/toolkit': scriptSrc,
     },
     output: {
-      path: path.resolve(__dirname, config.dest, 'assets'),
+      path: path.resolve(__dirname, dest, 'assets'),
       filename: '[name].js',
-      pathinfo: config.dev,
+      pathinfo: dev,
     },
-    devtool: config.dev ? 'cheap-module-eval-source-map' : false,
+    devtool: dev ? 'cheap-module-eval-source-map' : false,
     module: {
       rules: getRules(),
     },
