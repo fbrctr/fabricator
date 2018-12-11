@@ -58,7 +58,6 @@
     "gulp-rename": "^1.4.0",
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.4",
-    "husky": "^1.1.4",
     "minimist": "^1.2.0",
     "node-sass": "^4.10.0",
     "prettier": "1.15.2",
@@ -67,13 +66,5 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0"
   },
-  "optionalDependencies": {},
-  "husky": {
-    "hooks": {
-      "pre-commit": [
-        "eslint --fix .",
-        "git add ."
-      ]
-    }
-  }
+  "optionalDependencies": {}
 }
