@@ -8,7 +8,7 @@
     "prestart": "npm install",
     "build": "npm run prestart && gulp",
     "start": "gulp --dev",
-    "test": "npm run build",
+    "test": "eslint --fix . && npm run build",
     "lint": "eslint ."
   },
   "browserslist": [
