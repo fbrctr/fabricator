@@ -190,6 +190,17 @@ function assembler(done) {
       mod: function mod(a, b) {
         return +a % +b;
       },
+      transform: function transform() {
+        const { name } = this;
+        if (
+          this.data &&
+          Object.keys(this.data).length !== 0 &&
+          this.data.title
+        ) {
+          return this.data.title;
+        }
+        return name;
+      },
     },
   });
   done();
