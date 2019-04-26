@@ -213,6 +213,7 @@ function assembler(done) {
       },
       transformWithJson: function transformWithJson(name) {
         const title = name.toLowerCase();
+        // eslint-disable-next-line global-require
         const json = require('./src/assets/transform.json');
         if (json) return json[title] ? json[title] : name;
         return name;
