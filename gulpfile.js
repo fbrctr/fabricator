@@ -138,6 +138,21 @@ function assembler(done) {
   fabAssemble({
     logErrors: config.dev,
     dest: config.dest,
+    buildData: {
+      baseurl: '..',
+      materials: {
+        components: {
+          name: 'Components',
+          items: {
+            button: {
+              name: 'Button',
+              notes: '<p>foo <code>bar</code></p>\n',
+            },
+          },
+        },
+        data: {},
+      },
+    },
     helpers: {
       // {{ default description "string of content used if description var is undefined" }}
       default: function defaultFn(...args) {
@@ -189,6 +204,19 @@ function assembler(done) {
       },
       mod: function mod(a, b) {
         return +a % +b;
+      },
+      transform: function transform() {
+        const { name } = this;
+        if (this.data && Object.keys(this.data).length !== 0 && this.data.title)
+          return this.data.title;
+        return name;
+      },
+      transformWithJson: function transformWithJson(name) {
+        const title = name.toLowerCase();
+        // eslint-disable-next-line global-require
+        const json = require('./src/assets/transform.json');
+        if (json) return json[title] ? json[title] : name;
+        return name;
       },
     },
   });
