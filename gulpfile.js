@@ -12,6 +12,7 @@ const rename = require('gulp-rename');
 const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
 const webpack = require('webpack');
+const browsers = require('./package.json');
 sass.compiler = require('node-sass');
 
 let server = false;
@@ -24,15 +25,6 @@ function reload(done) {
 const config = {
   dev: !!argv.dev,
   styles: {
-    browsers: [
-      'ie 11',
-      'edge >= 16',
-      'chrome >= 70',
-      'firefox >= 63',
-      'safari >= 11',
-      'iOS >= 12',
-      'ChromeAndroid >= 70',
-    ],
     fabricator: {
       src: 'src/assets/fabricator/styles/fabricator.scss',
       dest: 'dist/assets/fabricator/styles',
@@ -78,7 +70,11 @@ function stylesFabricator() {
     .src(config.styles.fabricator.src)
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
-    .pipe(prefix(config.styles.browsers))
+    .pipe(
+      prefix({
+        browsers: browsers.browserslist,
+      })
+    )
     .pipe(gulpif(!config.dev, csso()))
     .pipe(rename('f.css'))
     .pipe(sourcemaps.write())
