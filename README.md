@@ -4,7 +4,7 @@
 [![Join the chat at https://gitter.im/fbrctr/fabricator](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fbrctr/fabricator?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 <p align="center">
-  <img src="http://fbrctr.github.io/assets/toolkit/images/logo.svg" width="500">
+  <img src="https://fbrctr.github.io/assets/toolkit/images/logo.svg" alt="fabricator logo" width="500">
 </p>
 
 # Fabricator
@@ -22,18 +22,18 @@ $ npm start
 
 ## Documentation
 
-#### [Read the docs →](http://fbrctr.github.io/docs)
+#### [Read the docs →](https://fbrctr.github.io/docs)
 
 ## Demo
 
-#### [Default Fabricator Instance →](http://fbrctr.github.io/demo)
+#### [Default Fabricator Instance →](https://fbrctr.github.io/demo)
 
 ## Credits
 
-Created by [Luke Askew](http://twitter.com/lukeaskew).
+Created by [Luke Askew](https://twitter.com/lukeaskew).
 
 Logo by [Abby Putinski](https://abbyputinski.com/)
 
 ## License
 
-[The MIT License (MIT)](http://opensource.org/licenses/mit-license.php)
+[The MIT License (MIT)](https://opensource.org/licenses/mit-license.php)
