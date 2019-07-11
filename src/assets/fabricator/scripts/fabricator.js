@@ -57,6 +57,7 @@ fabricator.dom = {
   primaryMenu: document.querySelector('.f-menu'),
   menuItems: document.querySelectorAll('.f-menu li a'),
   menuToggle: document.querySelector('.f-menu-toggle'),
+  menuAccordions: document.querySelectorAll('.f-menu__accordion-toggle'),
 };
 
 
@@ -100,7 +101,7 @@ fabricator.setActiveItem = () => {
     // get current file and hash without first slash
     const loc = (window.location.pathname + window.location.hash);
     const current = loc.replace(/(^\/)([^#]+)?(#[\w\-\.]+)?$/ig, (match, slash, file, hash) => {
-      return (file || '') + (hash || '').split('.')[0];
+      return (file || '') + (hash || '');
     }) || 'index.html';
 
 
@@ -117,9 +118,17 @@ fabricator.setActiveItem = () => {
       } else {
         item.classList.remove('f-active');
       }
-
     }
 
+    //modify other accordions
+    for(var i = 0; i < fabricator.dom.menuAccordions.length; i++) {
+      var thisID = fabricator.dom.menuAccordions[i].getAttribute('href').split('#').pop();
+
+      // if it is the same item - i.e. the window loaded on a hash
+      if(current.indexOf(thisID) > -1 && fabricator.dom.menuAccordions[i]) {
+        fabricator.dom.menuAccordions[i].parentNode.classList.add('is-open');
+      }
+    }
   };
 
   window.addEventListener('hashchange', setActive);
@@ -196,7 +205,6 @@ fabricator.allItemsToggles = () => {
 
   // toggle all
   const toggleAllItems = (type, value) => {
-
     const button = document.querySelector(`.f-controls [data-f-toggle-control=${type}]`);
     const items = itemCache[type];
 
@@ -325,11 +333,43 @@ fabricator.setInitialMenuState = () => {
 
 };
 
+/**
+ * Open/Close menu accordions on click
+ */
+fabricator.accordions = () => {
+
+  for(var i = 0; i < fabricator.dom.menuAccordions.length; i++) {
+
+    fabricator.dom.menuAccordions[i].addEventListener('click', function (e) {
+      setActiveAccordion(e);
+    });
+    fabricator.dom.menuAccordions[i].parentNode.querySelectorAll('.control')[0].addEventListener('click', function(e) {
+      setActiveAccordion(e);
+    });
+  }
+
+  var setActiveAccordion = function(which) {
+    var classList = which.currentTarget.parentNode.classList;
+
+    if(classList.toString().indexOf('is-open') > 0) {
+      which.currentTarget.parentNode.classList.remove('is-open');
+    } else {
+      for(var a = 0; a < fabricator.dom.menuAccordions.length; a++) {
+        fabricator.dom.menuAccordions[a].parentNode.classList.remove('is-open');
+      }
+      which.currentTarget.parentNode.classList.add('is-open');
+    }
+  };
+
+  return fabricator;
+};
+
 
 /**
  * Initialization
  */
 fabricator
+ .accordions()
  .setInitialMenuState()
  .menuToggle()
  .allItemsToggles()
