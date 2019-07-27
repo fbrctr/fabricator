@@ -30,7 +30,7 @@ $menu-width: map-get($settings, menu-width);
 
 // functions
 @function color($color) {
-    @return map-get($colors, $color);
+	@return map-get($colors, $color);
 }
 
 
@@ -49,4 +49,15 @@ $menu-width: map-get($settings, menu-width);
 
 @mixin border-box {
 	box-sizing: border-box;
+}
+
+@mixin transition($transition...) {
+	@if length($transition) < 1 {
+		$transition: all 0.3s ease;
+	}
+
+	-moz-transition: $transition;
+	-o-transition: $transition;
+	-webkit-transition: $transition;
+	transition: $transition;
 }
